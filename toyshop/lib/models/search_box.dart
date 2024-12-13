@@ -1,25 +1,20 @@
 class SearchBox {
-  String image;
   String name;
-  SearchBox({required this.image, required this.name});
-  List<SearchBox> searchList() {
-    List<SearchBox> searchList = [];
-    searchList.add(SearchBox(
-      image: image, 
-      name: name
+  SearchBox({required this.name});
+  static List<SearchBox> searchBox() {
+     List<SearchBox> searchBox = [];
+    searchBox.add(SearchBox(
+      name: "Trending"
     ));
-    searchList.add(SearchBox(
-      image: image, 
-      name: name
+    searchBox.add(SearchBox(
+      name: "Best Selling"
     ));
-    searchList.add(SearchBox(
-      image: image, 
-      name: name
+    searchBox.add(SearchBox(
+      name: "Newest"
     ));
-    searchList.add(SearchBox(
-      image: image, 
-      name: name
+    searchBox.add(SearchBox( 
+      name: "Oldest"
     ));
-    return searchList;
+    return searchBox;
   }
 }

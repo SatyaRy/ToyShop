@@ -21,11 +21,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final List pages = [
-    TrendingPage(),
-    const CartPage(),
-    const FavoritePage()
-  ];
+  final List pages = [TrendingPage(), const CartPage(), const FavoritePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +56,8 @@ class _HomePageState extends State<HomePage> {
         onTap: (value) => navigateBottomBar(value),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_customize,size: 30, color: Color(0xff074799)),
+            icon: Icon(Icons.dashboard_customize,
+                size: 30, color: Color(0xff074799)),
             label: "Customize",
           ),
           BottomNavigationBarItem(
@@ -129,16 +126,22 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 10, bottom: 50),
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  size: 30,
-                  color: Color(0xff074799),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const IntroPage()));
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(left: 10, bottom: 50),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    size: 30,
+                    color: Color(0xff074799),
+                  ),
+                  title: Text("Logout",
+                      style: TextStyle(color: Colors.black, fontSize: 20)),
                 ),
-                title: Text("Logout",
-                    style: TextStyle(color: Colors.black, fontSize: 20)),
               ),
             )
           ],

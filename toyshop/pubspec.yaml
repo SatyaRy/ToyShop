@@ -67,6 +67,8 @@ flutter:
     - lib/assets/icons/bear.svg
     - lib/assets/icons/headText.svg
     - lib/assets/icons/ninja.svg
+    - lib/assets/icons/ninja1.svg
+    - lib/assets/icons/jojo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

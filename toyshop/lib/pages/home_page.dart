@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List pages = [
-    const TrendingPage(),
+    TrendingPage(),
     const CartPage(),
     const FavoritePage()
   ];

@@ -1,73 +1,159 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/components/image.dart';
-import 'package:toyshop/components/trending.dart';
 import 'package:toyshop/models/trending_model.dart';
 
-class TrendingPage extends StatelessWidget {
+class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
+  @override
+  State<TrendingPage> createState() => _TrendingPageState();
+}
+
+class _TrendingPageState extends State<TrendingPage> {
+  List<TrendingModel> trendingList = [];
+  void initInfo() {
+    trendingList = TrendingModel.trendingList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    initInfo();
     final double screenWidth = MediaQuery.of(context).size.width;
-    return ListView(
-      padding: EdgeInsets.only(left: 20, right: 20),
+    return Column(
       children: [
         const SizedBox(
           height: 50,
         ),
-        Container(
-            height: 200,
-            width: screenWidth,
-            decoration: BoxDecoration(
-                color: const Color(0xffEB5B00),
-                borderRadius: BorderRadius.circular(15)),
-            child: const Align(
-              alignment: Alignment.centerLeft,
-              child: ImageSection(image: "lib/assets/icons/ninja.svg"),
-            )),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Container(
+              height: 200,
+              width: screenWidth,
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                  color: const Color(0xffEB5B00),
+                  borderRadius: BorderRadius.circular(15)),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: ImageSection(image: "lib/assets/icons/ninja.svg"),
+              )),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Container(
+              width: screenWidth,
+              height: 60,
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Search for toy..",
+                      contentPadding: const EdgeInsets.only(top: 10),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            print('searching ...');
+                          },
+                          icon: const Icon(Icons.search))),
+                ),
+              )),
+        ),
         const SizedBox(
           height: 20,
         ),
         Container(
-            width: 100,
-            height: 60,
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Align(
-              alignment: Alignment.center,
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: "Search For Toys",
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(top: 10),
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        print("Searching ...");
-                      },
-                      child: const Icon(Icons.search),
-                    )),
-              ),
-            )),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: 100,
-          height: 50,
           padding: const EdgeInsets.only(left: 20, right: 20),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Most Popular",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-              Text("Show all", style: TextStyle(color: Color(0xff074799)))
+              const Text("Most Popular",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  )),
+              TextButton(
+                  onPressed: () {
+                    print("show more...");
+                  },
+                  child: const Text("Show more",
+                      style: TextStyle(color: Color(0xff074799))))
             ],
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
+        SizedBox(
+            height: 250,
+            width: screenWidth,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) => const SizedBox(
+                          width: 15,
+                        ),
+                    itemCount: trendingList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                         padding: EdgeInsets.only(top:10),
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Center(
+                                
+                                child: SvgPicture.asset(
+                                  trendingList[index].image,
+                                  width: 180,
+                                ),
+                              ),
+                              Row(
+                                
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(trendingList[index].name,style:const TextStyle(
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text('\$ ${trendingList[index].price}',style:const TextStyle(
+                                          color:  Color(0xff074799)
+                                        ))
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child:  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xff074799),
+                                      shape: BoxShape.circle
+                                    ),
+                                    child:const Icon(
+                                      Icons.add,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ));
+                    }))),
       ],
     );
   }

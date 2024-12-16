@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
-import "package:toyshop/pages/cart_page.dart";
-import "package:toyshop/pages/favorite_page.dart";
+import "package:toyshop/pages/favorite.dart";
 import "package:toyshop/pages/intro_page.dart";
 import "package:toyshop/pages/trending_page.dart";
 
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final List pages = [TrendingPage(), const CartPage(), const FavoritePage()];
+  final List pages = [const TrendingPage(), const FavoritePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class _HomePageState extends State<HomePage> {
       shape: const CircleBorder(),
       backgroundColor: const Color(0xff074799),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => IntroPage()));
+        Navigator.pushNamed(context, "/cart");
       },
       child: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
     );

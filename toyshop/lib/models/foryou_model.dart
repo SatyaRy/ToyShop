@@ -1,10 +1,12 @@
-class TrendingModel {
+class ForYouModel {
   String image;
   String name;
+  int star;
   int price;
-  TrendingModel({
+  ForYouModel({
     required this.image,
     required this.name,
+    required this.star,
     required this.price,
   });
 }

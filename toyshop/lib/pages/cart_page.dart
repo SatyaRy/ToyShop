@@ -4,8 +4,29 @@ import 'package:toyshop/components/cart_list.dart';
 import 'package:toyshop/providers/cart_items.dart';
 import 'package:toyshop/providers/trending.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  int itemCount = 0;
+  void increment() {
+    setState(() {
+      itemCount++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (itemCount > 0) {
+        itemCount--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var cartProvider = context.watch<TrendingProvider>();
@@ -29,8 +50,21 @@ class CartPage extends StatelessWidget {
                   itemCount: cartList.length,
                   itemBuilder: (context, index) {
                     var cartList = cartProvider.userFavorite()[index];
+                    void removeItem() {
+                      setState(() {
+                        Provider.of<TrendingProvider>(context, listen: false)
+                            .removeCart(index);
+                        Provider.of<CartItemProvider>(context, listen: false)
+                            .removeCart(index);
+                      });
+                    }
+
                     return CartList(
                       cartList: cartList,
+                      itemCount: itemCount,
+                      decrement: decrement,
+                      increment: increment,
+                      removeItem: removeItem,
                     );
                   }),
             ),
@@ -43,7 +77,7 @@ class CartPage extends StatelessWidget {
               return Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(30),
+                    padding: const EdgeInsets.all(30),
                     height: 250,
                     width: double.infinity,
                     decoration: const BoxDecoration(
@@ -54,7 +88,7 @@ class CartPage extends StatelessWidget {
                       children: [
                         CheckoutDetail(
                           checkoutTopic: "SubTotal",
-                          totalCost: itemCost.toString(),
+                          totalCost: "\$ ${itemCost.toStringAsFixed(2)}",
                         ),
                         const SizedBox(
                           height: 20,
@@ -68,12 +102,12 @@ class CartPage extends StatelessWidget {
                         ),
                         CheckoutDetail(
                           checkoutTopic: "Total",
-                          totalCost: itemCost.toString(),
+                          totalCost: "\$ ${itemCost.toStringAsFixed(2)}",
                         ),
                       ],
                     ),
                   ),
-                  Transaction()
+                  const Transaction()
                 ],
               );
             }(),
@@ -118,6 +152,7 @@ class CartPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CheckoutDetail extends StatelessWidget {
   CheckoutDetail({
     super.key,
@@ -148,8 +183,8 @@ class Transaction extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 80,
-      decoration: BoxDecoration(color: Colors.green),
-      child: Center(
+      decoration: const BoxDecoration(color: Colors.green),
+      child: const Center(
           child: Text(
         "Procced to check out",
         style: TextStyle(color: Colors.white, fontSize: 20),

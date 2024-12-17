@@ -1,7 +1,8 @@
+
 class TrendingModel {
   String image;
   String name;
-  int price;
+  dynamic price;
   TrendingModel({
     required this.image,
     required this.name,

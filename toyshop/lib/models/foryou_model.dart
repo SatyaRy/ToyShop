@@ -2,7 +2,7 @@ class ForYouModel {
   String image;
   String name;
   int star;
-  int price;
+  dynamic price;
   ForYouModel({
     required this.image,
     required this.name,

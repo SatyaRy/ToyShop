@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toyshop/components/foryou_list.dart';
@@ -19,7 +20,7 @@ class TrendingPage extends StatefulWidget {
 }
 
 class _TrendingPageState extends State<TrendingPage> {
-  void addToFavorite(TrendingModel trendingList, int item) {
+  void addToFavorite(TrendingModel trendingList, double item) {
     Provider.of<TrendingProvider>(context, listen: false)
         .addFavorite(trendingList);
     Provider.of<CartItemProvider>(context, listen: false).addToCart(item);
@@ -85,56 +86,38 @@ class _TrendingPageState extends State<TrendingPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                              width: 80,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xff074799),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                  child: Text("Trending",
-                                      style: TextStyle(color: Colors.white))))),
+                      FilterBox(
+                          currentBoxColor: const Color(0xff074799),
+                          filterText: "Trending",
+                          filterColor: Colors.white,
+                          filterWidth: 80),
                       const SizedBox(
                         width: 10,
                       ),
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 95,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: currentBoxColor,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Best Selling")),
-                          )),
+                      FilterBox(
+                        currentBoxColor: Colors.white,
+                        filterText: "Best Selling",
+                        filterColor: null,
+                        filterWidth: 95,
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 80,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: currentBoxColor,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Newest")),
-                          )),
+                      FilterBox(
+                        currentBoxColor: Colors.white,
+                        filterText: "Newest",
+                        filterColor: null,
+                        filterWidth: 80,
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 80,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: currentBoxColor,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Oldest")),
-                          )),
+                      FilterBox(
+                        currentBoxColor: Colors.white,
+                        filterText: "Oldest",
+                        filterColor: null,
+                        filterWidth: 80,
+                      ),
                     ],
                   ),
                 ),
@@ -235,6 +218,34 @@ class _TrendingPageState extends State<TrendingPage> {
               )
             ],
           ),
+        ));
+  }
+}
+
+// ignore: must_be_immutable
+class FilterBox extends StatelessWidget {
+  Color currentBoxColor;
+  String filterText;
+  double filterWidth;
+  Color? filterColor;
+  FilterBox(
+      {super.key,
+      required this.currentBoxColor,
+      required this.filterText,
+      required this.filterColor,
+      required this.filterWidth});
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {},
+        child: Container(
+          width: filterWidth,
+          height: 40,
+          decoration: BoxDecoration(
+              color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
+          child: Center(child: Text(filterText,style: TextStyle(
+            color: filterColor
+          ),)),
         ));
   }
 }

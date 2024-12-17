@@ -3,28 +3,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/models/trending_model.dart';
 
 // ignore: must_be_immutable
-class CartList extends StatefulWidget {
-  TrendingModel cartList;
-  CartList({super.key, required this.cartList});
-
-  @override
-  State<CartList> createState() => _CartListState();
-}
-
-class _CartListState extends State<CartList> {
-    int items = 0;
-    void increment() {
-      setState(() {
-        items++;
-      });
-    }
-    void decrement() {
-      setState(() {
-        if (items > 0) {
-        items--; // Prevent going below 0
-      }
-      });
-    }
+class CartList extends StatelessWidget {
+  final TrendingModel cartList;
+  final VoidCallback removeItem;
+  final VoidCallback decrement;
+  final VoidCallback increment;
+  int itemCount;
+  CartList(
+      {super.key,
+      required this.cartList,
+      required this.itemCount,
+      required this.removeItem,
+      required this.decrement,
+      required this.increment});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,10 +32,11 @@ class _CartListState extends State<CartList> {
                 child: Container(
                   width: 85,
                   height: 85,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 201, 201, 201),
-                      borderRadius: BorderRadius.circular(7)),
-                  child: SvgPicture.asset(widget.cartList.image),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(7)),
+                  child: SvgPicture.asset(
+                    cartList.image,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -56,7 +48,7 @@ class _CartListState extends State<CartList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(widget.cartList.name,
+                    Text(cartList.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
                     const Text("soft-toy",
@@ -66,7 +58,7 @@ class _CartListState extends State<CartList> {
                       height: 5,
                     ),
                     Text(
-                      "\$${widget.cartList.price}",
+                      "\$${cartList.price}",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     )
@@ -81,6 +73,7 @@ class _CartListState extends State<CartList> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
+                  onTap:removeItem,
                   child: const Icon(Icons.delete_outline,
                       size: 30, color: Colors.red),
                 ),
@@ -97,7 +90,7 @@ class _CartListState extends State<CartList> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap:decrement,
+                        onTap: decrement,
                         child: Container(
                           width: 30,
                           height: 30,
@@ -115,12 +108,12 @@ class _CartListState extends State<CartList> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(items.toString()),
+                      Text(itemCount.toString()),
                       const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
-                        onTap:increment,
+                        onTap: increment,
                         child: Container(
                           width: 30,
                           height: 30,

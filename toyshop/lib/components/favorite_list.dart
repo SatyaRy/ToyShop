@@ -3,18 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/models/trending_model.dart';
 
 // ignore: must_be_immutable
-class Favorite extends StatefulWidget {
+class Favorite extends StatelessWidget {
   TrendingModel favoriteList;
   Favorite({
     super.key,
     required this.favoriteList
   });
-
-  @override
-  State<Favorite> createState() => _FavoriteListState();
-}
-
-class _FavoriteListState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,20 +30,20 @@ class _FavoriteListState extends State<Favorite> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white),
-                        child: SvgPicture.asset(widget.favoriteList.image)
+                        child: SvgPicture.asset(favoriteList.image)
                       )),
                   Padding(
                       padding: const EdgeInsets.only(left: 15, top: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.favoriteList.name,
+                          Text(favoriteList.name,
                               style:
                                   const TextStyle(color: Colors.white, fontSize: 15)),
                           const SizedBox(
                             height: 2,
                           ),
-                          Text("\$${widget.favoriteList.price}", style: const TextStyle(color: Colors.white))
+                          Text("\$${favoriteList.price}", style: const TextStyle(color: Colors.white))
                         ],
                       ))
                 ],

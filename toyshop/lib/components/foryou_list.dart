@@ -9,7 +9,6 @@ class ForyouList extends StatelessWidget {
     super.key,
     required this.foryouList,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,8 +23,8 @@ class ForyouList extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Container(
-                    width: 60,
-                    height: 60,
+                    width: 65,
+                    height: 65,
                     decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xff074799)),
                         shape: BoxShape.circle,

@@ -1,17 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toyshop/components/foryou_list.dart';
-import 'package:toyshop/components/image.dart';
-import 'package:toyshop/components/success.dart';
-import 'package:toyshop/components/trending_list.dart';
-import 'package:toyshop/models/foryou_model.dart';
-import 'package:toyshop/models/trending_model.dart';
+import 'package:toyshop/presentation/components/foryou_list.dart';
+import 'package:toyshop/presentation/components/image.dart';
+import 'package:toyshop/presentation/components/dialog.dart';
+import 'package:toyshop/presentation/components/trending_list.dart';
+import 'package:toyshop/presentation/models/foryou_model.dart';
+import 'package:toyshop/presentation/models/trending_model.dart';
+import 'package:toyshop/presentation/theme/colors.dart';
 import 'package:toyshop/providers/cart_items.dart';
 import 'package:toyshop/providers/foryou_provider.dart';
 import 'package:toyshop/providers/trending.dart';
 
-const demoToy = "lib/assets/icons/ninja.svg";
+const demoToy = "lib/presentation/assets/icons/ninja.svg";
 
 class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
@@ -20,18 +20,25 @@ class TrendingPage extends StatefulWidget {
 }
 
 class _TrendingPageState extends State<TrendingPage> {
-  void addToFavorite(TrendingModel trendingList, double item) {
+  void addToFavorite(TrendingModel trendingList, double item, int index) {
     Provider.of<TrendingProvider>(context, listen: false)
-        .addFavorite(trendingList);
+        .addFavorite(trendingList, index);
     Provider.of<CartItemProvider>(context, listen: false).addToCart(item);
     Provider.of<CartItemProvider>(context, listen: false).totalCost;
-    showDialog(context: context, builder: (context) => const SuccessDialog());
+    showDialog(
+        context: context,
+        builder: (context) => DialogBox(
+              dialogText: "Item added to cart",
+              dialogColor: AppColors.add,
+            ));
   }
 
   Color currentBoxColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    var cartProvider = context.watch<TrendingProvider>();
+    var itemQuantity = cartProvider.favoriteList;
     return Consumer<TrendingProvider>(
         builder: (context, value, child) => ListView(
               children: [
@@ -162,10 +169,17 @@ class _TrendingPageState extends State<TrendingPage> {
                             itemBuilder: (context, index) {
                               TrendingModel trendingList =
                                   value.getTrendingList()[index];
+                              void increment() {
+                                var quantity = itemQuantity[index].quantity;
+                                setState(() {
+                                  quantity++;
+                                });
+                              }
+
                               return TrendingList(
                                 onTap: () {
                                   addToFavorite(
-                                      trendingList, trendingList.price);
+                                      trendingList, trendingList.price, index);
                                 },
                                 trendingList: trendingList,
                               );
@@ -237,15 +251,19 @@ class FilterBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "/detail");
+        },
         child: Container(
           width: filterWidth,
           height: 40,
           decoration: BoxDecoration(
               color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
-          child: Center(child: Text(filterText,style: TextStyle(
-            color: filterColor
-          ),)),
+          child: Center(
+              child: Text(
+            filterText,
+            style: TextStyle(color: filterColor),
+          )),
         ));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:toyshop/models/foryou_model.dart';
+import 'package:toyshop/presentation/models/foryou_model.dart';
 
 // ignore: must_be_immutable
 class ForyouList extends StatelessWidget {

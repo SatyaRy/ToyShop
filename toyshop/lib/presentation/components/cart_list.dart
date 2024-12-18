@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:toyshop/models/trending_model.dart';
+import 'package:toyshop/presentation/models/trending_model.dart';
 
 // ignore: must_be_immutable
 class CartList extends StatelessWidget {
@@ -8,11 +8,9 @@ class CartList extends StatelessWidget {
   final VoidCallback removeItem;
   final VoidCallback decrement;
   final VoidCallback increment;
-  int itemCount;
-  CartList(
+  const CartList(
       {super.key,
       required this.cartList,
-      required this.itemCount,
       required this.removeItem,
       required this.decrement,
       required this.increment});
@@ -73,7 +71,7 @@ class CartList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap:removeItem,
+                  onTap: removeItem,
                   child: const Icon(Icons.delete_outline,
                       size: 30, color: Colors.red),
                 ),
@@ -108,7 +106,7 @@ class CartList extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(itemCount.toString()),
+                      Text(cartList.quantity.toString()),
                       const SizedBox(
                         width: 10,
                       ),

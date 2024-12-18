@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
-import "package:toyshop/pages/favorite.dart";
-import "package:toyshop/pages/intro_page.dart";
-import "package:toyshop/pages/trending_page.dart";
+import "package:toyshop/presentation/pages/favorite.dart";
+import "package:toyshop/presentation/pages/intro_page.dart";
+import "package:toyshop/presentation/pages/trending_page.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   padding: const EdgeInsets.only(top: 100),
                   child: SvgPicture.asset(
-                    "lib/assets/icons/bear.svg",
+                    "lib/presentation/assets/icons/bear.svg",
                     width: 100,
                     height: 200,
                   ),
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const IntroPage()));
+                    MaterialPageRoute(builder: (context) =>  const IntroPage()));
               },
               child: const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 50),
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15), color: Colors.white),
-            child: SvgPicture.asset('lib/assets/icons/ninja.svg'),
+            child: SvgPicture.asset('lib/presentation/assets/icons/ninja.svg'),
           ),
         )
       ],

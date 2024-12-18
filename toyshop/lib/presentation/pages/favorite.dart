@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toyshop/components/favorite_list.dart';
-import 'package:toyshop/models/trending_model.dart';
+import 'package:toyshop/presentation/components/favorite_list.dart';
+import 'package:toyshop/presentation/models/trending_model.dart';
 import 'package:toyshop/providers/trending.dart';
 
 class FavoritePage extends StatelessWidget {

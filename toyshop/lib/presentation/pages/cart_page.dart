@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toyshop/components/cart_list.dart';
+import 'package:toyshop/presentation/components/cart_list.dart';
+import 'package:toyshop/presentation/components/dialog.dart';
+import 'package:toyshop/presentation/theme/colors.dart';
 import 'package:toyshop/providers/cart_items.dart';
 import 'package:toyshop/providers/trending.dart';
 
@@ -12,25 +14,10 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int itemCount = 0;
-  void increment() {
-    setState(() {
-      itemCount++;
-    });
-  }
-
-  void decrement() {
-    setState(() {
-      if (itemCount > 0) {
-        itemCount--;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var cartProvider = context.watch<TrendingProvider>();
-    var cartList = cartProvider.favoriteList;
+    var itemQuantity = cartProvider.favoriteList;
     return Scaffold(
       backgroundColor: const Color(0xffEEEEEE),
       appBar: appBar(context),
@@ -47,9 +34,9 @@ class _CartPageState extends State<CartPage> {
                   separatorBuilder: (context, index) => const SizedBox(
                         height: 15,
                       ),
-                  itemCount: cartList.length,
+                  itemCount: itemQuantity.length,
                   itemBuilder: (context, index) {
-                    var cartList = cartProvider.userFavorite()[index];
+                    var cartList = itemQuantity[index];
                     void removeItem() {
                       setState(() {
                         Provider.of<TrendingProvider>(context, listen: false)
@@ -57,13 +44,31 @@ class _CartPageState extends State<CartPage> {
                         Provider.of<CartItemProvider>(context, listen: false)
                             .removeCart(index);
                       });
-                    }
 
+                      showDialog(
+                          context: context,
+                          builder: (context) => DialogBox(
+                              dialogText: "Removed item from cart",
+                              dialogColor: AppColors.remove));
+                    }
+                    void increaseQuantity() {
+                      setState(() {
+                        Provider.of<CartItemProvider>(context, listen: false).addToCart(cartList.price);
+                        cartList.quantity++;
+                      });
+                    }
+                    void decrementQuantity() {
+                      setState(() {
+                        Provider.of<CartItemProvider>(context, listen: false).removeCart(index);
+                        if(cartList.quantity>0){
+                           cartList.quantity--;
+                        }
+                      });
+                    }
                     return CartList(
                       cartList: cartList,
-                      itemCount: itemCount,
-                      decrement: decrement,
-                      increment: increment,
+                      decrement: decrementQuantity,
+                      increment: increaseQuantity,
                       removeItem: removeItem,
                     );
                   }),

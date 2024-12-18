@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toyshop/components/image.dart';
-import 'package:toyshop/pages/home_page.dart';
+import 'package:toyshop/presentation/components/image.dart';
+import 'package:toyshop/presentation/pages/home_page.dart';
+import 'package:toyshop/presentation/theme/colors.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -8,7 +9,7 @@ class IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: const Color(0xff074799),
+        backgroundColor: AppColors.primary,
         body: Align(
             alignment: Alignment.topCenter,
             child: Column(
@@ -16,7 +17,7 @@ class IntroPage extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                const ImageSection(image: "lib/assets/icons/bear.svg"),
+                const ImageSection(image: "lib/presentation/assets/icons/bear.svg"),
                 const Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Text("Customize your soft toy with 3 clicks",

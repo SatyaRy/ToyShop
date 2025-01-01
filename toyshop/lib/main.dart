@@ -1,41 +1,32 @@
-
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
-import "package:toyshop/presentation/pages/cart_page.dart";
-import "package:toyshop/presentation/pages/home_page.dart";
-import "package:toyshop/presentation/pages/intro_page.dart";
-import "package:toyshop/presentation/pages/item_detail.dart";
-import "package:toyshop/providers/cart_items.dart";
-import "package:toyshop/providers/foryou_provider.dart";
-import "package:toyshop/providers/trending.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:toyshop/firebase_options.dart";
+import "package:toyshop/src/presentation/cart_page.dart";
+import "package:toyshop/src/presentation/home_page.dart";
+import "package:toyshop/src/presentation/intro_page.dart";
+import "package:toyshop/src/presentation/item_detail.dart";
 
-void main() {
-  runApp(const MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const ProviderScope(child: MyApp()));
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => TrendingProvider()),
-        ChangeNotifierProvider(create: (context) => ForyouProvider()),
-        ChangeNotifierProvider(create: (context) => CartItemProvider()),
-      ],
-      child: ChangeNotifierProvider(
-          create: (context) => TrendingProvider(),
-          builder: (context, child) => MaterialApp(
-                theme: ThemeData(fontFamily: "sfpro"),
-                debugShowCheckedModeBanner: false,
-                home:  const IntroPage(),
-                routes: {
-                  "/cart": (context) => const CartPage(),
-                  "/home": (context) => const HomePage(),
-                  "/detail": (context) =>  ItemDetail()
-                },
-              )),
+    return MaterialApp(
+      theme: ThemeData(fontFamily: "sfpro"),
+      debugShowCheckedModeBanner: false,
+      home: const IntroPage(),
+      routes: {
+        "/cart": (context) =>  CartPage(),
+        "/home": (context) => const HomePage(),
+        "/detail": (context) => const ItemDetail()
+      },
     );
   }
 }

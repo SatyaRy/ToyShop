@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "529098258214",
+    "project_id": "t-shop-cea12",
+    "storage_bucket": "t-shop-cea12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529098258214:android:b6ee0de15c4b4a198a73e7",
+        "android_client_info": {
+          "package_name": "com.example.toyshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZX7cQ9C2cnHspNEUcT9q8CiUMeEOJM_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

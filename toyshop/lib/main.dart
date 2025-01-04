@@ -6,6 +6,7 @@ import "package:toyshop/src/presentation/cart_page.dart";
 import "package:toyshop/src/presentation/home_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/item_detail.dart";
+import "package:toyshop/src/presentation/showcase_page.dart";
 
 
 void main() async {
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/cart": (context) =>  CartPage(),
         "/home": (context) => const HomePage(),
-        "/detail": (context) => const ItemDetail()
+        "/detail": (context) => const ItemDetail(),
+        "/showcase": (context) => const ShowcaseProductPage(),
       },
     );
   }

@@ -17,15 +17,15 @@ class ProductModel with _$ProductModel {
 }
 
 @freezed
-class ForyouModel with _$ForyouModel {
-  factory ForyouModel({
+class ToyTypeModel with _$ToyTypeModel {
+  factory ToyTypeModel({
     required String name,
     required String image,
     required int star,
     required dynamic price,
-  }) = _ForyouModel;
-  factory ForyouModel.fromJson(Map<String, dynamic> json) =>
-      _$ForyouModelFromJson(json);
+  }) = _ToyTypeModel;
+  factory ToyTypeModel.fromJson(Map<String, dynamic> json) =>
+      _$ToyTypeModelFromJson(json);
 }
 
 @freezed

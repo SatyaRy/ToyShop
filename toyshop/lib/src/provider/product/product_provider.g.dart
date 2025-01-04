@@ -23,21 +23,22 @@ final getProductProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetProductRef = AutoDisposeStreamProviderRef<List<ProductModel>>;
-String _$getForyouHash() => r'87817ea740e0e8006c43737fc33eeb99dfeebcd3';
+String _$getToyTypeHash() => r'7d73771ef29e16aa694a75926c0cd9927c0bc10c';
 
-/// See also [getForyou].
-@ProviderFor(getForyou)
-final getForyouProvider = AutoDisposeStreamProvider<List<ForyouModel>>.internal(
-  getForyou,
-  name: r'getForyouProvider',
+/// See also [getToyType].
+@ProviderFor(getToyType)
+final getToyTypeProvider =
+    AutoDisposeStreamProvider<List<ToyTypeModel>>.internal(
+  getToyType,
+  name: r'getToyTypeProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getForyouHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getToyTypeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetForyouRef = AutoDisposeStreamProviderRef<List<ForyouModel>>;
+typedef GetToyTypeRef = AutoDisposeStreamProviderRef<List<ToyTypeModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toyshop/main.dart';
 import 'package:toyshop/src/components/cart_list.dart';
+import 'package:toyshop/src/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
+import 'package:toyshop/src/provider/transaction/transaction.dart';
 
 class CartPage extends ConsumerWidget {
   CartPage({super.key});
@@ -15,7 +18,7 @@ class CartPage extends ConsumerWidget {
         backgroundColor: const Color(0xffEEEEEE),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [appBar(context)],
+              [MyAppBar(pageDetail: "Cart Page",routing: "/home",)],
           body: Column(
             children: [
               cartItems(ref),
@@ -54,6 +57,7 @@ class CartPage extends ConsumerWidget {
   }
 
   Widget transaction(WidgetRef ref) {
+    final total = ref.watch(totalProvider);
     return Column(
       children: [
         Container(
@@ -78,51 +82,13 @@ class CartPage extends ConsumerWidget {
               ),
               CheckoutDetail(
                 checkoutTopic: "Total",
-                totalCost: "\$  1",
+                totalCost: "\$  ${total.toStringAsFixed(2)}",
               ),
             ],
           ),
         ),
         const Transaction()
       ],
-    );
-  }
-
-  Widget appBar(BuildContext context) {
-    return SliverAppBar(
-      backgroundColor: const Color(0xffEEEEEE),
-      title: const Text(
-        "Cart page",
-        style: TextStyle(
-            color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
-      ),
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Container(
-          width: 100,
-          height: 100,
-          padding: const EdgeInsets.only(left: 5),
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 5,
-                  spreadRadius: 0.5,
-                  offset: Offset(1, 0.5),
-                )
-              ]),
-          child: Align(
-            alignment: Alignment.center,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/home");
-                },
-                icon: const Icon(Icons.arrow_back_ios)),
-          ),
-        ),
-      ),
     );
   }
 }

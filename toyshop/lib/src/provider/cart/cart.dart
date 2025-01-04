@@ -1,7 +1,7 @@
+
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 import "package:toyshop/src/data/cart.dart";
-import "package:toyshop/src/data/transaction.dart";
 import "package:toyshop/src/model/product/product.dart";
 part "cart.g.dart";
 
@@ -17,16 +17,11 @@ Stream<List<CartModel>> getCartItems(ref) {
 }
 
 @riverpod
-Future<void> deleteCart(Ref ref, String cartID) async {
-  await CartService().deleteItem(cartID);
+Future<void> deleteCart(Ref ref, String cartID, dynamic cost) async {
+  await CartService().deleteItem(cartID, cost);
 }
 
-@riverpod
-Future<void> increment(Ref ref, String cartID) async {
-  await CartService().increment(cartID);
-}
-
-@riverpod
-Future<void> decrement(Ref ref, String cartID, int quantity) async {
-  await CartService().decrement(cartID, quantity);
-}
+//access to cart service
+final cartServiceProvider = Provider<CartService>((ref) {
+  return CartService();
+});

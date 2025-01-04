@@ -3,18 +3,54 @@ import 'package:toyshop/src/model/transaction/transaction.dart';
 
 class TransactionService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  static List<dynamic> total = [];
   //create
-  Future<dynamic> createTransaction(TransactionModel transactionDetail) async {
-    db.collection("transactionDetail").add(transactionDetail.toJson());
+  Future<void> deleteAllTransaction(dynamic cost) async {
+    await db
+        .collection("transactionDetail")
+        .where("cost", isEqualTo: cost)
+        .get()
+        .then((value) {
+      for (var doc in value.docs) {
+        doc.reference.delete();
+      }
+    });
   }
 
-  Future<dynamic> getTransaction() async {
-    QuerySnapshot querySnapshot =
-        await db.collection("transactionDetail").get();
-    for (var doc in querySnapshot.docs) {
-      final data = doc.get("price");
-      total.add(data);
-    }
+  Future<void> createTransaction(dynamic price, String productID) async {
+    await db.collection("transactionDetail").add({
+      "productID": productID,
+      "cost": price,
+    });
+  }
+
+  Stream<List<double>> getTransaction() {
+    return db
+        .collection("transactionDetail")
+        .snapshots() //realtime
+        .map((snapshot) {
+      return snapshot.docs
+          .map((docs) => (docs["cost"] as num).toDouble())
+          .toList();
+    });
+  }
+
+  double calculateTotal(List<double> cartList) {
+    final totalCost = cartList.fold(0.0, (start, end) => start + end);
+    return totalCost;
+  }
+
+  Future<void> deleteSpecific(String productID) async {
+    await db
+        .collection("transactionDetail")
+        .where("productID", isEqualTo: productID)
+        .get()
+        .then((value) {
+      for (var doc in value.docs) {
+        if (doc["productID"] == productID) {
+          doc.reference.delete();
+          break;
+        }
+      }
+    });
   }
 }

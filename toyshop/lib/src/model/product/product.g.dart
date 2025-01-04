@@ -26,15 +26,15 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'timeStamp': instance.timeStamp,
     };
 
-_$ForyouModelImpl _$$ForyouModelImplFromJson(Map<String, dynamic> json) =>
-    _$ForyouModelImpl(
+_$ToyTypeModelImpl _$$ToyTypeModelImplFromJson(Map<String, dynamic> json) =>
+    _$ToyTypeModelImpl(
       name: json['name'] as String,
       image: json['image'] as String,
       star: (json['star'] as num).toInt(),
       price: json['price'],
     );
 
-Map<String, dynamic> _$$ForyouModelImplToJson(_$ForyouModelImpl instance) =>
+Map<String, dynamic> _$$ToyTypeModelImplToJson(_$ToyTypeModelImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,

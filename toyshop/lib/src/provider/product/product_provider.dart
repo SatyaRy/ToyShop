@@ -10,6 +10,6 @@ Stream<List<ProductModel>> getProduct(Ref ref) {
     return ProductService().getProduct();
   }
 @riverpod
-Stream<List<ForyouModel>> getForyou(Ref ref) {
-    return ProductService().getForyou();
+Stream<List<ToyTypeModel>> getToyType(Ref ref) {
+    return ProductService().getToyType();
   }

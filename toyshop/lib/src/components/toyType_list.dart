@@ -3,16 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
 // ignore: must_be_immutable
-class ForyouList extends StatelessWidget {
-  ForyouModel foryouModel;
-  ForyouList({
+class ToyTypeList extends StatelessWidget {
+  ToyTypeModel toyTypeModel;
+  ToyTypeList({
     super.key,
-    required this.foryouModel,
+    required this.toyTypeModel,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 85,
+      height: 100,
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
       child: Row(
@@ -23,13 +23,13 @@ class ForyouList extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Container(
-                    width: 65,
-                    height: 65,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xff074799)),
+                    width: 70,
+                    height: 70,
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 76, 145, 236),
                         shape: BoxShape.circle,
                     ),
-                    child: SvgPicture.network(foryouModel.image,placeholderBuilder: (context)=>const CircularProgressIndicator(),),
+                    child: SvgPicture.network(toyTypeModel.image,placeholderBuilder: (context)=>const CircularProgressIndicator(),),
                   )),
               const SizedBox(
                 width: 10,
@@ -41,7 +41,7 @@ class ForyouList extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
-                        child: Text(foryouModel.name,style: const TextStyle(
+                        child: Text(toyTypeModel.name,style: const TextStyle(
                           fontSize: 17
                         )),
                       ),
@@ -52,7 +52,7 @@ class ForyouList extends StatelessWidget {
                           width: 200,
                           child: Row(
                             children: List.generate(
-                                foryouModel.star,
+                                toyTypeModel.star,
                                 (_) => const Icon(Icons.star,
                                     color: Colors.orange)),
                           ))
@@ -60,11 +60,11 @@ class ForyouList extends StatelessWidget {
                   ))
             ],
           ),
-          Padding(
-              padding: const EdgeInsets.only(right: 20),
+          const Padding(
+              padding:  EdgeInsets.only(right: 20),
               child: Text(
-                "\$${foryouModel.price}",
-                style: const TextStyle(color: Colors.black, fontSize: 15),
+                "10%",
+                style:  TextStyle(color: Colors.black, fontSize: 15),
               ))
         ],
       ),

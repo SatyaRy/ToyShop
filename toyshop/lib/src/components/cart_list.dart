@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
+import 'package:toyshop/src/provider/transaction/transaction.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 // ignore: must_be_immutable
@@ -45,7 +46,8 @@ class CartList extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              ref.read(deleteCartProvider(cartDetail.productID));
+              ref.read(deleteCartProvider(
+                  cartDetail.productID, cartDetail.productPrice));
               showDialog(
                   context: context,
                   builder: (context) => DialogBox(
@@ -69,7 +71,10 @@ class CartList extends ConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    ref.read(decrementProvider(cartDetail.productID,cartDetail.productQuantity));
+                    ref.read(cartServiceProvider).decrementQuantity(
+                        cartDetail.productID, cartDetail.productQuantity);
+                    ref.read(deleteOnDecrement(cartDetail.productID));
+                    ref.invalidate(deleteOnDecrement);
                   },
                   child: Container(
                     width: 30,
@@ -94,7 +99,12 @@ class CartList extends ConsumerWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    ref.read(incrementProvider(cartDetail.productID));
+                    ref
+                        .read(cartServiceProvider)
+                        .incrementQuantity(cartDetail.productID);
+                    ref.read(reCalculate(ProductParams(
+                            cartDetail.productID, cartDetail.productPrice))
+                        .future);
                   },
                   child: Container(
                     width: 30,

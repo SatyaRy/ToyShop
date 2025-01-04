@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_svg/svg.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
+import "package:toyshop/src/provider/transaction/transaction.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,8 +21,7 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
-
-  final List pages = [ const ProductPage(), const FavoritePage()];
+  final List pages = [const ProductPage(), const FavoritePage()];
   final List pagesTitle = ["Home", "Favorite"];
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,7 @@ class _HomePageState extends State<HomePage> {
 
   AppBar appBar(index) {
     return AppBar(
-      title:  Text(pagesTitle[index],
+      title: Text(pagesTitle[index],
           style: const TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -177,7 +178,8 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15), color: Colors.white),
-            child: SvgPicture.network('https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg'),
+            child: SvgPicture.network(
+                'https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg'),
           ),
         )
       ],

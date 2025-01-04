@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
-import 'package:toyshop/src/components/foryou_list.dart';
+import 'package:toyshop/src/components/toyType_list.dart';
 import 'package:toyshop/src/components/product_list.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product/product_provider.dart';
+import 'package:toyshop/src/provider/transaction/transaction.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 const demoToy =
@@ -17,31 +18,29 @@ class ProductPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getProductProvider);
-    final foryouList = ref.watch(getForyouProvider);
+    final toyTypeList = ref.watch(getToyTypeProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     return ListView(
       children: [
         const SizedBox(
           height: 50,
         ),
-        demo(screenWidth, context),
+        demoWidget(screenWidth, context),
         const SizedBox(
           height: 20,
         ),
-        searchBar(screenWidth),
+        searchBarWidget(screenWidth),
         const SizedBox(
           height: 10,
         ),
-        filterMethod(),
+        filterWidget(context),
         const SizedBox(
           height: 20,
         ),
-        foryou(foryouList),
-        mostPopular(),
-        const SizedBox(
-          height: 20,
-        ),
-        productList(screenWidth, product, ref),
+        toyTypeWidget(toyTypeList),
+        mostPopularWidget(),
+        const SizedBox( height: 20, ),
+        productListWidget(screenWidth, product, ref),
         const SizedBox(
           height: 50,
         )
@@ -49,7 +48,7 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget searchBar(double screenWidth) {
+  Widget searchBarWidget(double screenWidth) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Container(
@@ -74,7 +73,7 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget productList(double screenWidth, AsyncValue<List<ProductModel>> product,
+  Widget productListWidget(double screenWidth, AsyncValue<List<ProductModel>> product,
       WidgetRef ref) {
     return SizedBox(
       height: 250,
@@ -100,7 +99,6 @@ class ProductPage extends ConsumerWidget {
                       );
                       final CartModel cartDetail =
                           CartModel.fromProductModel(productDetail);
-
                       return ProductTile(
                           productModel: productDetail,
                           onTap: () {
@@ -123,7 +121,7 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget filterMethod() {
+  Widget filterWidget(context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(
@@ -133,7 +131,9 @@ class ProductPage extends ConsumerWidget {
               currentBoxColor: const Color(0xff074799),
               filterText: "Trending",
               filterColor: Colors.white,
+              onFilter: ()=>debugPrint("Trending"),
               filterWidth: 80),
+              
           const SizedBox(
             width: 10,
           ),
@@ -142,6 +142,7 @@ class ProductPage extends ConsumerWidget {
             filterText: "Best Selling",
             filterColor: null,
             filterWidth: 95,
+             onFilter: ()=>Navigator.pushNamed(context, "/showcase"),
           ),
           const SizedBox(
             width: 10,
@@ -151,6 +152,7 @@ class ProductPage extends ConsumerWidget {
             filterText: "Newest",
             filterColor: null,
             filterWidth: 80,
+            onFilter: ()=>debugPrint("Newest"),
           ),
           const SizedBox(
             width: 10,
@@ -160,13 +162,14 @@ class ProductPage extends ConsumerWidget {
             filterText: "Oldest",
             filterColor: null,
             filterWidth: 70,
+             onFilter: ()=>debugPrint("Oldest"),
           ),
         ],
       ),
     );
   }
 
-  Widget demo(double screenWidth, BuildContext context) {
+  Widget demoWidget(double screenWidth, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Container(
@@ -186,7 +189,7 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget mostPopular() {
+  Widget mostPopularWidget() {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(
@@ -208,18 +211,18 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget foryou(AsyncValue<List<ForyouModel>> getForyou) {
+  Widget toyTypeWidget(AsyncValue<List<ToyTypeModel>> toyTypeProvider) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SizedBox(
-          height: 330,
+          height: 500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("For you",
+                  Text("Toys List",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -230,8 +233,7 @@ class ProductPage extends ConsumerWidget {
                 height: 10,
               ),
               SizedBox(
-                  height: 280,
-                  child: getForyou.when(
+                  child: toyTypeProvider.when(
                       data: (value) {
                         return ListView.separated(
                             shrinkWrap: true,
@@ -243,17 +245,23 @@ class ProductPage extends ConsumerWidget {
                             itemCount: value.length,
                             itemBuilder: (context, index) {
                               final data = value[index];
-
-                              final ForyouModel foryouModel = ForyouModel(
+                              final ToyTypeModel toyTypeModel = ToyTypeModel(
                                   name: data.name,
                                   image: data.image,
                                   star: data.star,
                                   price: data.price);
-                              return ForyouList(foryouModel: foryouModel);
+                              return ToyTypeList(toyTypeModel:toyTypeModel );
                             });
                       },
                       error: (error, stackTrace) => Text("$error"),
-                      loading: () => const CircularProgressIndicator()))
+                      loading: () => Container(
+                        width: 70,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 209, 206, 206),
+                          shape: BoxShape.circle
+                        ),
+                      )))
             ],
           ),
         ));
@@ -266,24 +274,29 @@ class FilterBox extends StatelessWidget {
   String filterText;
   double filterWidth;
   Color? filterColor;
+  void Function()? onFilter;
   FilterBox(
       {super.key,
       required this.currentBoxColor,
       required this.filterText,
       required this.filterColor,
+      required this.onFilter,
       required this.filterWidth});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: filterWidth,
-      height: 40,
-      decoration: BoxDecoration(
-          color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
-      child: Center(
-          child: Text(
-        filterText,
-        style: TextStyle(color: filterColor),
-      )),
+    return GestureDetector(
+      onTap: onFilter,
+      child: Container(
+        width: filterWidth,
+        height: 40,
+        decoration: BoxDecoration(
+            color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
+        child: Center(
+            child: Text(
+          filterText,
+          style: TextStyle(color: filterColor),
+        )),
+      ),
     );
   }
 }

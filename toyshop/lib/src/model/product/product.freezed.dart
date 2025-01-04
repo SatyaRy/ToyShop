@@ -280,47 +280,47 @@ abstract class _ProductModel implements ProductModel {
       throw _privateConstructorUsedError;
 }
 
-ForyouModel _$ForyouModelFromJson(Map<String, dynamic> json) {
-  return _ForyouModel.fromJson(json);
+ToyTypeModel _$ToyTypeModelFromJson(Map<String, dynamic> json) {
+  return _ToyTypeModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ForyouModel {
+mixin _$ToyTypeModel {
   String get name => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   int get star => throw _privateConstructorUsedError;
   dynamic get price => throw _privateConstructorUsedError;
 
-  /// Serializes this ForyouModel to a JSON map.
+  /// Serializes this ToyTypeModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ForyouModel
+  /// Create a copy of ToyTypeModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ForyouModelCopyWith<ForyouModel> get copyWith =>
+  $ToyTypeModelCopyWith<ToyTypeModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ForyouModelCopyWith<$Res> {
-  factory $ForyouModelCopyWith(
-          ForyouModel value, $Res Function(ForyouModel) then) =
-      _$ForyouModelCopyWithImpl<$Res, ForyouModel>;
+abstract class $ToyTypeModelCopyWith<$Res> {
+  factory $ToyTypeModelCopyWith(
+          ToyTypeModel value, $Res Function(ToyTypeModel) then) =
+      _$ToyTypeModelCopyWithImpl<$Res, ToyTypeModel>;
   @useResult
   $Res call({String name, String image, int star, dynamic price});
 }
 
 /// @nodoc
-class _$ForyouModelCopyWithImpl<$Res, $Val extends ForyouModel>
-    implements $ForyouModelCopyWith<$Res> {
-  _$ForyouModelCopyWithImpl(this._value, this._then);
+class _$ToyTypeModelCopyWithImpl<$Res, $Val extends ToyTypeModel>
+    implements $ToyTypeModelCopyWith<$Res> {
+  _$ToyTypeModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ForyouModel
+  /// Create a copy of ToyTypeModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -352,25 +352,25 @@ class _$ForyouModelCopyWithImpl<$Res, $Val extends ForyouModel>
 }
 
 /// @nodoc
-abstract class _$$ForyouModelImplCopyWith<$Res>
-    implements $ForyouModelCopyWith<$Res> {
-  factory _$$ForyouModelImplCopyWith(
-          _$ForyouModelImpl value, $Res Function(_$ForyouModelImpl) then) =
-      __$$ForyouModelImplCopyWithImpl<$Res>;
+abstract class _$$ToyTypeModelImplCopyWith<$Res>
+    implements $ToyTypeModelCopyWith<$Res> {
+  factory _$$ToyTypeModelImplCopyWith(
+          _$ToyTypeModelImpl value, $Res Function(_$ToyTypeModelImpl) then) =
+      __$$ToyTypeModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name, String image, int star, dynamic price});
 }
 
 /// @nodoc
-class __$$ForyouModelImplCopyWithImpl<$Res>
-    extends _$ForyouModelCopyWithImpl<$Res, _$ForyouModelImpl>
-    implements _$$ForyouModelImplCopyWith<$Res> {
-  __$$ForyouModelImplCopyWithImpl(
-      _$ForyouModelImpl _value, $Res Function(_$ForyouModelImpl) _then)
+class __$$ToyTypeModelImplCopyWithImpl<$Res>
+    extends _$ToyTypeModelCopyWithImpl<$Res, _$ToyTypeModelImpl>
+    implements _$$ToyTypeModelImplCopyWith<$Res> {
+  __$$ToyTypeModelImplCopyWithImpl(
+      _$ToyTypeModelImpl _value, $Res Function(_$ToyTypeModelImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ForyouModel
+  /// Create a copy of ToyTypeModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -380,7 +380,7 @@ class __$$ForyouModelImplCopyWithImpl<$Res>
     Object? star = null,
     Object? price = freezed,
   }) {
-    return _then(_$ForyouModelImpl(
+    return _then(_$ToyTypeModelImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -403,15 +403,15 @@ class __$$ForyouModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ForyouModelImpl implements _ForyouModel {
-  _$ForyouModelImpl(
+class _$ToyTypeModelImpl implements _ToyTypeModel {
+  _$ToyTypeModelImpl(
       {required this.name,
       required this.image,
       required this.star,
       required this.price});
 
-  factory _$ForyouModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ForyouModelImplFromJson(json);
+  factory _$ToyTypeModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ToyTypeModelImplFromJson(json);
 
   @override
   final String name;
@@ -424,14 +424,14 @@ class _$ForyouModelImpl implements _ForyouModel {
 
   @override
   String toString() {
-    return 'ForyouModel(name: $name, image: $image, star: $star, price: $price)';
+    return 'ToyTypeModel(name: $name, image: $image, star: $star, price: $price)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ForyouModelImpl &&
+            other is _$ToyTypeModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.star, star) || other.star == star) &&
@@ -443,31 +443,31 @@ class _$ForyouModelImpl implements _ForyouModel {
   int get hashCode => Object.hash(runtimeType, name, image, star,
       const DeepCollectionEquality().hash(price));
 
-  /// Create a copy of ForyouModel
+  /// Create a copy of ToyTypeModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ForyouModelImplCopyWith<_$ForyouModelImpl> get copyWith =>
-      __$$ForyouModelImplCopyWithImpl<_$ForyouModelImpl>(this, _$identity);
+  _$$ToyTypeModelImplCopyWith<_$ToyTypeModelImpl> get copyWith =>
+      __$$ToyTypeModelImplCopyWithImpl<_$ToyTypeModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ForyouModelImplToJson(
+    return _$$ToyTypeModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _ForyouModel implements ForyouModel {
-  factory _ForyouModel(
+abstract class _ToyTypeModel implements ToyTypeModel {
+  factory _ToyTypeModel(
       {required final String name,
       required final String image,
       required final int star,
-      required final dynamic price}) = _$ForyouModelImpl;
+      required final dynamic price}) = _$ToyTypeModelImpl;
 
-  factory _ForyouModel.fromJson(Map<String, dynamic> json) =
-      _$ForyouModelImpl.fromJson;
+  factory _ToyTypeModel.fromJson(Map<String, dynamic> json) =
+      _$ToyTypeModelImpl.fromJson;
 
   @override
   String get name;
@@ -478,11 +478,11 @@ abstract class _ForyouModel implements ForyouModel {
   @override
   dynamic get price;
 
-  /// Create a copy of ForyouModel
+  /// Create a copy of ToyTypeModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ForyouModelImplCopyWith<_$ForyouModelImpl> get copyWith =>
+  _$$ToyTypeModelImplCopyWith<_$ToyTypeModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

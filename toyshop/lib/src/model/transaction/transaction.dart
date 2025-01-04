@@ -6,7 +6,7 @@ part "transaction.freezed.dart";
 class TransactionModel with _$TransactionModel {
   factory TransactionModel({
     required String productID,
-    required dynamic price,
+    required double cost,
     required String delivery,
     required String createAt,
     required String createBy,

@@ -206,7 +206,7 @@ final getCartItemsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetCartItemsRef = AutoDisposeStreamProviderRef<List<CartModel>>;
-String _$deleteCartHash() => r'7be68f4acef2fb86b162b8a509109cf2fb2805f7';
+String _$deleteCartHash() => r'0b51c1dc6f41dab4f1f00a09ec546593e23db859';
 
 /// See also [deleteCart].
 @ProviderFor(deleteCart)
@@ -220,9 +220,11 @@ class DeleteCartFamily extends Family<AsyncValue<void>> {
   /// See also [deleteCart].
   DeleteCartProvider call(
     String cartID,
+    dynamic cost,
   ) {
     return DeleteCartProvider(
       cartID,
+      cost,
     );
   }
 
@@ -232,6 +234,7 @@ class DeleteCartFamily extends Family<AsyncValue<void>> {
   ) {
     return call(
       provider.cartID,
+      provider.cost,
     );
   }
 
@@ -255,10 +258,12 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
   /// See also [deleteCart].
   DeleteCartProvider(
     String cartID,
+    dynamic cost,
   ) : this._internal(
           (ref) => deleteCart(
             ref as DeleteCartRef,
             cartID,
+            cost,
           ),
           from: deleteCartProvider,
           name: r'deleteCartProvider',
@@ -270,6 +275,7 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
           allTransitiveDependencies:
               DeleteCartFamily._allTransitiveDependencies,
           cartID: cartID,
+          cost: cost,
         );
 
   DeleteCartProvider._internal(
@@ -280,9 +286,11 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.cartID,
+    required this.cost,
   }) : super.internal();
 
   final String cartID;
+  final dynamic cost;
 
   @override
   Override overrideWith(
@@ -298,6 +306,7 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         cartID: cartID,
+        cost: cost,
       ),
     );
   }
@@ -309,13 +318,16 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
 
   @override
   bool operator ==(Object other) {
-    return other is DeleteCartProvider && other.cartID == cartID;
+    return other is DeleteCartProvider &&
+        other.cartID == cartID &&
+        other.cost == cost;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, cartID.hashCode);
+    hash = _SystemHash.combine(hash, cost.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -326,6 +338,9 @@ class DeleteCartProvider extends AutoDisposeFutureProvider<void> {
 mixin DeleteCartRef on AutoDisposeFutureProviderRef<void> {
   /// The parameter `cartID` of this provider.
   String get cartID;
+
+  /// The parameter `cost` of this provider.
+  dynamic get cost;
 }
 
 class _DeleteCartProviderElement extends AutoDisposeFutureProviderElement<void>
@@ -334,281 +349,8 @@ class _DeleteCartProviderElement extends AutoDisposeFutureProviderElement<void>
 
   @override
   String get cartID => (origin as DeleteCartProvider).cartID;
-}
-
-String _$incrementHash() => r'9bfbdbab987c122a7928d901684a42792e5f9f10';
-
-/// See also [increment].
-@ProviderFor(increment)
-const incrementProvider = IncrementFamily();
-
-/// See also [increment].
-class IncrementFamily extends Family<AsyncValue<void>> {
-  /// See also [increment].
-  const IncrementFamily();
-
-  /// See also [increment].
-  IncrementProvider call(
-    String cartID,
-  ) {
-    return IncrementProvider(
-      cartID,
-    );
-  }
-
   @override
-  IncrementProvider getProviderOverride(
-    covariant IncrementProvider provider,
-  ) {
-    return call(
-      provider.cartID,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'incrementProvider';
-}
-
-/// See also [increment].
-class IncrementProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [increment].
-  IncrementProvider(
-    String cartID,
-  ) : this._internal(
-          (ref) => increment(
-            ref as IncrementRef,
-            cartID,
-          ),
-          from: incrementProvider,
-          name: r'incrementProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$incrementHash,
-          dependencies: IncrementFamily._dependencies,
-          allTransitiveDependencies: IncrementFamily._allTransitiveDependencies,
-          cartID: cartID,
-        );
-
-  IncrementProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.cartID,
-  }) : super.internal();
-
-  final String cartID;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(IncrementRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: IncrementProvider._internal(
-        (ref) => create(ref as IncrementRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        cartID: cartID,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _IncrementProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is IncrementProvider && other.cartID == cartID;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, cartID.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin IncrementRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `cartID` of this provider.
-  String get cartID;
-}
-
-class _IncrementProviderElement extends AutoDisposeFutureProviderElement<void>
-    with IncrementRef {
-  _IncrementProviderElement(super.provider);
-
-  @override
-  String get cartID => (origin as IncrementProvider).cartID;
-}
-
-String _$decrementHash() => r'a74f06d108474c0cd126974bb8237613f4b46bf5';
-
-/// See also [decrement].
-@ProviderFor(decrement)
-const decrementProvider = DecrementFamily();
-
-/// See also [decrement].
-class DecrementFamily extends Family<AsyncValue<void>> {
-  /// See also [decrement].
-  const DecrementFamily();
-
-  /// See also [decrement].
-  DecrementProvider call(
-    String cartID,
-    int quantity,
-  ) {
-    return DecrementProvider(
-      cartID,
-      quantity,
-    );
-  }
-
-  @override
-  DecrementProvider getProviderOverride(
-    covariant DecrementProvider provider,
-  ) {
-    return call(
-      provider.cartID,
-      provider.quantity,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'decrementProvider';
-}
-
-/// See also [decrement].
-class DecrementProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [decrement].
-  DecrementProvider(
-    String cartID,
-    int quantity,
-  ) : this._internal(
-          (ref) => decrement(
-            ref as DecrementRef,
-            cartID,
-            quantity,
-          ),
-          from: decrementProvider,
-          name: r'decrementProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$decrementHash,
-          dependencies: DecrementFamily._dependencies,
-          allTransitiveDependencies: DecrementFamily._allTransitiveDependencies,
-          cartID: cartID,
-          quantity: quantity,
-        );
-
-  DecrementProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.cartID,
-    required this.quantity,
-  }) : super.internal();
-
-  final String cartID;
-  final int quantity;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(DecrementRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: DecrementProvider._internal(
-        (ref) => create(ref as DecrementRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        cartID: cartID,
-        quantity: quantity,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _DecrementProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is DecrementProvider &&
-        other.cartID == cartID &&
-        other.quantity == quantity;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, cartID.hashCode);
-    hash = _SystemHash.combine(hash, quantity.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin DecrementRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `cartID` of this provider.
-  String get cartID;
-
-  /// The parameter `quantity` of this provider.
-  int get quantity;
-}
-
-class _DecrementProviderElement extends AutoDisposeFutureProviderElement<void>
-    with DecrementRef {
-  _DecrementProviderElement(super.provider);
-
-  @override
-  String get cartID => (origin as DecrementProvider).cartID;
-  @override
-  int get quantity => (origin as DecrementProvider).quantity;
+  dynamic get cost => (origin as DeleteCartProvider).cost;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

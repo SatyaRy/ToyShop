@@ -21,7 +21,7 @@ TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TransactionModel {
   String get productID => throw _privateConstructorUsedError;
-  dynamic get price => throw _privateConstructorUsedError;
+  double get cost => throw _privateConstructorUsedError;
   String get delivery => throw _privateConstructorUsedError;
   String get createAt => throw _privateConstructorUsedError;
   String get createBy => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $TransactionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String productID,
-      dynamic price,
+      double cost,
       String delivery,
       String createAt,
       String createBy});
@@ -66,7 +66,7 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
   @override
   $Res call({
     Object? productID = null,
-    Object? price = freezed,
+    Object? cost = null,
     Object? delivery = null,
     Object? createAt = null,
     Object? createBy = null,
@@ -76,10 +76,10 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
           ? _value.productID
           : productID // ignore: cast_nullable_to_non_nullable
               as String,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      cost: null == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
       delivery: null == delivery
           ? _value.delivery
           : delivery // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$TransactionModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String productID,
-      dynamic price,
+      double cost,
       String delivery,
       String createAt,
       String createBy});
@@ -126,7 +126,7 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? productID = null,
-    Object? price = freezed,
+    Object? cost = null,
     Object? delivery = null,
     Object? createAt = null,
     Object? createBy = null,
@@ -136,10 +136,10 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
           ? _value.productID
           : productID // ignore: cast_nullable_to_non_nullable
               as String,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      cost: null == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
       delivery: null == delivery
           ? _value.delivery
           : delivery // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
 class _$TransactionModelImpl implements _TransactionModel {
   _$TransactionModelImpl(
       {required this.productID,
-      required this.price,
+      required this.cost,
       required this.delivery,
       required this.createAt,
       required this.createBy});
@@ -172,7 +172,7 @@ class _$TransactionModelImpl implements _TransactionModel {
   @override
   final String productID;
   @override
-  final dynamic price;
+  final double cost;
   @override
   final String delivery;
   @override
@@ -182,7 +182,7 @@ class _$TransactionModelImpl implements _TransactionModel {
 
   @override
   String toString() {
-    return 'TransactionModel(productID: $productID, price: $price, delivery: $delivery, createAt: $createAt, createBy: $createBy)';
+    return 'TransactionModel(productID: $productID, cost: $cost, delivery: $delivery, createAt: $createAt, createBy: $createBy)';
   }
 
   @override
@@ -192,7 +192,7 @@ class _$TransactionModelImpl implements _TransactionModel {
             other is _$TransactionModelImpl &&
             (identical(other.productID, productID) ||
                 other.productID == productID) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
+            (identical(other.cost, cost) || other.cost == cost) &&
             (identical(other.delivery, delivery) ||
                 other.delivery == delivery) &&
             (identical(other.createAt, createAt) ||
@@ -203,8 +203,8 @@ class _$TransactionModelImpl implements _TransactionModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, productID,
-      const DeepCollectionEquality().hash(price), delivery, createAt, createBy);
+  int get hashCode =>
+      Object.hash(runtimeType, productID, cost, delivery, createAt, createBy);
 
   /// Create a copy of TransactionModel
   /// with the given fields replaced by the non-null parameter values.
@@ -226,7 +226,7 @@ class _$TransactionModelImpl implements _TransactionModel {
 abstract class _TransactionModel implements TransactionModel {
   factory _TransactionModel(
       {required final String productID,
-      required final dynamic price,
+      required final double cost,
       required final String delivery,
       required final String createAt,
       required final String createBy}) = _$TransactionModelImpl;
@@ -237,7 +237,7 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   String get productID;
   @override
-  dynamic get price;
+  double get cost;
   @override
   String get delivery;
   @override

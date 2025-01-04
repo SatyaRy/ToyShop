@@ -8,13 +8,7 @@ class CartService {
   //Create
   Future<void> addToCart(
       CartModel cartDetail, String productID, int quantity) async {
-    await TransactionService().createTransaction(TransactionModel(
-        productID: productID,
-        price: cartDetail.productPrice,
-        delivery: "free",
-        createAt: "today",
-        createBy: "satyaDev"));
-    await TransactionService().getTransaction();
+    await TransactionService().createTransaction(cartDetail.productPrice,cartDetail.productID);
     final querySnapshot = await db
         .collection("cartDetail")
         .where("productID", isEqualTo: productID)
@@ -44,19 +38,12 @@ class CartService {
   }
 
   //delete
-  Future<void> deleteItem(String? cartID) {
+  Future<void> deleteItem(String? cartID, dynamic cost) async {
+    await TransactionService().deleteAllTransaction(cost);
     return db.collection("cartDetail").doc(cartID).delete();
   }
 
-  Future<void> increment(String? cartID) {
-    final data = db
-        .collection("cartDetail")
-        .doc(cartID)
-        .update({"productQuantity": FieldValue.increment(1)});
-    return data;
-  }
-
-  Future<void> decrement(String? cartID, int quantity) async {
+  Future<void> decrementQuantity(String? cartID, int quantity) async {
     if (quantity > 1) {
       quantity--;
     }
@@ -64,5 +51,12 @@ class CartService {
         .collection("cartDetail")
         .doc(cartID)
         .update({"productQuantity": quantity});
+  }
+
+  Future<void> incrementQuantity(String? cartID) async {
+    await db
+        .collection("cartDetail")
+        .doc(cartID)
+        .update({"productQuantity": FieldValue.increment(1)});
   }
 }

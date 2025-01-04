@@ -12,13 +12,13 @@ class ProductService {
               return ProductModel.fromJson({...data, "productID": docs.id});
             }).toList());
   }
-  Stream<List<ForyouModel>> getForyou() {
+  Stream<List<ToyTypeModel>> getToyType() {
     return db
-        .collection("foryouDetail")
+        .collection("toyTypeDetail")
         .snapshots()
         .map((snapshot) => snapshot.docs.map((docs) {
               final data = docs.data();
-              return ForyouModel.fromJson({...data, "id": docs.id});
+              return ToyTypeModel.fromJson({...data, "id": docs.id});
             }).toList());
   }
 }

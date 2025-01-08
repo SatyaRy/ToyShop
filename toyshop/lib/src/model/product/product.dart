@@ -11,6 +11,7 @@ class ProductModel with _$ProductModel {
     required dynamic productPrice,
     required int productQuantity,
     required String timeStamp,
+    required String productType,
   }) = _ProductModel;
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);

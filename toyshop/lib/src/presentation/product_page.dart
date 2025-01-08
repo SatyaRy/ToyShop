@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
+import 'package:toyshop/src/components/filter_box.dart';
 import 'package:toyshop/src/components/toyType_list.dart';
 import 'package:toyshop/src/components/product_list.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product/product_provider.dart';
-import 'package:toyshop/src/provider/transaction/transaction.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 const demoToy =
@@ -33,13 +33,12 @@ class ProductPage extends ConsumerWidget {
         const SizedBox(
           height: 10,
         ),
-        filterWidget(context),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         toyTypeWidget(toyTypeList),
         mostPopularWidget(),
-        const SizedBox( height: 20, ),
+        const SizedBox( height: 15, ),
         productListWidget(screenWidth, product, ref),
         const SizedBox(
           height: 50,
@@ -95,6 +94,7 @@ class ProductPage extends ConsumerWidget {
                         productImage: value.productImage,
                         productPrice: value.productPrice,
                         productQuantity: value.productQuantity,
+                        productType: value.productType,
                         timeStamp: "now",
                       );
                       final CartModel cartDetail =
@@ -131,7 +131,7 @@ class ProductPage extends ConsumerWidget {
               currentBoxColor: const Color(0xff074799),
               filterText: "Trending",
               filterColor: Colors.white,
-              onFilter: ()=>debugPrint("Trending"),
+              onTap: ()=>debugPrint("Trending"),
               filterWidth: 80),
               
           const SizedBox(
@@ -142,7 +142,7 @@ class ProductPage extends ConsumerWidget {
             filterText: "Best Selling",
             filterColor: null,
             filterWidth: 95,
-             onFilter: ()=>Navigator.pushNamed(context, "/showcase"),
+             onTap: ()=>debugPrint("Best Selling"),
           ),
           const SizedBox(
             width: 10,
@@ -152,7 +152,7 @@ class ProductPage extends ConsumerWidget {
             filterText: "Newest",
             filterColor: null,
             filterWidth: 80,
-            onFilter: ()=>debugPrint("Newest"),
+             onTap: ()=>debugPrint("Newest"),
           ),
           const SizedBox(
             width: 10,
@@ -162,7 +162,7 @@ class ProductPage extends ConsumerWidget {
             filterText: "Oldest",
             filterColor: null,
             filterWidth: 70,
-             onFilter: ()=>debugPrint("Oldest"),
+            onTap: ()=>debugPrint("Oldest"),
           ),
         ],
       ),
@@ -230,7 +230,7 @@ class ProductPage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               SizedBox(
                   child: toyTypeProvider.when(
@@ -265,38 +265,5 @@ class ProductPage extends ConsumerWidget {
             ],
           ),
         ));
-  }
-}
-
-// ignore: must_be_immutable
-class FilterBox extends StatelessWidget {
-  Color currentBoxColor;
-  String filterText;
-  double filterWidth;
-  Color? filterColor;
-  void Function()? onFilter;
-  FilterBox(
-      {super.key,
-      required this.currentBoxColor,
-      required this.filterText,
-      required this.filterColor,
-      required this.onFilter,
-      required this.filterWidth});
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onFilter,
-      child: Container(
-        width: filterWidth,
-        height: 40,
-        decoration: BoxDecoration(
-            color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
-        child: Center(
-            child: Text(
-          filterText,
-          style: TextStyle(color: filterColor),
-        )),
-      ),
-    );
   }
 }

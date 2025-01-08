@@ -14,6 +14,7 @@ _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
       productPrice: json['productPrice'],
       productQuantity: (json['productQuantity'] as num).toInt(),
       timeStamp: json['timeStamp'] as String,
+      productType: json['productType'] as String,
     );
 
 Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'productPrice': instance.productPrice,
       'productQuantity': instance.productQuantity,
       'timeStamp': instance.timeStamp,
+      'productType': instance.productType,
     };
 
 _$ToyTypeModelImpl _$$ToyTypeModelImplFromJson(Map<String, dynamic> json) =>

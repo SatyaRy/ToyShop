@@ -1,10 +1,8 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_svg/svg.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
-import "package:toyshop/src/provider/transaction/transaction.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -109,18 +107,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
                   child: ListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.account_circle,
                       color: Color(0xff074799),
                       size: 30,
                     ),
-                    title: Text("Profile",
+                    title:GestureDetector(
+                      onTap: ()=> Navigator.pushNamed(context,"/signup"),
+                      child: const  Text("Profile",
                         style: TextStyle(
                           fontSize: 20,
                         )),
+                    )
                   ),
                 )
               ],

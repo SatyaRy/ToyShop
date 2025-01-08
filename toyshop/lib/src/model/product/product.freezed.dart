@@ -26,6 +26,7 @@ mixin _$ProductModel {
   dynamic get productPrice => throw _privateConstructorUsedError;
   int get productQuantity => throw _privateConstructorUsedError;
   String get timeStamp => throw _privateConstructorUsedError;
+  String get productType => throw _privateConstructorUsedError;
 
   /// Serializes this ProductModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $ProductModelCopyWith<$Res> {
       String productImage,
       dynamic productPrice,
       int productQuantity,
-      String timeStamp});
+      String timeStamp,
+      String productType});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? productPrice = freezed,
     Object? productQuantity = null,
     Object? timeStamp = null,
+    Object? productType = null,
   }) {
     return _then(_value.copyWith(
       productID: null == productID
@@ -99,6 +102,10 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
           ? _value.timeStamp
           : timeStamp // ignore: cast_nullable_to_non_nullable
               as String,
+      productType: null == productType
+          ? _value.productType
+          : productType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$ProductModelImplCopyWith<$Res>
       String productImage,
       dynamic productPrice,
       int productQuantity,
-      String timeStamp});
+      String timeStamp,
+      String productType});
 }
 
 /// @nodoc
@@ -139,6 +147,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? productPrice = freezed,
     Object? productQuantity = null,
     Object? timeStamp = null,
+    Object? productType = null,
   }) {
     return _then(_$ProductModelImpl(
       productID: null == productID
@@ -165,6 +174,10 @@ class __$$ProductModelImplCopyWithImpl<$Res>
           ? _value.timeStamp
           : timeStamp // ignore: cast_nullable_to_non_nullable
               as String,
+      productType: null == productType
+          ? _value.productType
+          : productType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$ProductModelImpl implements _ProductModel {
       required this.productImage,
       required this.productPrice,
       required this.productQuantity,
-      required this.timeStamp});
+      required this.timeStamp,
+      required this.productType});
 
   factory _$ProductModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductModelImplFromJson(json);
@@ -195,10 +209,12 @@ class _$ProductModelImpl implements _ProductModel {
   final int productQuantity;
   @override
   final String timeStamp;
+  @override
+  final String productType;
 
   @override
   String toString() {
-    return 'ProductModel(productID: $productID, productName: $productName, productImage: $productImage, productPrice: $productPrice, productQuantity: $productQuantity, timeStamp: $timeStamp)';
+    return 'ProductModel(productID: $productID, productName: $productName, productImage: $productImage, productPrice: $productPrice, productQuantity: $productQuantity, timeStamp: $timeStamp, productType: $productType)';
   }
 
   @override
@@ -217,7 +233,9 @@ class _$ProductModelImpl implements _ProductModel {
             (identical(other.productQuantity, productQuantity) ||
                 other.productQuantity == productQuantity) &&
             (identical(other.timeStamp, timeStamp) ||
-                other.timeStamp == timeStamp));
+                other.timeStamp == timeStamp) &&
+            (identical(other.productType, productType) ||
+                other.productType == productType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -229,7 +247,8 @@ class _$ProductModelImpl implements _ProductModel {
       productImage,
       const DeepCollectionEquality().hash(productPrice),
       productQuantity,
-      timeStamp);
+      timeStamp,
+      productType);
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.
@@ -254,7 +273,8 @@ abstract class _ProductModel implements ProductModel {
       required final String productImage,
       required final dynamic productPrice,
       required final int productQuantity,
-      required final String timeStamp}) = _$ProductModelImpl;
+      required final String timeStamp,
+      required final String productType}) = _$ProductModelImpl;
 
   factory _ProductModel.fromJson(Map<String, dynamic> json) =
       _$ProductModelImpl.fromJson;
@@ -271,6 +291,8 @@ abstract class _ProductModel implements ProductModel {
   int get productQuantity;
   @override
   String get timeStamp;
+  @override
+  String get productType;
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.

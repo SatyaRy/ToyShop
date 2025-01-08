@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toyshop/main.dart';
 import 'package:toyshop/src/components/cart_list.dart';
 import 'package:toyshop/src/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';

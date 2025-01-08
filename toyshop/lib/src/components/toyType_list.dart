@@ -11,62 +11,68 @@ class ToyTypeList extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
+    return GestureDetector(
+      onTap: ()=> Navigator.pushNamed(context,"/showcase"),
+      child: Container(
+        height: 100,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 76, 145, 236),
                         shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.network(toyTypeModel.image,placeholderBuilder: (context)=>const CircularProgressIndicator(),),
-                  )),
-              const SizedBox(
-                width: 10,
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Text(toyTypeModel.name,style: const TextStyle(
-                          fontSize: 17
-                        )),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      child: SvgPicture.network(
+                        toyTypeModel.image,
+                        placeholderBuilder: (context) =>
+                            const CircularProgressIndicator(),
                       ),
-                      SizedBox(
-                          width: 200,
-                          child: Row(
-                            children: List.generate(
-                                toyTypeModel.star,
-                                (_) => const Icon(Icons.star,
-                                    color: Colors.orange)),
-                          ))
-                    ],
-                  ))
-            ],
-          ),
-          const Padding(
-              padding:  EdgeInsets.only(right: 20),
-              child: Text(
-                "10%",
-                style:  TextStyle(color: Colors.black, fontSize: 15),
-              ))
-        ],
+                    )),
+                const SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(toyTypeModel.name,
+                              style: const TextStyle(fontSize: 17)),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                            width: 200,
+                            child: Row(
+                              children: List.generate(
+                                  toyTypeModel.star,
+                                  (_) => const Icon(Icons.star,
+                                      color: Colors.orange)),
+                            ))
+                      ],
+                    ))
+              ],
+            ),
+            const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  "10%",
+                  style: TextStyle(color: Colors.black, fontSize: 15),
+                ))
+          ],
+        ),
       ),
     );
   }

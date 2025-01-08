@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/data/transaction.dart';
-import 'package:toyshop/src/model/transaction/transaction.dart';
 
 //watch transactionService or repo
 final transactionServiceProvider = Provider<TransactionService>((ref) {

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/presentation/home_page.dart';
@@ -18,10 +17,12 @@ class IntroPage extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                SvgPicture.network("https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg",
-                width: MediaQuery.of(context).size.width, 
-                fit: BoxFit.contain,
-                placeholderBuilder: (context)=> const CircularProgressIndicator(),
+                SvgPicture.network(
+                  "https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg",
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.contain,
+                  placeholderBuilder: (context) =>
+                      const CircularProgressIndicator(),
                 ),
                 const Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -36,10 +37,7 @@ class IntroPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(
-                          builder: (context)=>const HomePage()
-                        ));
+                    Navigator.pushNamed(context, "/signin");
                   },
                   child: Container(
                     width: screenWidth * 0.65,

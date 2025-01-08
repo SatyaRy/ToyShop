@@ -1,7 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:toyshop/src/data/transaction.dart";
 import "package:toyshop/src/model/product/product.dart";
-import "package:toyshop/src/model/transaction/transaction.dart";
 
 class CartService {
   final FirebaseFirestore db = FirebaseFirestore.instance;

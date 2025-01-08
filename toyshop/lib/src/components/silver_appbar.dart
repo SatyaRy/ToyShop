@@ -20,8 +20,8 @@ class MyAppBar extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Container(
-          width: 100,
-          height: 100,
+          width: 150,
+          height: 150,
           padding: const EdgeInsets.only(left: 5),
           decoration: const BoxDecoration(
               shape: BoxShape.circle,
@@ -44,6 +44,15 @@ class MyAppBar extends StatelessWidget {
           ),
         ),
       ),
+      actions: [
+        Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/cart");
+                },
+                child: const Icon(Icons.shopping_cart_outlined, size: 30)))
+      ],
     );
   }
 }

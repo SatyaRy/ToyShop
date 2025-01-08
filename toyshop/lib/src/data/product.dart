@@ -12,6 +12,7 @@ class ProductService {
               return ProductModel.fromJson({...data, "productID": docs.id});
             }).toList());
   }
+
   Stream<List<ToyTypeModel>> getToyType() {
     return db
         .collection("toyTypeDetail")
@@ -19,6 +20,16 @@ class ProductService {
         .map((snapshot) => snapshot.docs.map((docs) {
               final data = docs.data();
               return ToyTypeModel.fromJson({...data, "id": docs.id});
+            }).toList());
+  }
+
+  Stream<List<ProductModel>> getTrendingToy(String productType) {
+    return db
+        .collection(productType)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((docs) {
+              final data = docs.data();
+              return ProductModel.fromJson({...data, "productID": docs.id});
             }).toList());
   }
 }

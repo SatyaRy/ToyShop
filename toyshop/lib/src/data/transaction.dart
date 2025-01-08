@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:toyshop/src/model/transaction/transaction.dart';
 
 class TransactionService {
   final FirebaseFirestore db = FirebaseFirestore.instance;

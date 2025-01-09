@@ -1,9 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:toyshop/src/provider/authentication/auth.dart';
+import 'package:toyshop/src/components/handle_message.dart';
+import 'package:toyshop/src/provider/auth.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 class SignupPage extends ConsumerWidget {
@@ -35,19 +36,13 @@ class SignupPage extends ConsumerWidget {
       if (handleError == null) {
         Navigator.pushNamed(context, "/signin");
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-           content: message("Account successfully created",AppColors.add),
-        behavior: SnackBarBehavior.floating,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        ),);
+          HandleMessage(text: "Account successfully created", color: AppColors.add).build()
+        );
        }
        else{
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: message(handleError,AppColors.remove),
-        behavior: SnackBarBehavior.floating,
-        elevation: 0,
-        backgroundColor: Colors.transparent,));
+          HandleMessage(text: handleError, color: AppColors.remove).build()
+        );
         }
     }
     return Align(
@@ -97,24 +92,6 @@ class SignupPage extends ConsumerWidget {
     );
   }
 
-  Widget message(String text,Color color) {
-    return Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(5)
-          ),
-          child:  Center(
-            child:  Padding(
-              padding: const EdgeInsets.only(top: 10,left: 15,right: 15,bottom:10),
-             child: Text(text,style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20
-             ),) ,
-          )
-          )
-         );
-  }
 
   Widget topContainer(BuildContext context) {
     return Align(
@@ -134,7 +111,7 @@ class SignupPage extends ConsumerWidget {
                     color: Colors.white, shape: BoxShape.circle),
                 child: Center(
                   child: SvgPicture.network(
-                      "https://res.cloudinary.com/dnydodget/image/upload/v1736216064/green_turtle_frihxt.svg"),
+                      "https://res.cloudinary.com/dnydodget/image/upload/v1736318774/skz_squid_3_pho8nj.svg"),
                 ),
               )),
         ),

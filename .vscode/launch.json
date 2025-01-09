@@ -16,7 +16,7 @@
             "cwd": "toyshop",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "release"
         },
         {
             "name": "toyshop (release mode)",

@@ -4,7 +4,7 @@ import 'package:toyshop/src/components/cart_list.dart';
 import 'package:toyshop/src/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
-import 'package:toyshop/src/provider/transaction/transaction.dart';
+import 'package:toyshop/src/provider/transaction.dart';
 
 class CartPage extends ConsumerWidget {
   CartPage({super.key});

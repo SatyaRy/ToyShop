@@ -1,10 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:toyshop/src/provider/authentication/auth.dart';
+import 'package:toyshop/src/components/handle_message.dart';
+import 'package:toyshop/src/provider/auth.dart';
+import 'package:toyshop/src/theme/colors.dart';
 
 class SigninPage extends ConsumerWidget {
   SigninPage({super.key});
@@ -20,48 +23,44 @@ class SigninPage extends ConsumerWidget {
         Positioned(
             left: 100,
             bottom: 40,
-            child: SvgPicture.network(
-              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg",
+            child: CachedNetworkSVGImage(
               width: 200,
               height: 200,
-            )),
+              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg")),
         Positioned(
             left: 200,
             bottom: 180,
-            child: SvgPicture.network(
-              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg",
+            child:CachedNetworkSVGImage(
               width: 200,
               height: 200,
-            )),
-        signup(context)
+              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg")),
+        signin(context)
       ]),
     );
   }
 
-  Widget signup(BuildContext context) {
-    return  Align(
-          alignment: Alignment.bottomCenter,
-          child:  Padding(
-            padding:const EdgeInsets.only(bottom: 40),
-            child: Row(
-              spacing: 20,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text("Doesn't have an account?",style: TextStyle(
-              fontSize: 15
-            ),),
-            GestureDetector(
-              onTap: ()=>Navigator.pushNamed(context, "/signup"),
-              child: const Text("Sign up",style: TextStyle(
-              fontSize: 15,
-              color: Color(0xff074799)
-            )),
-            )
-          ],
-        ),
-          )
-        );
+  Widget signin(BuildContext context) {
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 40),
+          child: Row(
+            spacing: 20,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Doesn't have an account?",
+                style: TextStyle(fontSize: 15),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, "/signup"),
+                child: const Text("Sign up",
+                    style: TextStyle(fontSize: 15, color: Color(0xff074799))),
+              )
+            ],
+          ),
+        ));
   }
 
   Widget authContainer(BuildContext context, WidgetRef ref) {
@@ -120,11 +119,16 @@ class SigninPage extends ConsumerWidget {
                                   email: username.text,
                                   password: password.text);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const  SnackBar(content: Text("success")));
+                                  HandleMessage(
+                                          text: "Signin Successfully",
+                                          color: AppColors.add)
+                                      .build());
                               Navigator.pushNamed(context, "/home");
                             } catch (e) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text("$e")));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  HandleMessage(
+                                          text: "$e", color: AppColors.remove)
+                                      .build());
                             }
                           }),
                         )
@@ -152,6 +156,10 @@ class SigninPage extends ConsumerWidget {
                 width: 100,
                 decoration: const BoxDecoration(
                     color: Colors.white, shape: BoxShape.circle),
+                child: Center(
+                  child: SvgPicture.network(
+                      "https://res.cloudinary.com/dnydodget/image/upload/v1736318774/skz_squid_3_pho8nj.svg"),
+                ),
               ),
             )),
       ),

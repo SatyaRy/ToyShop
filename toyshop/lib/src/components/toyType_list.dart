@@ -1,5 +1,5 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
 // ignore: must_be_immutable
@@ -12,7 +12,9 @@ class ToyTypeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> Navigator.pushNamed(context,"/showcase"),
+      onTap: () {
+        Navigator.of(context).pushNamedAndRemoveUntil("/showcase",(route)=>false);
+      },
       child: Container(
         height: 100,
         decoration: BoxDecoration(
@@ -25,18 +27,17 @@ class ToyTypeList extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Container(
-                      width: 70,
-                      height: 70,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 76, 145, 236),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.network(
-                        toyTypeModel.image,
-                        placeholderBuilder: (context) =>
-                            const CircularProgressIndicator(),
-                      ),
-                    )),
+                        width: 70,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 76, 145, 236),
+                          shape: BoxShape.circle,
+                        ),
+                        child: CachedNetworkSVGImage(
+                          toyTypeModel.image,
+                          placeholderBuilder: (context) =>
+                              const CircularProgressIndicator(),
+                        ))),
                 const SizedBox(
                   width: 10,
                 ),

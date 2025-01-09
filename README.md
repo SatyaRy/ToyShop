@@ -31,7 +31,7 @@ MoMo simplifies toy shopping with a streamlined interface, making it easy for us
                               void addToCart() {
                                 addToFavorite(
                                   trendingList,
-                                  trendingList.price,
+                                  trendingList.price, 
                                 );
                                 setState(() {
                                   trendingList.quantity++;

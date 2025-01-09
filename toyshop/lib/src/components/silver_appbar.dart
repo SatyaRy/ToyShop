@@ -1,4 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:toyshop/src/presentation/home_page.dart';
 
 class MyAppBar extends StatelessWidget {
   String routing;
@@ -38,7 +41,7 @@ class MyAppBar extends StatelessWidget {
             alignment: Alignment.center,
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, routing);
+                  Navigator.pushNamed(context, "/home");
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
           ),
@@ -50,6 +53,7 @@ class MyAppBar extends StatelessWidget {
             child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, "/cart");
+                  Navigator.pop(context);
                 },
                 child: const Icon(Icons.shopping_cart_outlined, size: 30)))
       ],

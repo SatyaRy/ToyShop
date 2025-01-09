@@ -28,9 +28,8 @@ class AuthenticationService {
         case 'invalid-email':
           return 'The email address is not valid.';
       }
-    } catch (e) {
-      return "Error try again $e";
     }
+    return "Error try again ";
   }
 
   Future<void> signOut() async {

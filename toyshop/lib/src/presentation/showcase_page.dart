@@ -1,12 +1,12 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/components/filter_box.dart';
 import 'package:toyshop/src/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
-import 'package:toyshop/src/provider/product/product_provider.dart';
+import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 class ShowcaseProductPage extends ConsumerWidget {
@@ -194,7 +194,7 @@ class ShowcaseList extends ConsumerWidget {
             Positioned(
                 bottom: 90,
                 left: 30,
-                child: SvgPicture.network(
+                child: CachedNetworkSVGImage(
                   image,
                   width: 130,
                   height: 130,

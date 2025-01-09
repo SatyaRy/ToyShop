@@ -1,12 +1,13 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:toyshop/src/presentation/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toyshop/src/provider/initialize.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends ConsumerWidget {
   const IntroPage({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: AppColors.primary,
@@ -17,13 +18,9 @@ class IntroPage extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                SvgPicture.network(
-                  "https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg",
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.contain,
-                  placeholderBuilder: (context) =>
-                      const CircularProgressIndicator(),
-                ),
+                CachedNetworkSVGImage(
+                    width: MediaQuery.of(context).size.width,
+                    "https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg"),
                 const Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Text("Customize your soft toy with 3 clicks",
@@ -37,7 +34,9 @@ class IntroPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, "/signin");
+                    ref.read(initializeAppProvider);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil("/signin", (route) => false);
                   },
                   child: Container(
                     width: screenWidth * 0.65,

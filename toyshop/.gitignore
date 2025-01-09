@@ -1,52 +1,98 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+# Flutter generated files
 .DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
 .idea/
+.packages
+.pub-cache/
+.pub/
+*.iml
+*.lock
+*.log
+*.tmp
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Generated files
+android/.gradle/
+android/app/build/
+android/local.properties
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/build/
+*.xcuserstate
+*.plist
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Firebase related files
+firebase_app_id_file.json
+*.firebaserc
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Firebase configuration files
+firebase-debug.log
+firebase-debug.*.log
+
+# Dart and Flutter specific
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-**/lib/src/data/static
-# Symbolication related
-app.*.symbols
+.flutter-versions
+.buildlog/
+.crash/
+.dart_tool/
+.flutter_settings/
+.vscode/
 
-# Obfuscation related
-app.*.map.json
+# macOS specific files
+build/macos/
+macos/Flutter/ephemeral/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Linux specific files
+build/linux/
+linux/flutter/
 
-#firebase
-**/.firebaserc
-**/GoogleService-Info.plist
-**/google-services.json
-**/firebase_app_id_file.json
-lib/firebase_options.dart
+# Windows specific files
+build/windows/
+windows/flutter/
+
+# Web specific files
+build/web/
+
+# Build output
+build/
+*.apk
+*.aab
+*.ipa
+
+# VS Code specific files
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/*.code-workspace
+
+# IntelliJ specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Other OS specific files
+Thumbs.db
+*.swp
+
+# Temporary files
+*.temp
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Logs
+*.log
+*.out
+*.pid
+*.seed
+*.log.*
+*.gz
+
+# Node.js for Firebase Emulators (if used)
+node_modules/
+firebase-debug.log
+firebase-debug.*.log

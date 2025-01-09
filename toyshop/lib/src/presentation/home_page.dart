@@ -1,7 +1,8 @@
+import "package:cached_network_svg_image/cached_network_svg_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
+import "package:toyshop/src/data/authentication.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
-import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
 
 class HomePage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
+
   final List pages = [const ProductPage(), const FavoritePage()];
   final List pagesTitle = ["Home", "Favorite"];
   @override
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  FloatingActionButton shop() {
+  Widget shop() {
     return FloatingActionButton(
       shape: const CircleBorder(),
       backgroundColor: const Color(0xff074799),
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         ]);
   }
 
-  Drawer drawerSection() {
+  Widget drawerSection() {
     return Drawer(
         backgroundColor: Colors.white,
         child: Column(
@@ -73,9 +75,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   padding: const EdgeInsets.only(top: 100),
-                  child: SvgPicture.asset(
-                    "lib/presentation/assets/icons/bear.svg",
-                    width: 100,
+                  child: CachedNetworkSVGImage(
+                    "https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg",
+                    width: 700,
                     height: 200,
                   ),
                 ),
@@ -110,26 +112,25 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: ListTile(
-                    leading: const Icon(
-                      Icons.account_circle,
-                      color: Color(0xff074799),
-                      size: 30,
-                    ),
-                    title:GestureDetector(
-                      onTap: ()=> Navigator.pushNamed(context,"/signup"),
-                      child: const  Text("Profile",
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
-                    )
-                  ),
+                      leading: const Icon(
+                        Icons.account_circle,
+                        color: Color(0xff074799),
+                        size: 30,
+                      ),
+                      title: GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, "/signup"),
+                        child: const Text("Profile",
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                      )),
                 )
               ],
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const IntroPage()));
+                AuthenticationService().signOut();
+                Navigator.of(context).pushNamedAndRemoveUntil("/intro",(route)=>false);
               },
               child: const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 50),

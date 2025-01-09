@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/components/filter_box.dart';
-import 'package:toyshop/src/components/toyType_list.dart';
+import 'package:toyshop/src/components/toytype_list.dart';
 import 'package:toyshop/src/components/product_list.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
-import 'package:toyshop/src/provider/product/product_provider.dart';
+import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 const demoToy =
@@ -118,54 +118,6 @@ class ProductPage extends ConsumerWidget {
               },
               error: (error, stackTrace) => Text("$error"),
               loading: () => const CircularProgressIndicator())),
-    );
-  }
-
-  Widget filterWidget(context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          FilterBox(
-              currentBoxColor: const Color(0xff074799),
-              filterText: "Trending",
-              filterColor: Colors.white,
-              onTap: ()=>debugPrint("Trending"),
-              filterWidth: 80),
-              
-          const SizedBox(
-            width: 10,
-          ),
-          FilterBox(
-            currentBoxColor: Colors.white,
-            filterText: "Best Selling",
-            filterColor: null,
-            filterWidth: 95,
-             onTap: ()=>debugPrint("Best Selling"),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          FilterBox(
-            currentBoxColor: Colors.white,
-            filterText: "Newest",
-            filterColor: null,
-            filterWidth: 80,
-             onTap: ()=>debugPrint("Newest"),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          FilterBox(
-            currentBoxColor: Colors.white,
-            filterText: "Oldest",
-            filterColor: null,
-            filterWidth: 70,
-            onTap: ()=>debugPrint("Oldest"),
-          ),
-        ],
-      ),
     );
   }
 

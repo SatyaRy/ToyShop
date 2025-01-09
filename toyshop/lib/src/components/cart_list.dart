@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
-import 'package:toyshop/src/provider/transaction/transaction.dart';
+import 'package:toyshop/src/provider/transaction.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 // ignore: must_be_immutable

@@ -1,5 +1,5 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
 // ignore: must_be_immutable
@@ -21,9 +21,9 @@ class ProductTile extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                child: SvgPicture.network(
+                child: CachedNetworkSVGImage(
                   productModel.productImage,
-                  width: 180,
+                  height: 180,
                 ),
               ),
               Row(

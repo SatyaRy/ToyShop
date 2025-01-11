@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:toyshop/src/presentation/home_page.dart';
 
 class MyAppBar extends StatelessWidget {
   String routing;
@@ -41,7 +41,8 @@ class MyAppBar extends StatelessWidget {
             alignment: Alignment.center,
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/home");
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/home", (route) => false);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
           ),
@@ -55,7 +56,17 @@ class MyAppBar extends StatelessWidget {
                   Navigator.pushNamed(context, "/cart");
                   Navigator.pop(context);
                 },
-                child: const Icon(Icons.shopping_cart_outlined, size: 30)))
+                child: badges.Badge(
+                  position: badges.BadgePosition.topEnd(top: -10, end: -10),
+                  badgeContent: const Center(
+                    child: Text("1",
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                  ),
+                  child: const Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 30,
+                  ),
+                )))
       ],
     );
   }

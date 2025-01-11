@@ -1,8 +1,7 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
-import 'package:toyshop/src/components/filter_box.dart';
 import 'package:toyshop/src/components/toytype_list.dart';
 import 'package:toyshop/src/components/product_list.dart';
 import 'package:toyshop/src/model/product/product.dart';
@@ -10,9 +9,8 @@ import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
-const demoToy =
+var demoToy =
     "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg";
-
 class ProductPage extends ConsumerWidget {
   const ProductPage({super.key});
   @override
@@ -64,7 +62,7 @@ class ProductPage extends ConsumerWidget {
                   contentPadding: const EdgeInsets.only(top: 10),
                   suffixIcon: IconButton(
                       onPressed: () {
-                        print('searching ...');
+                        debugPrint('searching ...');
                       },
                       icon: const Icon(Icons.search))),
             ),
@@ -95,6 +93,9 @@ class ProductPage extends ConsumerWidget {
                         productPrice: value.productPrice,
                         productQuantity: value.productQuantity,
                         productType: value.productType,
+                        productDetail: value.productDetail,
+                        productStatus: value.productStatus,
+                        productRate: 4,
                         timeStamp: "now",
                       );
                       final CartModel cartDetail =
@@ -133,10 +134,10 @@ class ProductPage extends ConsumerWidget {
               borderRadius: BorderRadius.circular(15)),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: SvgPicture.network(
+            child: CachedNetworkSVGImage(
               demoToy,
               width: MediaQuery.of(context).size.width,
-            ),
+            )
           )),
     );
   }
@@ -154,7 +155,7 @@ class ProductPage extends ConsumerWidget {
               )),
           TextButton(
               onPressed: () {
-                print("show more...");
+                debugPrint("show more...");
               },
               child: const Text("Show more",
                   style: TextStyle(color: Color(0xff074799))))
@@ -163,7 +164,7 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget toyTypeWidget(AsyncValue<List<ToyTypeModel>> toyTypeProvider) {
+  Widget toyTypeWidget(AsyncValue<List<ProductModel>> toyTypeProvider) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SizedBox(
@@ -198,22 +199,15 @@ class ProductPage extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               final data = value[index];
                               final ToyTypeModel toyTypeModel = ToyTypeModel(
-                                  name: data.name,
-                                  image: data.image,
-                                  star: data.star,
-                                  price: data.price);
+                                  name: data.productName,
+                                  image: data.productImage,
+                                  star: data.productRate,
+                                  price: data.productPrice);
                               return ToyTypeList(toyTypeModel:toyTypeModel );
                             });
                       },
                       error: (error, stackTrace) => Text("$error"),
-                      loading: () => Container(
-                        width: 70,
-                        height: 70,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 209, 206, 206),
-                          shape: BoxShape.circle
-                        ),
-                      )))
+                      loading: () =>null))
             ],
           ),
         ));

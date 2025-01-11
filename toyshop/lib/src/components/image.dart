@@ -7,13 +7,13 @@ class ImageSection extends StatelessWidget {
     required this.image,
   });
   final String image;
- 
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return SvgPicture.asset(
       image,
-      width:screenWidth ,
+      width: screenWidth,
       fit: BoxFit.contain,
     );
   }

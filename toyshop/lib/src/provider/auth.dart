@@ -11,3 +11,17 @@ final userProvider = StreamProvider<User?>((ref) {
   final service = ref.watch(authenticationProvider);
   return service.authStateChange;
 });
+
+class AuthNotifier extends StateNotifier<bool> {
+  AuthNotifier() : super(false);
+  void isEmpty() {
+    state = true;
+  }
+  void isNotEmpty() {
+    state = false;
+  }
+}
+
+final authProvider = StateNotifierProvider<AuthNotifier, bool>((ref) {
+  return AuthNotifier();
+});

@@ -8,28 +8,16 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    await firebase.signInWithEmailAndPassword(email: email, password: password);
+    await firebase.signInWithEmailAndPassword(
+          email: email, password: password);
   }
 
-  Future<String?> signUpWithEmailAndPassword({
+  Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    try {
       await firebase.createUserWithEmailAndPassword(
           email: email, password: password);
-      return null;
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "week-password":
-          return 'The password provided is too weak.';
-        case 'email-already-in-use':
-          return 'The account already exists for that email.';
-        case 'invalid-email':
-          return 'The email address is not valid.';
-      }
-    }
-    return "Error try again ";
   }
 
   Future<void> signOut() async {

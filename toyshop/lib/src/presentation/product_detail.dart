@@ -1,14 +1,7 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/theme/colors.dart';
-
-var fatCow = SvgPicture.asset(
-  "lib/presentation/assets/icons/fatcow.svg",
-  width: 300,
-  height: 300,
-  fit: BoxFit.cover,
-);
 var fatCowDetail =
     "The FatCow soft toy is a plush and cuddly representation of a cartoonish cow with an exaggeratedly round and chubby body, giving it a whimsical, adorable appearance. Its body is typically crafted from soft, velvety fabric, often featuring classic cow markings like black spots on a white background.";
 
@@ -148,7 +141,7 @@ class _ItemDetailState extends State<ItemDetail> {
           width: double.infinity,
           decoration: const BoxDecoration(),
           child: Column(
-            children: [fatCow],
+            children: [CachedNetworkSVGImage("s")],
           ),
         );
   }

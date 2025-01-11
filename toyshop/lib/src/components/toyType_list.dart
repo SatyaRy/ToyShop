@@ -36,7 +36,7 @@ class ToyTypeList extends StatelessWidget {
                         child: CachedNetworkSVGImage(
                           toyTypeModel.image,
                           placeholderBuilder: (context) =>
-                              const CircularProgressIndicator(),
+                              const CircularProgressIndicator()
                         ))),
                 const SizedBox(
                   width: 10,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/components/filter_box.dart';
+import 'package:toyshop/src/components/handle_message.dart';
 import 'package:toyshop/src/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
@@ -15,9 +16,11 @@ class ShowcaseProductPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final meidaQuery = MediaQuery.of(context).size;
     final productType = ref.watch(filterProvider);
-    final trendingList = ref.watch(getTrendingToyProvider(productType));
+    final filteredProduct = ref.watch(getProductsProvider(productType));
     Color getButtonColor(String changeProductType) {
-      return productType == changeProductType ? const Color(0xff074799) : Colors.white;
+      return productType == changeProductType
+          ? const Color(0xff074799)
+          : Colors.white;
     }
 
     return Scaffold(
@@ -39,61 +42,11 @@ class ShowcaseProductPage extends ConsumerWidget {
                             color: Colors.black,
                             fontSize: 25,
                             fontWeight: FontWeight.bold)),
-                    Container(
-                      width: meidaQuery.width,
-                      height: 80,
-                      decoration: const BoxDecoration(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        spacing: 10,
-                        children: [
-                          FilterBox(
-                              currentBoxColor: getButtonColor("trendingToy"),
-                              filterText: "Trending",
-                              filterColor: productType == "trendingToy"? Colors.white : Colors.black,
-                              onTap: () {
-                                ref
-                                    .read(filterProvider.notifier)
-                                    .changeFilter("trendingToy");
-                              },
-                              filterWidth: 80),
-                          FilterBox(
-                              currentBoxColor: getButtonColor("bestSelling"),
-                              filterText: "Best Selling",
-                              filterColor: productType == "bestSelling"? Colors.white : Colors.black,
-                              onTap: () {
-                                ref
-                                    .read(filterProvider.notifier)
-                                    .changeFilter("bestSelling");
-                              },
-                              filterWidth: 90),
-                          FilterBox(
-                              currentBoxColor: getButtonColor("newest"),
-                              filterText: "Newest",
-                              filterColor: productType == "newest"? Colors.white : Colors.black,
-                              onTap: (){
-                                 ref
-                                    .read(filterProvider.notifier)
-                                    .changeFilter("newest");
-                              },
-                              filterWidth: 90),
-                          FilterBox(
-                              currentBoxColor: getButtonColor("oldest"),
-                              filterText: "Oldest",
-                              filterColor: productType == "oldest"? Colors.white : Colors.black,
-                              onTap: (){
-                                ref
-                                    .read(filterProvider.notifier)
-                                    .changeFilter("oldest");
-                              },
-                              filterWidth: 90),
-                        ],
-                      ),
-                    ),
+                    filterMethods(meidaQuery, getButtonColor, productType, ref),
                     const SizedBox(
                       height: 10,
                     ),
-                    trendingList.when(
+                    filteredProduct.when(
                         data: (value) {
                           return GridView.builder(
                             shrinkWrap: true,
@@ -133,9 +86,66 @@ class ShowcaseProductPage extends ConsumerWidget {
                           );
                         },
                         error: (error, stacktrace) => Text("$error"),
-                        loading: () => const CircularProgressIndicator())
+                        loading: () => Center(
+                          child: buildLoadingWidget()
+                        )),
+                    const SizedBox(height: 50)
                   ],
                 ))));
+  }
+
+  Widget filterMethods(
+      Size meidaQuery,
+      Color Function(String changeProductType) getButtonColor,
+      String productType,
+      WidgetRef ref) {
+    return Container(
+      width: meidaQuery.width,
+      height: 80,
+      decoration: const BoxDecoration(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 10,
+        children: [
+          FilterBox(
+              currentBoxColor: getButtonColor("Trending"),
+              filterText: "Trending",
+              filterColor:
+                  productType == "Trending" ? Colors.white : Colors.black,
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Trending");
+              },
+              filterWidth: 80),
+          FilterBox(
+              currentBoxColor: getButtonColor("Best Selling"),
+              filterText: "Best Selling",
+              filterColor:
+                  productType == "Best Selling" ? Colors.white : Colors.black,
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Best Selling");
+              },
+              filterWidth: 90),
+          FilterBox(
+              currentBoxColor: getButtonColor("Newest"),
+              filterText: "Newest",
+              filterColor:
+                  productType == "Newest" ? Colors.white : Colors.black,
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Newest");
+              },
+              filterWidth: 90),
+          FilterBox(
+              currentBoxColor: getButtonColor("Oldest"),
+              filterText: "Oldest",
+              filterColor:
+                  productType == "Oldest" ? Colors.white : Colors.black,
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Oldest");
+              },
+              filterWidth: 90),
+        ],
+      ),
+    );
   }
 }
 

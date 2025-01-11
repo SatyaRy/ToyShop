@@ -6,12 +6,15 @@ part "product.g.dart";
 class ProductModel with _$ProductModel {
   factory ProductModel({
     required String productID,
+    required String timeStamp,
     required String productName,
     required String productImage,
-    required dynamic productPrice,
+    required double productPrice,
     required int productQuantity,
-    required String timeStamp,
+    required dynamic productRate,
+    required String productDetail,
     required String productType,
+    required String productStatus,
   }) = _ProductModel;
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
@@ -22,7 +25,7 @@ class ToyTypeModel with _$ToyTypeModel {
   factory ToyTypeModel({
     required String name,
     required String image,
-    required int star,
+    required dynamic star,
     required dynamic price,
   }) = _ToyTypeModel;
   factory ToyTypeModel.fromJson(Map<String, dynamic> json) =>
@@ -33,21 +36,23 @@ class ToyTypeModel with _$ToyTypeModel {
 class CartModel with _$CartModel {
   factory CartModel({
     required String productID,
-    required String productImage,
-    required String productName,
-    required dynamic productPrice,
-    required int productQuantity,
     required String timeStamp,
+    required String productName,
+    required String productImage,
+    required double productPrice,
+    required int productQuantity,
   }) = _CartModel;
   factory CartModel.fromJson(Map<String, dynamic> json) =>
       _$CartModelFromJson(json);
-  factory CartModel.fromProductModel(ProductModel productDetail) {
+  factory CartModel.fromProductModel(ProductModel product) {
     return CartModel(
-        productID: productDetail.productID,
-        productImage: productDetail.productImage,
-        productName: productDetail.productName,
-        productPrice: productDetail.productPrice,
-        productQuantity: productDetail.productQuantity,
-        timeStamp: productDetail.timeStamp);
+        productID: product.productID,
+        productImage: product.productImage,
+        productName: product.productName,
+        productPrice: product.productPrice,
+        productQuantity: product.productQuantity,
+        timeStamp: product.timeStamp,
+
+    );
   }
 }

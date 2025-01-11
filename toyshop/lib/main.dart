@@ -7,11 +7,9 @@ import "package:toyshop/src/presentation/signup_page.dart";
 import "package:toyshop/src/presentation/cart_page.dart";
 import "package:toyshop/src/presentation/home_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
-import "package:toyshop/src/presentation/item_detail.dart";
-import "package:toyshop/src/presentation/showcase_page.dart";
-import "package:toyshop/src/presentation/splash_page.dart";
+import "package:toyshop/src/presentation/product_detail.dart";
+import "package:toyshop/src/presentation/filter_product_page.dart";
 import "package:toyshop/src/provider/auth.dart";
-import "package:toyshop/src/provider/initialize.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +34,7 @@ class MyApp extends ConsumerWidget {
             }
           },
           error: (error, stacktrace) => Text("$error"),
-          loading: () => const CircularProgressIndicator()),
+          loading: () => const CircularProgressIndicator()), 
       routes: {
         "/cart": (context) => CartPage(),
         "/intro": (context) => const IntroPage(),

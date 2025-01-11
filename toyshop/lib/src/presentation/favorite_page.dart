@@ -27,7 +27,6 @@ class FavoritePage extends ConsumerWidget {
                   itemCount: 1,
                   separatorBuilder: (context,index)=> const SizedBox(height: 15,),
                   itemBuilder: (context, index) {
-                   
                     return const  Text('fix later');
                   },
                 ),

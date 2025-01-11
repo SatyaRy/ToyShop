@@ -1,18 +1,20 @@
 import "package:cached_network_svg_image/cached_network_svg_image.dart";
 import "package:flutter/material.dart";
-import "package:flutter_svg/svg.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:toyshop/src/components/handle_message.dart";
 import "package:toyshop/src/data/authentication.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
+import "package:toyshop/src/provider/initialize.dart";
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   void navigateBottomBar(int index) {
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   final List pagesTitle = ["Home", "Favorite"];
   @override
   Widget build(BuildContext context) {
+    final initApp = ref.watch(initializeAppProvider);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xffEEEEEE),
@@ -33,7 +36,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: shop(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottonNav(),
-      body: pages[_selectedIndex],
+      body: initApp.when(
+        data: (_)=> pages[_selectedIndex], 
+        error: (erorr, stractrace)=> null, 
+        loading: ()=> buildLoadingWidget()
+        ),
     );
   }
 
@@ -42,13 +49,14 @@ class _HomePageState extends State<HomePage> {
       shape: const CircleBorder(),
       backgroundColor: const Color(0xff074799),
       onPressed: () {
-        Navigator.pushNamed(context, "/cart");
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/cart", (route) => false);
       },
       child: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
     );
   }
 
-  BottomNavigationBar bottonNav() {
+  Widget bottonNav() {
     return BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
@@ -118,7 +126,10 @@ class _HomePageState extends State<HomePage> {
                         size: 30,
                       ),
                       title: GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, "/signup"),
+                        onTap: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/signin", (route) => false);
+                        },
                         child: const Text("Profile",
                             style: TextStyle(
                               fontSize: 20,
@@ -130,7 +141,8 @@ class _HomePageState extends State<HomePage> {
             GestureDetector(
               onTap: () {
                 AuthenticationService().signOut();
-                Navigator.of(context).pushNamedAndRemoveUntil("/intro",(route)=>false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("/intro", (route) => false);
               },
               child: const Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 50),
@@ -180,8 +192,7 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15), color: Colors.white),
-            child: SvgPicture.network(
-                'https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg'),
+            child: CachedNetworkSVGImage("https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg")
           ),
         )
       ],

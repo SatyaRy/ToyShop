@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/handle_message.dart';
@@ -11,7 +11,7 @@ import 'package:toyshop/src/theme/colors.dart';
 
 class SigninPage extends ConsumerWidget {
   SigninPage({super.key});
-  final username = TextEditingController();
+  final email = TextEditingController();
   final password = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,20 +20,14 @@ class SigninPage extends ConsumerWidget {
       body: Stack(children: [
         topContainer(context),
         authContainer(context, ref),
-        Positioned(
+        overlay(
+            "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg",
             left: 100,
-            bottom: 40,
-            child: CachedNetworkSVGImage(
-              width: 200,
-              height: 200,
-              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg")),
-        Positioned(
+            bottom: 40),
+        overlay(
+            "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg",
             left: 200,
-            bottom: 180,
-            child:CachedNetworkSVGImage(
-              width: 200,
-              height: 200,
-              "https://res.cloudinary.com/dnydodget/image/upload/v1736257762/skz_squid_2_yaudpw.svg")),
+            bottom: 180),
         signin(context)
       ]),
     );
@@ -63,8 +57,44 @@ class SigninPage extends ConsumerWidget {
         ));
   }
 
+  Widget overlay(String url, {double? left, double? bottom}) {
+    return Positioned(
+        left: left,
+        bottom: bottom,
+        child: CachedNetworkSVGImage(
+          url,
+          width: 200,
+          height: 200,
+        ));
+  }
+
   Widget authContainer(BuildContext context, WidgetRef ref) {
-    final authProvider = ref.watch(authenticationProvider);
+    final signinProvider = ref.watch(authenticationProvider);
+    Future<void> onSignin() async {
+      if (email.text.isEmpty || password.text.isEmpty) {
+        ErrorHandling.showSnackBar(
+            context: context,
+            text: "Password or email is empty",
+            color: AppColors.remove);
+      }
+      try {
+        await signinProvider.signInWithEmailAndPassword(
+            email: email.text, password: password.text);
+        ErrorHandling.showSnackBar(
+            context: context,
+            text: "Successfully sign in ",
+            color: AppColors.add);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/home", (route) => false);
+      } on FirebaseAuthException catch (e) {
+        ErrorHandling.showSnackBar(
+          context: context,
+          text: "${e.message}",
+          color: AppColors.remove,
+        );
+      }
+    }
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -91,12 +121,12 @@ class SigninPage extends ConsumerWidget {
                       height: 30,
                     ),
                     textInput("Username", const Icon(Icons.person_outlined),
-                        username),
+                        email, ref),
                     const SizedBox(
                       height: 20,
                     ),
-                    textInput(
-                        "Password", const Icon(Icons.lock_outlined), password),
+                    textInput("Password", const Icon(Icons.lock_outlined),
+                        password, ref),
                     const SizedBox(
                       height: 20,
                     ),
@@ -104,34 +134,14 @@ class SigninPage extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        authButton(
-                          context,
-                          "Back",
-                          () {
-                            Navigator.pushNamed(context, "/intro");
-                          },
-                        ),
+                        authButton(context, "Back", () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/intro", (route) => false);
+                        }, ref),
                         Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: authButton(context, "Sign in", () async {
-                            try {
-                              await authProvider.signInWithEmailAndPassword(
-                                  email: username.text,
-                                  password: password.text);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  HandleMessage(
-                                          text: "Signin Successfully",
-                                          color: AppColors.add)
-                                      .build());
-                              Navigator.pushNamed(context, "/home");
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  HandleMessage(
-                                          text: "$e", color: AppColors.remove)
-                                      .build());
-                            }
-                          }),
-                        )
+                            padding: const EdgeInsets.only(right: 20),
+                            child:
+                                authButton(context, "Sign in", onSignin, ref))
                       ],
                     )
                   ],
@@ -166,8 +176,8 @@ class SigninPage extends ConsumerWidget {
     );
   }
 
-  Widget authButton(
-      BuildContext context, String authType, void Function()? route) {
+  Widget authButton(BuildContext context, String authType,
+      void Function()? route, WidgetRef ref) {
     return GestureDetector(
       onTap: route,
       child: Container(
@@ -186,8 +196,9 @@ class SigninPage extends ConsumerWidget {
     );
   }
 
-  Widget textInput(
-      String inputType, Icon iconType, TextEditingController authType) {
+  Widget textInput(String inputType, Icon iconType,
+      TextEditingController authType, WidgetRef ref) {
+    final checkInput = ref.watch(authProvider);
     return SizedBox(
       width: 370,
       height: 70,
@@ -196,7 +207,12 @@ class SigninPage extends ConsumerWidget {
         decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
             label: Text(inputType),
-            prefixIcon: iconType),
+            prefixIcon: iconType,
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: checkInput
+                        ? AppColors.remove
+                        : const Color(0xff074799)))),
       ),
     );
   }

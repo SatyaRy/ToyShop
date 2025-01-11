@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,7 @@ import 'package:toyshop/src/theme/colors.dart';
 
 class SignupPage extends ConsumerWidget {
   SignupPage({super.key});
-  final username = TextEditingController();
+  final email = TextEditingController();
   final password = TextEditingController();
   final confirm = TextEditingController();
 
@@ -27,24 +28,30 @@ class SignupPage extends ConsumerWidget {
   }
 
   Widget authContainer(BuildContext context, WidgetRef ref) {
-    final authProvider = ref.watch(authenticationProvider);
-    void handleSignup() async{
-    final handleError =
-      await authProvider.signUpWithEmailAndPassword(
-      email: username.text,
-      password: password.text);
-      if (handleError == null) {
-        Navigator.pushNamed(context, "/signin");
-        ScaffoldMessenger.of(context).showSnackBar(
-          HandleMessage(text: "Account successfully created", color: AppColors.add).build()
-        );
-       }
-       else{
-        ScaffoldMessenger.of(context).showSnackBar(
-          HandleMessage(text: handleError, color: AppColors.remove).build()
-        );
-        }
+    void handleSignup() async {
+      if (password.text != confirm.text) {
+        ErrorHandling.showSnackBar(
+            context: context,
+            text: "Password or email is empty",
+            color: AppColors.remove);
+      }
+      try {
+        await ref.read(authenticationProvider).signUpWithEmailAndPassword(
+            email: email.text, password: password.text);
+        ErrorHandling.showSnackBar(
+            context: context, 
+            text: "Account is created", 
+            color: AppColors.add);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/signin", (route) => false);
+      } on FirebaseAuthException catch (e) {
+        ErrorHandling.showSnackBar(
+            context: context, 
+            text: "${e.message}", 
+            color: AppColors.remove);
+      }
     }
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -58,8 +65,7 @@ class SignupPage extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 100),
             child: Column(
               children: [
-                textInput(
-                    "Username", const Icon(Icons.person_outlined), username),
+                textInput("Username", const Icon(Icons.person_outlined), email),
                 const SizedBox(
                   height: 20,
                 ),
@@ -77,12 +83,10 @@ class SignupPage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     authButton(
-                      context,
-                      "Back",
-                      () {
-                        Navigator.pushNamed(context, "/intro");
-                      },
-                    ),
+                        context,
+                        "Back",
+                        () => Navigator.of(context).pushNamedAndRemoveUntil(
+                            "/signin", (route) => false)),
                     authButton(context, "Sign up", handleSignup)
                   ],
                 )
@@ -91,7 +95,6 @@ class SignupPage extends ConsumerWidget {
           )),
     );
   }
-
 
   Widget topContainer(BuildContext context) {
     return Align(

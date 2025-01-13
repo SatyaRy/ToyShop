@@ -9,8 +9,6 @@ import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
-var demoToy =
-    "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg";
 class ProductPage extends ConsumerWidget {
   const ProductPage({super.key});
   @override
@@ -35,9 +33,11 @@ class ProductPage extends ConsumerWidget {
           height: 10,
         ),
         toyTypeWidget(toyTypeList),
-        mostPopularWidget(),
-        const SizedBox( height: 15, ),
-        productListWidget(screenWidth, product, ref),
+        titleWidget(),
+        const SizedBox(
+          height: 15,
+        ),
+        popularProductWidget(screenWidth, product, ref),
         const SizedBox(
           height: 50,
         )
@@ -70,8 +70,8 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget productListWidget(double screenWidth, AsyncValue<List<ProductModel>> product,
-      WidgetRef ref) {
+  Widget popularProductWidget(double screenWidth,
+      AsyncValue<List<ProductModel>> product, WidgetRef ref) {
     return SizedBox(
       height: 250,
       child: Padding(
@@ -103,10 +103,8 @@ class ProductPage extends ConsumerWidget {
                       return ProductTile(
                           productModel: productDetail,
                           onTap: () {
-                            ref.read(AddToCartProvider(
-                                cartDetail,
-                                cartDetail.productID,
-                                cartDetail.productQuantity));
+                            ref.read(addToCartProvider(
+                                cartDetail,));
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -133,16 +131,15 @@ class ProductPage extends ConsumerWidget {
               color: const Color(0xffEB5B00),
               borderRadius: BorderRadius.circular(15)),
           child: Align(
-            alignment: Alignment.centerLeft,
-            child: CachedNetworkSVGImage(
-              demoToy,
-              width: MediaQuery.of(context).size.width,
-            )
-          )),
+              alignment: Alignment.centerLeft,
+              child: CachedNetworkSVGImage(
+                "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg",
+                width: MediaQuery.of(context).size.width,
+              ))),
     );
   }
 
-  Widget mostPopularWidget() {
+  Widget titleWidget() {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(
@@ -203,11 +200,11 @@ class ProductPage extends ConsumerWidget {
                                   image: data.productImage,
                                   star: data.productRate,
                                   price: data.productPrice);
-                              return ToyTypeList(toyTypeModel:toyTypeModel );
+                              return ToyTypeList(toyTypeModel: toyTypeModel);
                             });
                       },
                       error: (error, stackTrace) => Text("$error"),
-                      loading: () =>null))
+                      loading: () => null))
             ],
           ),
         ));

@@ -18,7 +18,7 @@ class CartPage extends ConsumerWidget {
         backgroundColor: const Color(0xffEEEEEE),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [MyAppBar(pageDetail: "Cart Page",routing: "/home",)],
+              [MyAppBar(pageDetail: "Cart Page",routing: "/home" )],
           body: Column(
             children: [
               cartItems(ref),

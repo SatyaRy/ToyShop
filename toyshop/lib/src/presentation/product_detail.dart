@@ -1,152 +1,148 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/components/dialog.dart';
+import 'package:toyshop/src/components/handle_message.dart';
+import 'package:toyshop/src/model/product/product.dart';
+import 'package:toyshop/src/provider/favorite.dart';
+import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
-var fatCowDetail =
-    "The FatCow soft toy is a plush and cuddly representation of a cartoonish cow with an exaggeratedly round and chubby body, giving it a whimsical, adorable appearance. Its body is typically crafted from soft, velvety fabric, often featuring classic cow markings like black spots on a white background.";
 
-class ItemDetail extends StatefulWidget {
-  const ItemDetail({super.key});
-
+class ProductDetail extends ConsumerWidget {
+  final String productID;
+  const ProductDetail({super.key, required this.productID});
   @override
-  State<ItemDetail> createState() => _ItemDetailState();
-}
-
-class _ItemDetailState extends State<ItemDetail> {
-  Color isColor = Colors.red;
-  var favoriteIcon = const Icon(Icons.favorite_outline);
-  bool isClick = false;
-  void changeIcon() {
-    isClick = !isClick;
-    setState(() {
-      favoriteIcon = isClick
-          ? const Icon(
-              Icons.favorite,
-              color: Colors.red,
-            )
-          : const Icon(Icons.favorite_outline);
-    });
-    showDialog(
-        context: context,
-        builder: (context) => DialogBox(
-            dialogText: isClick ? "Added to favorite" : "Removed from favorite",
-            dialogColor: Colors.purple));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productDetailProvider =
+        ref.watch(getProductDetailProvider(productID));
+    return productDetailProvider.when(
+        data: (data) => Scaffold(
+              appBar: appBar(
+                  context,
+                  ref,
+                  FavoriteModel(
+                      productID: productID,
+                      productImage: data["productImage"],
+                      productName: data["productName"],
+                      productPrice: data["productPrice"])),
+              backgroundColor: const Color(0xffEEEEEE),
+              body: Column(
+                children: [
+                  imageDetail(data["productImage"]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  detail(
+                    context,
+                    data["productName"],
+                    data["productPrice"],
+                    data["productDetail"],
+                    data["productRate"],
+                  ),
+                ],
+              ),
+            ),
+        error: (error, stacktrace) => Text("$error"),
+        loading: () => buildLoadingWidget());
   }
 
-  void addToCart() {
-    showDialog(
-        context: context,
-        builder: (context) => DialogBox(
-            dialogText: "Item added to cart", dialogColor: AppColors.add));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      backgroundColor: const Color(0xffEEEEEE),
-      body: Column(
+  Widget detail(BuildContext context, String productName, double productPrice,
+      String productDetail, dynamic productRate) {
+    return Expanded(
+        child: Container(
+      alignment: Alignment.topLeft,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.only(left: 40, top: 25),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(40))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          imageDetail(),
-          const SizedBox( height: 10,),
-          detail(context)
+          Text(
+            productName,
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text("\$ ${productPrice.toString()}",
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+              width: 70,
+              height: 30,
+              decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 7),
+                  Text(
+                    productRate.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  )
+                ],
+              )),
+          Padding(
+            padding: const EdgeInsets.only(right: 30, top: 20),
+            child: Text(
+              productDetail,
+              style: const TextStyle(
+                fontSize: 17,
+                fontFamily: "sfpro",
+              ),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 150,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: const Center(
+                    child: Text("Add to cart",
+                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    ));
+  }
+
+  Widget imageDetail(String productImage) {
+    return Container(
+      alignment: Alignment.topCenter,
+      width: double.infinity,
+      decoration: const BoxDecoration(),
+      child: Column(
+        children: [
+          CachedNetworkSVGImage(
+            productImage,
+            width: 300,
+          )
         ],
       ),
     );
   }
 
-  Widget detail(BuildContext context) {
-    return Expanded(
-          child: Container(
-          alignment: Alignment.topLeft,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.only(left: 40, top: 25),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(40))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Fat Cow",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              const Text("\$1.99",
-                  style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                  width: 70,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        "4.8",
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(right: 30, top: 20),
-                child: Text(
-                  fatCowDetail,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontFamily: "sfpro",
-           
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: GestureDetector(
-                  onTap: addToCart,
-                  child: Container(
-                    width: 150,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(
-                          child: Text("Add to cart",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 17)),
-                        ),
-                ),
-                )
-              )
-            ],
-          ),
-        ));
-  }
-
-  Widget imageDetail() {
-    return Container(
-          alignment: Alignment.topCenter,
-          width: double.infinity,
-          decoration: const BoxDecoration(),
-          child: Column(
-            children: [CachedNetworkSVGImage("s")],
-          ),
-        );
-  }
-
-  AppBar appBar(BuildContext context) {
+  AppBar appBar(BuildContext context, WidgetRef ref, FavoriteModel model) {
     return AppBar(
       backgroundColor: const Color(0xffEEEEEE),
       leading: Padding(
@@ -170,7 +166,8 @@ class _ItemDetailState extends State<ItemDetail> {
             alignment: Alignment.center,
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/home");
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      "/showcase", (Route<dynamic> route) => false);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
           ),
@@ -183,15 +180,25 @@ class _ItemDetailState extends State<ItemDetail> {
               children: [
                 DetailHead(
                   detailIcon: const Icon(Icons.share),
-                  isClick: changeIcon,
+                  isClick: () {},
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 DetailHead(
-                  detailIcon: favoriteIcon,
-                  isClick: changeIcon,
-                )
+                    detailIcon: const Icon(Icons.favorite_outline),
+                    isClick: () {
+                      ref.read(addToFavoriteProvider((
+                        productID: productID,
+                        model: model,
+                      )));
+                      ref.invalidate(addToFavoriteProvider);
+                      showDialog(
+                          context: context,
+                          builder: (context) => DialogBox(
+                              dialogText: "Item is added favorite",
+                              dialogColor: AppColors.add));
+                    })
               ],
             ))
       ],

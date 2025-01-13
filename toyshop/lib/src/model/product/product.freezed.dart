@@ -492,7 +492,7 @@ class __$$ToyTypeModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ToyTypeModelImpl implements _ToyTypeModel {
-  _$ToyTypeModelImpl(
+  const _$ToyTypeModelImpl(
       {required this.name,
       required this.image,
       required this.star,
@@ -552,7 +552,7 @@ class _$ToyTypeModelImpl implements _ToyTypeModel {
 }
 
 abstract class _ToyTypeModel implements ToyTypeModel {
-  factory _ToyTypeModel(
+  const factory _ToyTypeModel(
       {required final String name,
       required final String image,
       required final dynamic star,
@@ -735,7 +735,7 @@ class __$$CartModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CartModelImpl implements _CartModel {
-  _$CartModelImpl(
+  const _$CartModelImpl(
       {required this.productID,
       required this.timeStamp,
       required this.productName,
@@ -805,7 +805,7 @@ class _$CartModelImpl implements _CartModel {
 }
 
 abstract class _CartModel implements CartModel {
-  factory _CartModel(
+  const factory _CartModel(
       {required final String productID,
       required final String timeStamp,
       required final String productName,
@@ -834,5 +834,223 @@ abstract class _CartModel implements CartModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CartModelImplCopyWith<_$CartModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FavoriteModel _$FavoriteModelFromJson(Map<String, dynamic> json) {
+  return _FavoriteModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FavoriteModel {
+  String get productID => throw _privateConstructorUsedError;
+  String get productImage => throw _privateConstructorUsedError;
+  String get productName => throw _privateConstructorUsedError;
+  double get productPrice => throw _privateConstructorUsedError;
+
+  /// Serializes this FavoriteModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of FavoriteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $FavoriteModelCopyWith<FavoriteModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FavoriteModelCopyWith<$Res> {
+  factory $FavoriteModelCopyWith(
+          FavoriteModel value, $Res Function(FavoriteModel) then) =
+      _$FavoriteModelCopyWithImpl<$Res, FavoriteModel>;
+  @useResult
+  $Res call(
+      {String productID,
+      String productImage,
+      String productName,
+      double productPrice});
+}
+
+/// @nodoc
+class _$FavoriteModelCopyWithImpl<$Res, $Val extends FavoriteModel>
+    implements $FavoriteModelCopyWith<$Res> {
+  _$FavoriteModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of FavoriteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? productID = null,
+    Object? productImage = null,
+    Object? productName = null,
+    Object? productPrice = null,
+  }) {
+    return _then(_value.copyWith(
+      productID: null == productID
+          ? _value.productID
+          : productID // ignore: cast_nullable_to_non_nullable
+              as String,
+      productImage: null == productImage
+          ? _value.productImage
+          : productImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      productName: null == productName
+          ? _value.productName
+          : productName // ignore: cast_nullable_to_non_nullable
+              as String,
+      productPrice: null == productPrice
+          ? _value.productPrice
+          : productPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FavoriteModelImplCopyWith<$Res>
+    implements $FavoriteModelCopyWith<$Res> {
+  factory _$$FavoriteModelImplCopyWith(
+          _$FavoriteModelImpl value, $Res Function(_$FavoriteModelImpl) then) =
+      __$$FavoriteModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String productID,
+      String productImage,
+      String productName,
+      double productPrice});
+}
+
+/// @nodoc
+class __$$FavoriteModelImplCopyWithImpl<$Res>
+    extends _$FavoriteModelCopyWithImpl<$Res, _$FavoriteModelImpl>
+    implements _$$FavoriteModelImplCopyWith<$Res> {
+  __$$FavoriteModelImplCopyWithImpl(
+      _$FavoriteModelImpl _value, $Res Function(_$FavoriteModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FavoriteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? productID = null,
+    Object? productImage = null,
+    Object? productName = null,
+    Object? productPrice = null,
+  }) {
+    return _then(_$FavoriteModelImpl(
+      productID: null == productID
+          ? _value.productID
+          : productID // ignore: cast_nullable_to_non_nullable
+              as String,
+      productImage: null == productImage
+          ? _value.productImage
+          : productImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      productName: null == productName
+          ? _value.productName
+          : productName // ignore: cast_nullable_to_non_nullable
+              as String,
+      productPrice: null == productPrice
+          ? _value.productPrice
+          : productPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FavoriteModelImpl implements _FavoriteModel {
+  const _$FavoriteModelImpl(
+      {required this.productID,
+      required this.productImage,
+      required this.productName,
+      required this.productPrice});
+
+  factory _$FavoriteModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FavoriteModelImplFromJson(json);
+
+  @override
+  final String productID;
+  @override
+  final String productImage;
+  @override
+  final String productName;
+  @override
+  final double productPrice;
+
+  @override
+  String toString() {
+    return 'FavoriteModel(productID: $productID, productImage: $productImage, productName: $productName, productPrice: $productPrice)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FavoriteModelImpl &&
+            (identical(other.productID, productID) ||
+                other.productID == productID) &&
+            (identical(other.productImage, productImage) ||
+                other.productImage == productImage) &&
+            (identical(other.productName, productName) ||
+                other.productName == productName) &&
+            (identical(other.productPrice, productPrice) ||
+                other.productPrice == productPrice));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, productID, productImage, productName, productPrice);
+
+  /// Create a copy of FavoriteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FavoriteModelImplCopyWith<_$FavoriteModelImpl> get copyWith =>
+      __$$FavoriteModelImplCopyWithImpl<_$FavoriteModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FavoriteModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FavoriteModel implements FavoriteModel {
+  const factory _FavoriteModel(
+      {required final String productID,
+      required final String productImage,
+      required final String productName,
+      required final double productPrice}) = _$FavoriteModelImpl;
+
+  factory _FavoriteModel.fromJson(Map<String, dynamic> json) =
+      _$FavoriteModelImpl.fromJson;
+
+  @override
+  String get productID;
+  @override
+  String get productImage;
+  @override
+  String get productName;
+  @override
+  double get productPrice;
+
+  /// Create a copy of FavoriteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FavoriteModelImplCopyWith<_$FavoriteModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

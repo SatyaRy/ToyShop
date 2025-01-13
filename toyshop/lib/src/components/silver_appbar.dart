@@ -2,8 +2,10 @@
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toyshop/src/provider/transaction.dart';
 
-class MyAppBar extends StatelessWidget {
+class MyAppBar extends ConsumerWidget {
   String routing;
   String pageDetail;
   MyAppBar({
@@ -12,7 +14,8 @@ class MyAppBar extends StatelessWidget {
     required this.pageDetail,
   });
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quantity = ref.watch(getQuantityProvider);
     return SliverAppBar(
       backgroundColor: const Color(0xffEEEEEE),
       title: Text(
@@ -50,17 +53,18 @@ class MyAppBar extends StatelessWidget {
       ),
       actions: [
         Padding(
-            padding: const EdgeInsets.only(right: 25),
+            padding: const EdgeInsets.only(right: 30),
             child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/cart");
-                  Navigator.pop(context);
+                Navigator.of(context)
+                .pushNamedAndRemoveUntil("/cart", (Route<dynamic> route)=>false);
+    
                 },
                 child: badges.Badge(
-                  position: badges.BadgePosition.topEnd(top: -10, end: -10),
-                  badgeContent: const Center(
-                    child: Text("1",
-                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                  position: badges.BadgePosition.topEnd(top: -10, end: -20),
+                  badgeContent:  Center(
+                    child: Text("$quantity",
+                        style: const TextStyle(color: Colors.white, fontSize: 15)),
                   ),
                   child: const Icon(
                     Icons.shopping_cart_outlined,

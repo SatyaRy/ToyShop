@@ -1,6 +1,7 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:toyshop/src/model/product/product.dart';
+import 'package:toyshop/src/presentation/product_detail.dart';
 
 // ignore: must_be_immutable
 class ProductTile extends StatelessWidget {
@@ -10,8 +11,11 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, "/detail");
+      onTap: () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+            builder: (context) => ProductDetail(productID: productModel.productID)),
+            (route) => false);
       },
       child: Container(
           padding: const EdgeInsets.only(top: 10),

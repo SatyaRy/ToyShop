@@ -22,7 +22,7 @@ class ProductModel with _$ProductModel {
 
 @freezed
 class ToyTypeModel with _$ToyTypeModel {
-  factory ToyTypeModel({
+  const factory ToyTypeModel({
     required String name,
     required String image,
     required dynamic star,
@@ -34,7 +34,7 @@ class ToyTypeModel with _$ToyTypeModel {
 
 @freezed
 class CartModel with _$CartModel {
-  factory CartModel({
+  const factory CartModel({
     required String productID,
     required String timeStamp,
     required String productName,
@@ -46,13 +46,24 @@ class CartModel with _$CartModel {
       _$CartModelFromJson(json);
   factory CartModel.fromProductModel(ProductModel product) {
     return CartModel(
-        productID: product.productID,
-        productImage: product.productImage,
-        productName: product.productName,
-        productPrice: product.productPrice,
-        productQuantity: product.productQuantity,
-        timeStamp: product.timeStamp,
-
+      productID: product.productID,
+      productImage: product.productImage,
+      productName: product.productName,
+      productPrice: product.productPrice,
+      productQuantity: product.productQuantity,
+      timeStamp: product.timeStamp,
     );
   }
+}
+
+@freezed
+class FavoriteModel with _$FavoriteModel {
+  const factory FavoriteModel({
+    required String productID,
+    required String productImage,
+    required String productName,
+    required double productPrice,
+  }) = _FavoriteModel;
+  factory FavoriteModel.fromJson(Map<String, dynamic> json) =>
+      _$FavoriteModelFromJson(json);
 }

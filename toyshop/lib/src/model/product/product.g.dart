@@ -69,3 +69,19 @@ Map<String, dynamic> _$$CartModelImplToJson(_$CartModelImpl instance) =>
       'productPrice': instance.productPrice,
       'productQuantity': instance.productQuantity,
     };
+
+_$FavoriteModelImpl _$$FavoriteModelImplFromJson(Map<String, dynamic> json) =>
+    _$FavoriteModelImpl(
+      productID: json['productID'] as String,
+      productImage: json['productImage'] as String,
+      productName: json['productName'] as String,
+      productPrice: (json['productPrice'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$FavoriteModelImplToJson(_$FavoriteModelImpl instance) =>
+    <String, dynamic>{
+      'productID': instance.productID,
+      'productImage': instance.productImage,
+      'productName': instance.productName,
+      'productPrice': instance.productPrice,
+    };

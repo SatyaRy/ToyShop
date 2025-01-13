@@ -7,9 +7,9 @@ import "package:toyshop/src/presentation/signup_page.dart";
 import "package:toyshop/src/presentation/cart_page.dart";
 import "package:toyshop/src/presentation/home_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
-import "package:toyshop/src/presentation/product_detail.dart";
 import "package:toyshop/src/presentation/filter_product_page.dart";
 import "package:toyshop/src/provider/auth.dart";
+import "package:toyshop/src/provider/initialize.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +22,11 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(userProvider);
+    final navigator = ref.watch(navigatorKeyProvider);
     return MaterialApp(
       theme: ThemeData(fontFamily: "sfpro"),
       debugShowCheckedModeBanner: false,
+      navigatorKey:navigator ,
       home: authState.when(
           data: (user) {
             if (user == null) {
@@ -39,7 +41,6 @@ class MyApp extends ConsumerWidget {
         "/cart": (context) => CartPage(),
         "/intro": (context) => const IntroPage(),
         "/home": (context) => const HomePage(),
-        "/detail": (context) => const ItemDetail(),
         "/showcase": (context) => const ShowcaseProductPage(),
         "/signup": (context) => SignupPage(),
         "/signin": (context) => SigninPage(),

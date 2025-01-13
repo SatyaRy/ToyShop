@@ -15,7 +15,6 @@ class DialogBox extends StatelessWidget {
       surfaceTintColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
-          width: 280,
           height: 70,
           decoration: BoxDecoration(
               color: dialogColor,
@@ -24,11 +23,15 @@ class DialogBox extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Icon(
+                const Padding(
+                  padding: EdgeInsets.only(left:15),
+                  child:  Icon(
                   Icons.check_circle,
                   color: Colors.white,
                   size: 40,
+                ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),

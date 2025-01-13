@@ -1,6 +1,6 @@
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/dialog.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
@@ -46,8 +46,11 @@ class CartList extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              ref.read(deleteCartProvider(
-                  cartDetail.productID, cartDetail.productPrice));
+              ref.read(deleteCartProvider((
+                cartID: cartDetail.productID,
+                cost: cartDetail.productPrice
+              )));
+              ref.invalidate(deleteCartProvider);
               showDialog(
                   context: context,
                   builder: (context) => DialogBox(
@@ -73,7 +76,10 @@ class CartList extends ConsumerWidget {
                   onTap: () {
                     ref.read(cartServiceProvider).decrementQuantity(
                         cartDetail.productID, cartDetail.productQuantity);
-                    ref.read(deleteOnDecrement(cartDetail.productID));
+                    ref.read(deleteOnDecrement((
+                      productID: cartDetail.productID,
+                      productQuantity: cartDetail.productQuantity
+                    )));
                     ref.invalidate(deleteOnDecrement);
                   },
                   child: Container(
@@ -155,13 +161,10 @@ class CartList extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20),
       child: Container(
-        width: 85,
-        height: 85,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
-        child: SvgPicture.network(
-          cartDetail.productImage,
-        ),
-      ),
+          width: 85,
+          height: 85,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
+          child: CachedNetworkSVGImage(cartDetail.productImage)),
     );
   }
 }

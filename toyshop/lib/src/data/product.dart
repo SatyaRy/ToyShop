@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
 class ProductService {
@@ -8,7 +7,7 @@ class ProductService {
     final snapshot = await db
         .collection("products")
         .where("productStatus", isEqualTo: "Popular")
-        .get(const GetOptions(source: Source.cache));
+        .get();
     return snapshot.docs.map((docs) {
       final data = docs.data();
       return ProductModel.fromJson(
@@ -20,7 +19,7 @@ class ProductService {
     final snapshot = await db
         .collection("products")
         .where("productStatus", isEqualTo: "Type")
-        .get(const GetOptions(source: Source.cache));
+        .get();
     return snapshot.docs.map((docs) {
       final data = docs.data();
       return ProductModel.fromJson(
@@ -28,22 +27,12 @@ class ProductService {
     }).toList();
   }
 
-  Stream<List<ProductModel>> getTrendingToy(String productType) {
-    return db
-        .collection(productType)
-        .snapshots(includeMetadataChanges: true)
-        .map((snapshot) => snapshot.docs.map((docs) {
-              final data = docs.data();
-              return ProductModel.fromJson({...data, "productID": docs.id});
-            }).toList());
-  }
-
   //product based on filtering (trending,best selling...)
   Future<List<ProductModel>> getFilteredProduct(String type) async {
     final snapshot = await db
         .collection("products")
         .where("productStatus", isEqualTo: type)
-        .get(const GetOptions(source: Source.cache));
+        .get();
     return snapshot.docs.map((docs) {
       final data = docs.data();
       return ProductModel.fromJson({
@@ -54,20 +43,19 @@ class ProductService {
     }).toList();
   }
 
-  //all products
+  //fetching all products
   Future<List<ProductModel>> getAllProducts() async {
     final snapshot = await db
         .collection("products")
-        .get(const GetOptions(source: Source.serverAndCache));
+        .get();
     return snapshot.docs.map((docs) {
-      debugPrint(
-          "snapshot is from: ${snapshot.metadata.isFromCache ? "Cache" : "Server"}");
       final data = docs.data();
       return ProductModel.fromJson(
           {...data, "productID": docs.id, "timeStamp": "now"});
     }).toList();
   }
 
+  //product detail service
   Future getProductDetail(String productID) async {
     final snapshot = await db
         .collection("products")
@@ -75,4 +63,5 @@ class ProductService {
         .get(const GetOptions(source: Source.cache));
     return snapshot.data();
   }
+
 }

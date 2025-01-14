@@ -3,15 +3,17 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "package:toyshop/src/data/cart.dart";
 import "package:toyshop/src/model/product/product.dart";
 part "cart.g.dart";
+
 //access to cart service
 final cartServiceProvider = Provider<CartService>((ref) {
   return CartService();
 });
 
-@riverpod 
-Future<void> addToCart(Ref ref,CartModel cartDetail) async{
+@riverpod
+Future<void> addToCart(Ref ref, CartModel cartDetail) async {
   return await CartService().addToCart(cartDetail);
 }
+
 
 
 final getCartItemsProvider = StreamProvider((ref) {

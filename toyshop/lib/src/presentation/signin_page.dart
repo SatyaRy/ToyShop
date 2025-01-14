@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toyshop/src/components/handle_message.dart';
 import 'package:toyshop/src/provider/auth.dart';
+import 'package:toyshop/src/provider/initialize.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 class SigninPage extends ConsumerWidget {
@@ -78,6 +79,7 @@ class SigninPage extends ConsumerWidget {
             color: AppColors.remove);
       }
       try {
+        ref.invalidate(initializeAppProvider);
         await signinProvider.signInWithEmailAndPassword(
             email: email.text, password: password.text);
         ErrorHandling.showSnackBar(

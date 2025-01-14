@@ -1,22 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
 class FavoriteService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  //create
   Future<void> addFavoriteProduct(
       String productID, FavoriteModel favoriteModel) async {
     try {
+      final user = auth.currentUser?.uid;
       final snapshot = await db
+          .collection("users")
+          .doc(user)
           .collection("favorite")
           .where("productID", isEqualTo: productID)
-          .get();
+          .get(const GetOptions(source: Source.serverAndCache));
       //check if item is duplicated
       if (snapshot.docs.isNotEmpty) {
         debugPrint("Item already added to favorite");
         return;
       } else {
-        await db.collection("favorite").add(favoriteModel.toJson());
+        await db
+        .collection("users")
+        .doc(user)
+        .collection("favorite")
+        .add(favoriteModel.toJson());
         debugPrint("Successfully added to favorite");
       }
     } on FirebaseException catch (e) {
@@ -24,8 +34,13 @@ class FavoriteService {
     }
   }
 
+ 
+  //read
   Stream<List<FavoriteModel>> getFavoriteProduct() {
+    final user = auth.currentUser?.uid;
     return db
+        .collection("users")
+        .doc(user)
         .collection("favorite")
         .snapshots(includeMetadataChanges: true)
         .map((snapshot) {
@@ -36,9 +51,13 @@ class FavoriteService {
     });
   }
 
+  //delete
   Future<void> deleteFromFavorite(String productID) async {
     try {
+      final user = auth.currentUser?.uid;
       final snapshot = await db
+          .collection("users")
+          .doc(user)
           .collection("favorite")
           .where("productID", isEqualTo: productID)
           .get(const GetOptions(source: Source.cache));

@@ -1,15 +1,19 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:flutter/foundation.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:toyshop/src/data/transaction.dart";
 import "package:toyshop/src/model/product/product.dart";
 
 class CartService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   //Create
   Future<void> addToCart(CartModel cartDetail) async {
+    final user = auth.currentUser?.uid;
     await TransactionService()
         .createTransaction(cartDetail.productPrice, cartDetail.productID);
     final querySnapshot = await db
+        .collection("users")
+        .doc(user)
         .collection("cartDetail")
         .where("productID", isEqualTo: cartDetail.productID)
         .get(const GetOptions(source: Source.cache));
@@ -20,15 +24,22 @@ class CartService {
             .update({"productQuantity": FieldValue.increment(1)});
       }
     } else {
-      await db.collection("cartDetail").add(cartDetail.toJson());
+      await db
+          .collection("users")
+          .doc(user)
+          .collection("cartDetail")
+          .add(cartDetail.toJson());
     }
   }
 
   //read
   Stream<List<CartModel>> getCartItems() {
+    final user = auth.currentUser?.uid;
     final data = db
+        .collection("users")
+        .doc(user)
         .collection("cartDetail")
-        .snapshots()
+        .snapshots(includeMetadataChanges: true)
         .map((snapshot) => snapshot.docs.map((docs) {
               final data = docs.data();
               return CartModel.fromJson({...data});
@@ -38,7 +49,10 @@ class CartService {
 
   //delete
   Future<void> deleteItem(String cartID, dynamic cost) async {
+    final user = auth.currentUser?.uid;
     final snapshot = await db
+        .collection("users")
+        .doc(user)
         .collection("cartDetail")
         .where(
           "productID",
@@ -54,7 +68,10 @@ class CartService {
   }
 
   Future<void> decrementQuantity(String cartID, int quantity) async {
+    final user = auth.currentUser?.uid;
     final snapshot = await db
+        .collection("users")
+        .doc(user)
         .collection("cartDetail")
         .where("productID", isEqualTo: cartID)
         .get(const GetOptions(source: Source.cache));
@@ -71,7 +88,10 @@ class CartService {
   }
 
   Future<void> incrementQuantity(String? cartID) async {
+    final user = auth.currentUser?.uid;
     final snapshot = await db
+        .collection("users")
+        .doc(user)
         .collection("cartDetail")
         .where("productID", isEqualTo: cartID)
         .get(const GetOptions(source: Source.cache));

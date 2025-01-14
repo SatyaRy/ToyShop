@@ -9,7 +9,6 @@ import "package:toyshop/src/presentation/home_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/filter_product_page.dart";
 import "package:toyshop/src/provider/auth.dart";
-import "package:toyshop/src/provider/initialize.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,12 +20,10 @@ class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(userProvider);
-    final navigator = ref.watch(navigatorKeyProvider);
+    final authState = ref.watch(isUserProvider);
     return MaterialApp(
       theme: ThemeData(fontFamily: "sfpro"),
       debugShowCheckedModeBanner: false,
-      navigatorKey:navigator ,
       home: authState.when(
           data: (user) {
             if (user == null) {

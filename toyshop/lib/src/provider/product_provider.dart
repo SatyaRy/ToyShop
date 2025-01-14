@@ -2,28 +2,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/data/product.dart';
 import 'package:toyshop/src/model/product/product.dart';
 
-//service provider
+//service 
 final productServiceProvider = Provider((ref) {
   return ProductService();
 });
-//popular toy provider
+
+
+//popular toy  
 final getProductProvider = FutureProvider<List<ProductModel>>((ref) {
   final service = ref.watch(productServiceProvider);
   return service.getPopularProduct();
 });
 
-//toy list provider
+
+//type of toy
 final getToyTypeProvider = FutureProvider<List<ProductModel>>((ref) {
   final service = ref.watch(productServiceProvider);
   return service.getToyType();
 });
 
-//toy type provider
-final getTrendingToyProvider =
-    StreamProvider.family<List<ProductModel>, String>((ref, productType) {
-  final service = ref.watch(productServiceProvider);
-  return service.getTrendingToy(productType);
-});
 
 //filtering
 final getProductsProvider =
@@ -32,13 +29,17 @@ final getProductsProvider =
   return service.getFilteredProduct(type);
 });
 
+//detail of toy
 final getProductDetailProvider =
     FutureProvider.family<dynamic, String>((ref, productID) {
   final service = ref.watch(productServiceProvider);
   return service.getProductDetail(productID);
 });
 
-//method
+//provider  and filter key word
+final filterProvider = StateNotifierProvider<FilterNotifier, String>((ref) {
+  return FilterNotifier();
+});
 class FilterNotifier extends StateNotifier<String> {
   FilterNotifier() : super("Trending");
   void changeFilter(String productType) {
@@ -46,7 +47,4 @@ class FilterNotifier extends StateNotifier<String> {
   }
 }
 
-//provider
-final filterProvider = StateNotifierProvider<FilterNotifier, String>((ref) {
-  return FilterNotifier();
-});
+

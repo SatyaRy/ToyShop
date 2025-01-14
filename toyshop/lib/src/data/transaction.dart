@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TransactionService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   //create
   Future<void> deleteAllTransaction(String productID) async {
+    final user = auth.currentUser?.uid;
     final snapshot = await db
+        .collection("users")
+        .doc(user)
         .collection("transactionDetail")
         .where("productID", isEqualTo: productID)
         .get(const GetOptions(source: Source.cache));
@@ -17,16 +21,20 @@ class TransactionService {
   }
 
   Future<void> createTransaction(dynamic price, String productID) async {
-    await db.collection("transactionDetail").add({
+    final user = auth.currentUser?.uid;
+    await db.collection("users").doc(user).collection("transactionDetail").add({
       "productID": productID,
       "cost": price,
     });
   }
 
   Stream<List<double>> getTransaction() {
+    final user = auth.currentUser?.uid;
     return db
+        .collection("users")
+        .doc(user)
         .collection("transactionDetail")
-        .snapshots() //realtime
+        .snapshots(includeMetadataChanges: true) //realtime
         .map((snapshot) {
       return snapshot.docs
           .map((docs) => (docs["cost"] as num).toDouble())
@@ -35,8 +43,15 @@ class TransactionService {
   }
 
   Stream<List<int>> getQuantity() {
-    return db.collection("cartDetail").snapshots().map((snapshot) =>
-        snapshot.docs.map((docs) => (docs["productQuantity"] as int)).toList());
+    final user = auth.currentUser?.uid;
+    return db
+        .collection("users")
+        .doc(user)
+        .collection("cartDetail")
+        .snapshots(includeMetadataChanges: true)
+        .map((snapshot) => snapshot.docs
+            .map((docs) => (docs["productQuantity"] as int))
+            .toList());
   }
 
   double calculateTotal(List<double> cartList) {
@@ -49,16 +64,19 @@ class TransactionService {
     return totalQuantity;
   }
 
-  Future<void> deleteSpecific(String productID,int quantity) async {
-   if(quantity> 1){
-     final snapshot = await db
-        .collection("transactionDetail")
-        .where("productID", isEqualTo: productID)
-        .get(const GetOptions(source: Source.cache));
-    for (var doc in snapshot.docs) {
+  Future<void> deleteSpecific(String productID, int quantity) async {
+    final user = auth.currentUser?.uid;
+    if (quantity > 1) {
+      final snapshot = await db
+          .collection("users")
+          .doc(user)
+          .collection("transactionDetail")
+          .where("productID", isEqualTo: productID)
+          .get(const GetOptions(source: Source.cache));
+      for (var doc in snapshot.docs) {
         await doc.reference.delete();
         break;
+      }
     }
-   }
   }
 }

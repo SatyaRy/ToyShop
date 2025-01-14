@@ -2,9 +2,9 @@ import "package:cached_network_svg_image/cached_network_svg_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:toyshop/src/components/handle_message.dart";
-import "package:toyshop/src/data/authentication.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
+import "package:toyshop/src/provider/auth.dart";
 import "package:toyshop/src/provider/initialize.dart";
 
 class HomePage extends ConsumerStatefulWidget {
@@ -37,10 +37,9 @@ class _HomePageState extends ConsumerState<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottonNav(),
       body: initApp.when(
-        data: (_)=> pages[_selectedIndex], 
-        error: (erorr, stractrace)=> null, 
-        loading: ()=> buildLoadingWidget()
-        ),
+          data: (_) => pages[_selectedIndex],
+          error: (erorr, stractrace) => null,
+          loading: () => buildLoadingWidget()),
     );
   }
 
@@ -140,7 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                AuthenticationService().signOut();
+                ref.watch(signoutProvider);
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil("/intro", (route) => false);
               },
@@ -187,13 +186,13 @@ class _HomePageState extends ConsumerState<HomePage> {
       actions: [
         GestureDetector(
           child: Container(
-            width: 60,
-            height: 60,
-            margin: const EdgeInsets.only(right: 20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15), color: Colors.white),
-            child: CachedNetworkSVGImage("https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg")
-          ),
+              width: 60,
+              height: 60,
+              margin: const EdgeInsets.only(right: 20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15), color: Colors.white),
+              child: CachedNetworkSVGImage(
+                  "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg")),
         )
       ],
     );

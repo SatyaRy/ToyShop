@@ -7,10 +7,18 @@ final authenticationProvider = Provider<AuthenticationService>((ref) {
   return AuthenticationService();
 });
 
-final userProvider = StreamProvider<User?>((ref) {
+//check if user exist
+final isUserProvider = StreamProvider<User?>((ref) {
   final service = ref.watch(authenticationProvider);
   return service.authStateChange;
 });
+
+//sign out in firebase auth
+final signoutProvider = FutureProvider((ref) {
+  final service = ref.watch(authenticationProvider);
+  return service.signOut();
+});
+
 
 class AuthNotifier extends StateNotifier<bool> {
   AuthNotifier() : super(false);
@@ -21,7 +29,6 @@ class AuthNotifier extends StateNotifier<bool> {
     state = false;
   }
 }
-
 final authProvider = StateNotifierProvider<AuthNotifier, bool>((ref) {
   return AuthNotifier();
 });

@@ -75,8 +75,8 @@ class ShowcaseProductPage extends ConsumerWidget {
                                 price: data.productPrice,
                                 productName: data.productName,
                                 onTap: () {
-                                  ref.read(addToCartProvider(
-                                      cartModel));
+                                  ref.read(addToCartProvider(cartModel));
+                            
                                   showDialog(
                                       context: context,
                                       builder: (context) => DialogBox(

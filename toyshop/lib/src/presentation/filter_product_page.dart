@@ -1,10 +1,10 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toyshop/src/components/dialog.dart';
-import 'package:toyshop/src/components/filter_box.dart';
-import 'package:toyshop/src/components/handle_message.dart';
-import 'package:toyshop/src/components/silver_appbar.dart';
+import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/components/filter_box.dart';
+import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/presentation/product_detail.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';

@@ -1,7 +1,7 @@
 import "package:cached_network_svg_image/cached_network_svg_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:toyshop/src/components/handle_message.dart";
+import "package:toyshop/src/presentation/components/handle_message.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
 import "package:toyshop/src/provider/auth.dart";

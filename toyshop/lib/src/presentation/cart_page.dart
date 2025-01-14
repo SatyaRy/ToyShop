@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toyshop/src/components/cart_list.dart';
-import 'package:toyshop/src/components/handle_message.dart';
-import 'package:toyshop/src/components/silver_appbar.dart';
+import 'package:toyshop/src/presentation/components/cart_list.dart';
+import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/components/silver_appbar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/transaction.dart';

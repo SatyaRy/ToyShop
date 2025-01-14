@@ -1,8 +1,8 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toyshop/src/components/dialog.dart';
-import 'package:toyshop/src/components/handle_message.dart';
+import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/components/handle_message.dart';
 import 'package:toyshop/src/provider/favorite.dart';
 import 'package:toyshop/src/theme/colors.dart';
 

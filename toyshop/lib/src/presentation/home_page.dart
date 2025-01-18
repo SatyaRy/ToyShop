@@ -1,10 +1,12 @@
-import "package:cached_network_svg_image/cached_network_svg_image.dart";
+
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:toyshop/src/presentation/components/handle_message.dart";
 import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/product_page.dart";
-import "package:toyshop/src/provider/auth.dart";
+import "package:toyshop/src/presentation/auth/account_page.dart";
+import "package:toyshop/src/presentation/searching_page.dart";
 import "package:toyshop/src/provider/initialize.dart";
 
 class HomePage extends ConsumerStatefulWidget {
@@ -22,19 +24,14 @@ class _HomePageState extends ConsumerState<HomePage> {
       _selectedIndex = index;
     });
   }
-
-  final List pages = [const ProductPage(), const FavoritePage()];
-  final List pagesTitle = ["Home", "Favorite"];
+  final List pages = [const ProductPage(), const SearchingPage(), const ProfilePage()];
+  final List pagesTitle = ["អីវ៉ាន", "ចូលចិត្ត", "គណនី"];
   @override
   Widget build(BuildContext context) {
     final initApp = ref.watch(initializeAppProvider);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xffEEEEEE),
-      appBar: appBar(_selectedIndex),
-      drawer: drawerSection(),
-      floatingActionButton: shop(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottonNav(),
       body: initApp.when(
           data: (_) => pages[_selectedIndex],
@@ -59,142 +56,28 @@ class _HomePageState extends ConsumerState<HomePage> {
     return BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xff074799),
         onTap: (value) => navigateBottomBar(value),
+        unselectedLabelStyle: GoogleFonts.hanuman(
+
+            color: Colors.black),
+        selectedLabelStyle: GoogleFonts.hanuman(
+         
+            height: 1.8, color: Colors.black),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_customize,
-                size: 30, color: Color(0xff074799)),
-            label: "Customize",
+            activeIcon: Icon(Icons.shopping_cart_outlined,color: Color(0xff074799)),
+            icon: Icon(Icons.dashboard_customize, color: Color(0xff686D76)),
+            label: "អីវ៉ាន់",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_outline, color: Color(0xff074799)),
-              label: "Favorite"),
+              activeIcon: Icon(Icons.search_outlined,color: Color(0xff074799)),
+              icon: Icon(Icons.search_outlined, color: Color(0xff686D76)),
+              label: "ស្វែងរក"),
+          BottomNavigationBarItem(
+            activeIcon: Icon(Icons.person_outline,color: Color(0xff074799)),
+              icon: Icon(Icons.person_outline, color: Color(0xff686D76)),
+              label: "គណនី"),
         ]);
-  }
-
-  Widget drawerSection() {
-    return Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: CachedNetworkSVGImage(
-                    "https://res.cloudinary.com/dnydodget/image/upload/v1735102422/toyshop_scok5w.svg",
-                    width: 700,
-                    height: 200,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.home,
-                      size: 30,
-                      color: Color(0xff074799),
-                    ),
-                    title: Text("Home",
-                        style: TextStyle(color: Colors.black, fontSize: 20)),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.info,
-                      size: 30,
-                      color: Color(0xff074799),
-                    ),
-                    title: Text("About",
-                        style: TextStyle(color: Colors.black, fontSize: 20)),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: ListTile(
-                      leading: const Icon(
-                        Icons.account_circle,
-                        color: Color(0xff074799),
-                        size: 30,
-                      ),
-                      title: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              "/signin", (route) => false);
-                        },
-                        child: const Text("Profile",
-                            style: TextStyle(
-                              fontSize: 20,
-                            )),
-                      )),
-                )
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                ref.watch(signoutProvider);
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil("/intro", (route) => false);
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(left: 10, bottom: 50),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    size: 30,
-                    color: Color(0xff074799),
-                  ),
-                  title: Text("Logout",
-                      style: TextStyle(color: Colors.black, fontSize: 20)),
-                ),
-              ),
-            )
-          ],
-        ));
-  }
-
-  AppBar appBar(index) {
-    return AppBar(
-      title: Text(pagesTitle[index],
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-            fontWeight: FontWeight.w600,
-          )),
-      backgroundColor: const Color(0xffEEEEEE),
-      leading: Builder(
-          builder: (context) => Container(
-                margin: const EdgeInsets.only(left: 20),
-                child: IconButton(
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    icon: const Icon(
-                      Icons.sort,
-                      size: 40,
-                      color: Colors.black,
-                    )),
-              )),
-      iconTheme: const IconThemeData(color: Colors.white, size: 30),
-      actions: [
-        GestureDetector(
-          child: Container(
-              width: 60,
-              height: 60,
-              margin: const EdgeInsets.only(right: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15), color: Colors.white),
-              child: CachedNetworkSVGImage(
-                  "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg")),
-        )
-      ],
-    );
   }
 }

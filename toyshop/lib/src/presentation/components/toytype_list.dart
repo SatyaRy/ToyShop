@@ -13,7 +13,7 @@ class ToyTypeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil("/showcase",(route)=>false);
+        Navigator.of(context).pushNamed("/showcase");
       },
       child: Container(
         height: 100,

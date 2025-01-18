@@ -32,7 +32,7 @@ class ProductService {
     final snapshot = await db
         .collection("products")
         .where("productStatus", isEqualTo: type)
-        .get();
+        .get(const GetOptions(source: Source.serverAndCache));
     return snapshot.docs.map((docs) {
       final data = docs.data();
       return ProductModel.fromJson({

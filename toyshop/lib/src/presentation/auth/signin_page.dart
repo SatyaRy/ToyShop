@@ -4,7 +4,7 @@ import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/handle_message.dart';
 import 'package:toyshop/src/provider/auth.dart';
 import 'package:toyshop/src/provider/initialize.dart';
@@ -40,18 +40,22 @@ class SigninPage extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 40),
           child: Row(
-            spacing: 20,
+            spacing: 10,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                "Doesn't have an account?",
-                style: TextStyle(fontSize: 15),
+               Text(
+                "មិនមានគណនី?",
+                style: GoogleFonts.hanuman(
+    
+                  fontSize: 15),
               ),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, "/signup"),
-                child: const Text("Sign up",
-                    style: TextStyle(fontSize: 15, color: Color(0xff074799))),
+                child:  Text("ចុះឈ្មោះអីឡូវ",
+                    style: GoogleFonts.hanuman(
+    
+                      fontSize: 15, color: const Color(0xff074799))),
               )
             ],
           ),
@@ -68,10 +72,9 @@ class SigninPage extends ConsumerWidget {
           height: 200,
         ));
   }
-
   Widget authContainer(BuildContext context, WidgetRef ref) {
     final signinProvider = ref.watch(authenticationProvider);
-    Future<void> onSignin() async {
+    Future<void> handleSignin() async {
       if (email.text.isEmpty || password.text.isEmpty) {
         ErrorHandling.showSnackBar(
             context: context,
@@ -79,7 +82,6 @@ class SigninPage extends ConsumerWidget {
             color: AppColors.remove);
       }
       try {
-        ref.invalidate(initializeAppProvider);
         await signinProvider.signInWithEmailAndPassword(
             email: email.text, password: password.text);
         ErrorHandling.showSnackBar(
@@ -96,7 +98,7 @@ class SigninPage extends ConsumerWidget {
         );
       }
     }
-
+    final isVisible = ref.watch(isVisibleProvider);
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -109,50 +111,92 @@ class SigninPage extends ConsumerWidget {
           child: Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Padding(
-                padding: const EdgeInsets.only(left: 30),
+                padding: const EdgeInsets.only(left: 30, right: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Welcome back",
-                        style: TextStyle(
+                    Text("ស្វាគមន៍ត្រឡប់មកវិញ",
+                        style: GoogleFonts.hanuman(
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff074799),
-                            fontSize: 30)),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    textInput("Username", const Icon(Icons.person_outlined),
-                        email, ref),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    textInput("Password", const Icon(Icons.lock_outlined),
-                        password, ref),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        authButton(context, "Back", () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              "/intro", (route) => false);
-                        }, ref),
-                        Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child:
-                                authButton(context, "Sign in", onSignin, ref))
-                      ],
-                    )
+                            color: const Color(0xff074799),
+                            fontSize: 25)),
+                    const SizedBox(height: 30,),
+                    emailInput(context),
+                    const SizedBox(height: 20,),
+                    passwordInput(context, isVisible, ref),
+                    const SizedBox(height: 20,),
+                    bottomNavWidget(context, ref, handleSignin)
                   ],
                 ),
               ))),
     );
   }
+  Widget bottomNavWidget(
+    BuildContext context, 
+    WidgetRef ref, 
+    Future<void> Function() handleSignin) {
+    return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+             authButton(context, "ត្រឡប់ក្រោយ", () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  "/intro", (route) => false);}, ref),
+              authButton(
+                    context, "ចូលគណនី", handleSignin, ref)
+                ]);
+  }
 
-  Widget topContainer(BuildContext context) {
+  Widget emailInput(
+    BuildContext context) {
+    return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 70,
+                    child: TextField(
+                     controller: email,
+                     decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      label: Text("អីម៊ែល",style: GoogleFonts.hanuman(
+                      
+                      )),
+                      prefixIcon: const Icon(Icons.person),
+                      ),
+                    ),
+                  );
+  }
+
+  Widget passwordInput(
+    BuildContext context,
+    bool isVisible, 
+    WidgetRef ref) {
+    return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 70,
+                    child: TextField(
+                      controller: password,
+                      obscureText: !isVisible,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          label:  Text("ពាក្យសម្ងាត់",style: GoogleFonts.hanuman(
+                           
+                          )),
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              ref.read(isVisibleProvider.notifier).isClick();
+                            },
+                            child: isVisible
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          )),
+                    ),
+                  );
+  }
+
+  Widget topContainer(
+    BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
@@ -169,8 +213,9 @@ class SigninPage extends ConsumerWidget {
                 decoration: const BoxDecoration(
                     color: Colors.white, shape: BoxShape.circle),
                 child: Center(
-                  child: SvgPicture.network(
-                      "https://res.cloudinary.com/dnydodget/image/upload/v1736318774/skz_squid_3_pho8nj.svg"),
+                  child: CachedNetworkSVGImage(
+                    "https://res.cloudinary.com/dnydodget/image/upload/v1736318774/skz_squid_3_pho8nj.svg"
+                  )
                 ),
               ),
             )),
@@ -178,8 +223,10 @@ class SigninPage extends ConsumerWidget {
     );
   }
 
-  Widget authButton(BuildContext context, String authType,
-      void Function()? route, WidgetRef ref) {
+  Widget authButton(
+    BuildContext context, 
+    String authType,
+    void Function()? route, WidgetRef ref) {
     return GestureDetector(
       onTap: route,
       child: Container(
@@ -191,46 +238,12 @@ class SigninPage extends ConsumerWidget {
         child: Center(
           child: Text(
             authType,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style:  GoogleFonts.hanuman(
+              color: Colors.white, fontSize: 17),
           ),
         ),
       ),
     );
   }
-
-  Widget textInput(String inputType, Icon iconType,
-      TextEditingController authType, WidgetRef ref) {
-    final checkInput = ref.watch(authProvider);
-    return SizedBox(
-      width: 370,
-      height: 70,
-      child: TextField(
-        controller: authType,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            label: Text(inputType),
-            prefixIcon: iconType,
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: checkInput
-                        ? AppColors.remove
-                        : const Color(0xff074799)))),
-      ),
-    );
-  }
-
-  Widget profile() {
-    return Center(
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 132, 180, 219), shape: BoxShape.circle),
-        child: Center(
-          child: SvgPicture.network(
-              "https://res.cloudinary.com/dnydodget/image/upload/v1736130486/cabybara_dnplgq.svg"),
-        ),
-      ),
-    );
-  }
+  
 }

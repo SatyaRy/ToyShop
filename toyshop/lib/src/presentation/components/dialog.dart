@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class DialogBox extends StatelessWidget {
@@ -36,7 +37,7 @@ class DialogBox extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(dialogText,
-                      style: const TextStyle(color: Colors.white, fontSize: 18)),
+                      style:  GoogleFonts.hanuman(color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
                 )
               ],
             ),

@@ -3,6 +3,7 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/dialog.dart';
 import 'package:toyshop/src/presentation/components/handle_message.dart';
 import 'package:toyshop/src/model/product/product.dart';
@@ -115,9 +116,9 @@ class ProductDetail extends ConsumerWidget {
                   decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(10)),
-                  child: const Center(
-                    child: Text("Add to cart",
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                  child:  Center(
+                    child: Text("ដាក់ចូលកន្ត្រក",
+                        style: GoogleFonts.hanuman(color: Colors.white, fontSize: 17)),
                   ),
                 ),
               ))
@@ -166,8 +167,8 @@ class ProductDetail extends ConsumerWidget {
             alignment: Alignment.center,
             child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      "/showcase", (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamed(
+                      "/showcase");
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
           ),
@@ -196,7 +197,7 @@ class ProductDetail extends ConsumerWidget {
                       showDialog(
                           context: context,
                           builder: (context) => DialogBox(
-                              dialogText: "Item is added favorite",
+                              dialogText: "ដាក់ទំនិញដែលអ្នកពេញចិត្ត",
                               dialogColor: AppColors.add));
                     })
               ],

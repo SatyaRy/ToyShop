@@ -19,16 +19,12 @@ final signoutProvider = FutureProvider((ref) {
   return service.signOut();
 });
 
-
-class AuthNotifier extends StateNotifier<bool> {
-  AuthNotifier() : super(false);
-  void isEmpty() {
-    state = true;
-  }
-  void isNotEmpty() {
-    state = false;
+class IsVisible extends StateNotifier<bool> {
+  IsVisible() : super(false);
+  void isClick() {
+    state = !state;
   }
 }
-final authProvider = StateNotifierProvider<AuthNotifier, bool>((ref) {
-  return AuthNotifier();
+final isVisibleProvider = StateNotifierProvider<IsVisible, bool>((ref) {
+  return IsVisible();
 });

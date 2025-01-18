@@ -54,7 +54,8 @@ class CartList extends ConsumerWidget {
               showDialog(
                   context: context,
                   builder: (context) => DialogBox(
-                      dialogText: "Item deleted from cart",
+                       
+                      dialogText: "ទំនិញត្រូវបានដកពីកន្ត្រក",
                       dialogColor: AppColors.remove));
             },
             child:

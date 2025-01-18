@@ -1,14 +1,15 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/components/app_bar.dart';
 import 'package:toyshop/src/presentation/components/toytype_list.dart';
 import 'package:toyshop/src/presentation/components/product_list.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
 import 'package:toyshop/src/theme/colors.dart';
-
 class ProductPage extends ConsumerWidget {
   const ProductPage({super.key});
   @override
@@ -16,32 +17,36 @@ class ProductPage extends ConsumerWidget {
     final product = ref.watch(getProductProvider);
     final toyTypeList = ref.watch(getToyTypeProvider);
     final screenWidth = MediaQuery.of(context).size.width;
-    return ListView(
-      children: [
-        const SizedBox(
-          height: 50,
-        ),
-        demoWidget(screenWidth, context),
-        const SizedBox(
-          height: 20,
-        ),
-        searchBarWidget(screenWidth),
-        const SizedBox(
-          height: 10,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        toyTypeWidget(toyTypeList),
-        titleWidget(),
-        const SizedBox(
-          height: 15,
-        ),
-        popularProductWidget(screenWidth, product, ref),
-        const SizedBox(
-          height: 50,
-        )
-      ],
+    return Scaffold(
+      appBar: mainAppBar(ref, context),
+      backgroundColor:const Color(0xffEEEEEE),
+      body: ListView(
+        children: [
+          const SizedBox(
+            height: 50,
+          ),
+          demoWidget(screenWidth, context),
+          const SizedBox(
+            height: 20,
+          ),
+          searchBarWidget(screenWidth),
+          const SizedBox(
+            height: 10,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          toyTypeWidget(toyTypeList),
+          titleWidget(),
+          const SizedBox(
+            height: 15,
+          ),
+          popularProductWidget(screenWidth, product, ref),
+          const SizedBox(
+            height: 50,
+          )
+        ],
+      ),
     );
   }
 
@@ -57,8 +62,9 @@ class ProductPage extends ConsumerWidget {
           child: Center(
             child: TextField(
               decoration: InputDecoration(
+                  hintStyle: GoogleFonts.hanuman(),
                   border: InputBorder.none,
-                  hintText: "Search for toy..",
+                  hintText: "ស្វែងរកតាមប្រភេទទំនិញ",
                   contentPadding: const EdgeInsets.only(top: 10),
                   suffixIcon: IconButton(
                       onPressed: () {
@@ -69,7 +75,7 @@ class ProductPage extends ConsumerWidget {
           )),
     );
   }
-
+  
   Widget popularProductWidget(double screenWidth,
       AsyncValue<List<ProductModel>> product, WidgetRef ref) {
     return SizedBox(
@@ -104,7 +110,8 @@ class ProductPage extends ConsumerWidget {
                           productModel: productDetail,
                           onTap: () {
                             ref.read(addToCartProvider(
-                                cartDetail,));
+                              cartDetail,
+                            ));
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -145,10 +152,10 @@ class ProductPage extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Most Popular",
-              style: TextStyle(
+          Text("កំពុងពេញនិយម",
+              style: GoogleFonts.hanuman(
                 fontWeight: FontWeight.bold,
-                fontSize: 25,
+                fontSize: 24,
               )),
           TextButton(
               onPressed: () {
@@ -169,14 +176,14 @@ class ProductPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Toys List",
-                      style: TextStyle(
+                  Text("ប្រភេទនៃទំនិញ",
+                      style: GoogleFonts.hanuman(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25)),
+                          fontSize: 24)),
                 ],
               ),
               const SizedBox(

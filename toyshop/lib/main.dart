@@ -2,12 +2,16 @@ import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:toyshop/firebase_options.dart";
-import "package:toyshop/src/presentation/signin_page.dart";
-import "package:toyshop/src/presentation/signup_page.dart";
+import "package:toyshop/src/presentation/auth/account_page.dart";
+import "package:toyshop/src/presentation/auth/setting_page.dart";
+import "package:toyshop/src/presentation/auth/signin_page.dart";
+import "package:toyshop/src/presentation/auth/signup_page.dart";
 import "package:toyshop/src/presentation/cart_page.dart";
+import "package:toyshop/src/presentation/favorite_page.dart";
 import "package:toyshop/src/presentation/home_page.dart";
 import "package:toyshop/src/presentation/intro_page.dart";
 import "package:toyshop/src/presentation/filter_product_page.dart";
+import "package:toyshop/src/presentation/auth/user_detail.dart";
 import "package:toyshop/src/provider/auth.dart";
 
 void main() async {
@@ -41,6 +45,10 @@ class MyApp extends ConsumerWidget {
         "/showcase": (context) => const ShowcaseProductPage(),
         "/signup": (context) => SignupPage(),
         "/signin": (context) => SigninPage(),
+        "/profile": (context) => const ProfilePage(),
+        "/userDetail": (context) => const UserDetailPage(),
+        "/setting":(context)=> const SettingPage(),
+        "/favorite":(context)=> const FavoritePage(),
       },
     );
   }

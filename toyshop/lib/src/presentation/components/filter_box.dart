@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FilterBox extends StatelessWidget {
   Color currentBoxColor;
@@ -26,11 +27,12 @@ class FilterBox extends StatelessWidget {
         width: filterWidth,
         height: 40,
         decoration: BoxDecoration(
-            color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
+            color: currentBoxColor, 
+            borderRadius: BorderRadius.circular(5)),
         child: Center(
             child: Text(
           filterText,
-          style: TextStyle(color: filterColor),
+          style: GoogleFonts.hanuman(color: filterColor,fontWeight: FontWeight.bold),
         )),
       ),
     );

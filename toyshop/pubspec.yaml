@@ -35,6 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  intl: ^0.20.1
   google_nav_bar: ^5.0.7
   provider: ^6.1.2
   flutter_slidable: ^3.1.2
@@ -45,7 +46,10 @@ dependencies:
   firebase_core: ^3.9.0
   cloud_firestore: ^5.6.0
   firebase_auth: any
+  package_info_plus: ^8.1.3
+  font_awesome_flutter: ^10.8.0
   json_annotation: ^4.9.0
+  google_fonts: ^6.2.1
   flutter_svg: ^2.0.17
   flutter_cache_manager: ^3.4.1
   cached_network_image: ^3.4.1
@@ -99,6 +103,7 @@ flutter:
   fonts:
     - family: sfpro
       fonts:
+        - asset: lib/assets/fonts/sfproregular.otf
         - asset: lib/assets/fonts/sfpromedium.otf
         - asset: lib/assets/fonts/sfprobold.otf
   #   - family: Trajan Pro

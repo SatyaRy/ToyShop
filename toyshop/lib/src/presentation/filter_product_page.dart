@@ -1,10 +1,11 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/dialog.dart';
 import 'package:toyshop/src/presentation/components/filter_box.dart';
 import 'package:toyshop/src/presentation/components/handle_message.dart';
-import 'package:toyshop/src/presentation/components/silver_appbar.dart';
+import 'package:toyshop/src/presentation/components/app_bar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/presentation/product_detail.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
@@ -31,6 +32,9 @@ class ShowcaseProductPage extends ConsumerWidget {
                   MyAppBar(
                     pageDetail: "",
                     routing: "/home",
+                    onTap: ()=> Navigator
+                    .of(context)
+                    .pushNamedAndRemoveUntil("/home", (Route<dynamic>route)=>false),
                   )
                 ],
             body: Padding(
@@ -38,10 +42,10 @@ class ShowcaseProductPage extends ConsumerWidget {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    const Text("Find your favorite toy below",
-                        style: TextStyle(
+                     Text("ស្វែងរកទំនិញដែលអ្នកពេញចិត្តខាងក្រោម",
+                        style: GoogleFonts.hanuman(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold)),
                     filterMethods(meidaQuery, getButtonColor, productType, ref),
                     const SizedBox(
@@ -76,11 +80,10 @@ class ShowcaseProductPage extends ConsumerWidget {
                                 productName: data.productName,
                                 onTap: () {
                                   ref.read(addToCartProvider(cartModel));
-                            
                                   showDialog(
                                       context: context,
                                       builder: (context) => DialogBox(
-                                          dialogText: "Item added to cart",
+                                          dialogText: "ទំនិញត្រូវបានដាក់ចូលកន្ត្រក",
                                           dialogColor: AppColors.add));
                                 },
                               );
@@ -109,7 +112,7 @@ class ShowcaseProductPage extends ConsumerWidget {
         children: [
           FilterBox(
               currentBoxColor: getButtonColor("Trending"),
-              filterText: "Trending",
+              filterText: "ពេញនិយម",
               filterColor:
                   productType == "Trending" ? Colors.white : Colors.black,
               onTap: () {
@@ -118,7 +121,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               filterWidth: 80),
           FilterBox(
               currentBoxColor: getButtonColor("Best Selling"),
-              filterText: "Best Selling",
+              filterText: "លក់ដាច់",
               filterColor:
                   productType == "Best Selling" ? Colors.white : Colors.black,
               onTap: () {
@@ -127,7 +130,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               filterWidth: 90),
           FilterBox(
               currentBoxColor: getButtonColor("Newest"),
-              filterText: "Newest",
+              filterText: "ថ្មីៗ",
               filterColor:
                   productType == "Newest" ? Colors.white : Colors.black,
               onTap: () {
@@ -136,7 +139,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               filterWidth: 90),
           FilterBox(
               currentBoxColor: getButtonColor("Oldest"),
-              filterText: "Oldest",
+              filterText: "ចាស់ៗ",
               filterColor:
                   productType == "Oldest" ? Colors.white : Colors.black,
               onTap: () {
@@ -177,7 +180,9 @@ class ShowcaseList extends ConsumerWidget {
       },
       child: Container(
           decoration: BoxDecoration(
-              color: null, borderRadius: BorderRadius.circular(10)),
+              color: null, 
+              
+              borderRadius: BorderRadius.circular(10)),
           child: Stack(
             children: [
               Positioned(
@@ -189,6 +194,10 @@ class ShowcaseList extends ConsumerWidget {
                   width: 300,
                   height: 300,
                   decoration: BoxDecoration(
+                       boxShadow:const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0,1.5)) ],
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
                 ),
@@ -200,6 +209,7 @@ class ShowcaseList extends ConsumerWidget {
                     width: 40,
                     height: 20,
                     decoration: BoxDecoration(
+                      
                       color: const Color.fromARGB(255, 255, 230, 1),
                       borderRadius: BorderRadius.circular(5),
                     ),

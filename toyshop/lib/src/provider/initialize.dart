@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/data/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/favorite.dart';
+import 'package:toyshop/src/provider/profile.dart';
 import 'package:toyshop/src/provider/transaction.dart';
 
 final initializeAppProvider = FutureProvider<void>((
@@ -14,8 +15,9 @@ final initializeAppProvider = FutureProvider<void>((
   ref.invalidate(quantityProvider);
   ref.invalidate(cartStreamProvider);
   ref.invalidate(getFavoriteProvider);
+  ref.invalidate(getUserInfoProvider);
   final productService = ProductService();
   final toyType = productService.getToyType();
   final popular = productService.getPopularProduct();
-  await Future.wait([toyType,popular]);
+  await Future.wait([toyType, popular]);
 });

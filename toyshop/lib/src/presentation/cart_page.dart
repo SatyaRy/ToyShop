@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/cart_list.dart';
 import 'package:toyshop/src/presentation/components/handle_message.dart';
-import 'package:toyshop/src/presentation/components/silver_appbar.dart';
+import 'package:toyshop/src/presentation/components/app_bar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/transaction.dart';
@@ -18,7 +19,11 @@ class CartPage extends ConsumerWidget {
         backgroundColor: const Color(0xffEEEEEE),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [MyAppBar(pageDetail: "Cart Page",routing: "/home" )],
+              [MyAppBar(
+                pageDetail: "កន្ត្រកទំនិញ",
+                routing: "/home",
+                onTap: ()=>Navigator
+                  .pop(context))],
           body: Column(
             children: [
               cartItems(ref),
@@ -56,7 +61,6 @@ class CartPage extends ConsumerWidget {
               )),
     );
   }
-
   Widget transaction(WidgetRef ref) {
     final total = ref.watch(totalProvider);
     return Column(
@@ -70,19 +74,19 @@ class CartPage extends ConsumerWidget {
               color: Colors.white),
           child: Column(
             children: [
-              CheckoutDetail(checkoutTopic: "SubTotal", totalCost: "\$ 1"),
+              CheckoutDetail(checkoutTopic: "សេវានិងពន្ធដារ", totalCost: "\$ 1"),
               const SizedBox(
                 height: 20,
               ),
               CheckoutDetail(
-                checkoutTopic: "Delivery",
-                totalCost: "Free",
+                checkoutTopic: "សេវាដឹកជញ្ជូន",
+                totalCost: "មិនគិតថ្លៃ",
               ),
               const SizedBox(
                 height: 20,
               ),
               CheckoutDetail(
-                checkoutTopic: "Total",
+                checkoutTopic: "សរុប",
                 totalCost: "\$  ${total.toStringAsFixed(2)}",
               ),
             ],
@@ -107,12 +111,13 @@ class CheckoutDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(checkoutTopic,
-          style: const TextStyle(
+          style:  GoogleFonts.hanuman(
               fontSize: 20,
-              color: Color.fromARGB(255, 106, 106, 106),
-              fontWeight: FontWeight.w600)),
+              color: const Color.fromARGB(255, 106, 106, 106),
+              fontWeight: FontWeight.bold)),
       Text(totalCost,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          style:  const TextStyle(
+            fontSize: 20, fontWeight: FontWeight.bold)),
     ]);
   }
 }
@@ -125,10 +130,12 @@ class Transaction extends StatelessWidget {
       width: double.infinity,
       height: 80,
       decoration: const BoxDecoration(color: Colors.green),
-      child: const Center(
+      child:  Center(
           child: Text(
-        "Procced to check out",
-        style: TextStyle(color: Colors.white, fontSize: 20),
+        "ពិនិត្យការទូទាត់ប្រាក់ឡើងវិញ",
+        style: GoogleFonts.hanuman(
+          fontWeight: FontWeight.bold,
+          color: Colors.white, fontSize: 20),
       )),
     );
   }

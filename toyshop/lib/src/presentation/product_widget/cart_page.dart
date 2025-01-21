@@ -4,14 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/cart_tile.dart';
 import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/presentation/components/app_bar.dart';
-import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/transaction.dart';
 
 class CartPage extends ConsumerWidget {
-  CartPage({super.key});
+  const CartPage({super.key});
 
-  final controller = DraggableScrollableController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,49 +17,21 @@ class CartPage extends ConsumerWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [MyAppBar(
- 
-                routing: "/home",
-                onTap: ()=>Navigator
-                  .pop(context))],
-          body: Column(
+              [MyAppBar(routing: "/home", onTap: () => Navigator.pop(context))],
+          body: const Column(
             children: [
-              cartItems(ref),
-              transaction(ref),
+               CartTile(),
+               TransactionTile()
             ],
           ),
         ));
   }
+}
 
-  Widget cartItems(WidgetRef ref) {
-    final cartItems = ref.watch(getCartItemsProvider);
-    return Expanded(
-      child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: cartItems.when(
-              data: (value) => ListView.separated(
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 15,
-                      ),
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    final data = value[index];
-                    final CartModel cartDetail = CartModel(
-                        productID: data.productID,
-                        productImage: data.productImage,
-                        productName: data.productName,
-                        productPrice: data.productPrice,
-                        productQuantity: data.productQuantity,
-                        timeStamp: data.timeStamp);
-                    return CartList(cartDetail: cartDetail);
-                  }),
-              error: (error, stackTrace) => Text("$error"),
-              loading: () => buildLoadingWidget()
-              )),
-    );
-  }
-  Widget transaction(WidgetRef ref) {
+class TransactionTile extends ConsumerWidget {
+  const TransactionTile({super.key});
+  @override
+  Widget build(BuildContext context,WidgetRef ref) {
     final total = ref.watch(totalProvider);
     return Column(
       children: [
@@ -74,7 +44,8 @@ class CartPage extends ConsumerWidget {
               color: Colors.white),
           child: Column(
             children: [
-              CheckoutDetail(checkoutTopic: "សេវានិងពន្ធដារ", totalCost: "\$ 1"),
+              CheckoutDetail(
+                  checkoutTopic: "សេវានិងពន្ធដារ", totalCost: "\$ 1"),
               const SizedBox(
                 height: 20,
               ),
@@ -111,14 +82,13 @@ class CheckoutDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(checkoutTopic,
-          style:  GoogleFonts.hanuman(
+          style: GoogleFonts.hanuman(
               fontSize: 18,
               color: const Color.fromARGB(255, 106, 106, 106),
               fontWeight: FontWeight.bold)),
       Text(totalCost,
-          style:  const TextStyle(
-            fontFamily: "sfpro",
-            fontSize: 18, fontWeight: FontWeight.bold)),
+          style: const TextStyle(
+              fontFamily: "sfpro", fontSize: 18, fontWeight: FontWeight.bold)),
     ]);
   }
 }
@@ -131,13 +101,37 @@ class Transaction extends StatelessWidget {
       width: double.infinity,
       height: 80,
       decoration: const BoxDecoration(color: Color(0xff00A800)),
-      child:  Center(
+      child: Center(
           child: Text(
         "ពិនិត្យការទូទាត់ប្រាក់ឡើងវិញ",
         style: GoogleFonts.hanuman(
-          fontWeight: FontWeight.bold,
-          color: Colors.white, fontSize: 20),
+            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
       )),
+    );
+  }
+}
+
+class CartTile extends ConsumerWidget {
+  const CartTile({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(getCartItemsProvider);
+    return Expanded(
+      child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: cart.when(
+              data: (value) => ListView.separated(
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 15,
+                      ),
+                  itemCount: value.length,
+                  itemBuilder: (context, index) {
+                    final data = value[index];
+                    return CartList(cartDetail: data);
+                  }),
+              error: (error, stackTrace) => Text("$error"),
+              loading: () => const BuildLoadingWidget())),
     );
   }
 }

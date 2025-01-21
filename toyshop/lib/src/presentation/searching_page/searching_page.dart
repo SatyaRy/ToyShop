@@ -8,7 +8,7 @@ class SearchingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: Color(0xffEEEEEE),
+        backgroundColor: const Color(0xffEEEEEE),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 10),

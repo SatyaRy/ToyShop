@@ -13,14 +13,8 @@ class ShowcaseProductPage extends ConsumerWidget {
   const ShowcaseProductPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final meidaQuery = MediaQuery.of(context).size;
     final productType = ref.watch(filterProvider);
     final filteredProduct = ref.watch(getProductsProvider(productType));
-    Color getButtonColor(String changeProductType) {
-      return productType == changeProductType
-          ? const Color(0xff091970)
-          : Colors.white;
-    }
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: NestedScrollView(
@@ -39,7 +33,7 @@ class ShowcaseProductPage extends ConsumerWidget {
                   children: [
                      Text("ស្វែងរកទំនិញដែលអ្នកពេញចិត្តខាងក្រោម",
                         style:Theme.of(context).textTheme.titleMedium),
-                    filterMethods(meidaQuery, getButtonColor, productType, ref),
+                    const ProductTile(),
                     const SizedBox(
                       height: 10,
                     ),
@@ -83,64 +77,10 @@ class ShowcaseProductPage extends ConsumerWidget {
                           );
                         },
                         error: (error, stacktrace) => Text("$error"),
-                        loading: () => Center(child: buildLoadingWidget())),
+                        loading: () => const Center(child:  BuildLoadingWidget())),
                     const SizedBox(height: 50)
                   ],
                 ))));
-  }
-
-  Widget filterMethods(
-      Size meidaQuery,
-      Color Function(String changeProductType) getButtonColor,
-      String productType,
-      WidgetRef ref) {
-    return Container(
-      width: meidaQuery.width,
-      height: 80,
-      decoration: const BoxDecoration(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        spacing: 10,
-        children: [
-          FilterBox(
-              currentBoxColor: getButtonColor("Trending"),
-              filterText: "ពេញនិយម",
-              filterColor:
-                  productType == "Trending" ? const Color(0xffF4F4F4) : const Color(0xff212121),
-              onTap: () {
-                ref.read(filterProvider.notifier).changeFilter("Trending");
-              },
-              filterWidth: 80),
-          FilterBox(
-              currentBoxColor: getButtonColor("Best Selling"),
-              filterText: "លក់ដាច់",
-              filterColor:
-                  productType == "Best Selling" ? const Color(0xffF4F4F4) : const Color(0xff212121),
-              onTap: () {
-                ref.read(filterProvider.notifier).changeFilter("Best Selling");
-              },
-              filterWidth: 90),
-          FilterBox(
-              currentBoxColor: getButtonColor("Newest"),
-              filterText: "ថ្មីៗ",
-              filterColor:
-                  productType == "Newest" ? const Color(0xffF4F4F4) : const Color(0xff212121),
-              onTap: () {
-                ref.read(filterProvider.notifier).changeFilter("Newest");
-              },
-              filterWidth: 90),
-          FilterBox(
-              currentBoxColor: getButtonColor("Oldest"),
-              filterText: "ចាស់ៗ",
-              filterColor:
-                  productType == "Oldest" ? Colors.white : Colors.black,
-              onTap: () {
-                ref.read(filterProvider.notifier).changeFilter("Oldest");
-              },
-              filterWidth: 90),
-        ],
-      ),
-    );
   }
 }
 
@@ -173,7 +113,6 @@ class ShowcaseList extends ConsumerWidget {
       child: Container(
           decoration: BoxDecoration(
               color: null, 
-              
               borderRadius: BorderRadius.circular(10)),
           child: Stack(
             children: [
@@ -262,6 +201,67 @@ class ShowcaseList extends ConsumerWidget {
                   ))
             ],
           )),
+    );
+  }
+}
+
+class ProductTile extends ConsumerWidget {
+  const ProductTile({super.key});
+  @override
+  Widget build(BuildContext context,WidgetRef ref) {
+    final width = MediaQuery.of(context).size.width;
+    final productType = ref.watch(filterProvider);
+    Color getButtonColor(String changeProductType) {
+      return productType == changeProductType
+          ? const Color(0xff091970)
+          : Colors.white;
+    }
+    return  Container(
+      width: width,
+      height: 80,
+      decoration: const BoxDecoration(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 10,
+        children: [
+          FilterBox(
+              currentBoxColor: getButtonColor("Trending"),
+              filterText: "ពេញនិយម",
+              filterColor:
+                  productType == "Trending" ? const Color(0xffF4F4F4) : const Color(0xff212121),
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Trending");
+              },
+              filterWidth: 80),
+          FilterBox(
+              currentBoxColor: getButtonColor("Best Selling"),
+              filterText: "លក់ដាច់",
+              filterColor:
+                  productType == "Best Selling" ? const Color(0xffF4F4F4) : const Color(0xff212121),
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Best Selling");
+              },
+              filterWidth: 90),
+          FilterBox(
+              currentBoxColor: getButtonColor("Newest"),
+              filterText: "ថ្មីៗ",
+              filterColor:
+                  productType == "Newest" ? const Color(0xffF4F4F4) : const Color(0xff212121),
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Newest");
+              },
+              filterWidth: 90),
+          FilterBox(
+              currentBoxColor: getButtonColor("Oldest"),
+              filterText: "ចាស់ៗ",
+              filterColor:
+                  productType == "Oldest" ? Colors.white : Colors.black,
+              onTap: () {
+                ref.read(filterProvider.notifier).changeFilter("Oldest");
+              },
+              filterWidth: 90),
+        ],
+      ),
     );
   }
 }

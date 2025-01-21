@@ -1,4 +1,3 @@
-
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -8,71 +7,65 @@ import "package:toyshop/src/presentation/auth/account_page.dart";
 import "package:toyshop/src/presentation/searching_page/searching_page.dart";
 import "package:toyshop/src/provider/initialize.dart";
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
-
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectedIndex = 0;
-  void navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-  final List pages = [const ProductPage(), const SearchingPage(), const ProfilePage()];
-  final List pagesTitle = ["អីវ៉ាន", "ចូលចិត្ត", "គណនី"];
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final initApp = ref.watch(initializeAppProvider);
     return Scaffold(
-      key: _scaffoldKey,
-      bottomNavigationBar: bottonNav(),
+      bottomNavigationBar:  const BottomNavigation(),
       body: initApp.when(
-          data: (_) => pages[_selectedIndex],
+          data: (_) =>const HomeContent(),
           error: (erorr, stractrace) => null,
-          loading: () => buildLoadingWidget()),
+          loading: () => const BuildLoadingWidget()),
     );
   }
+}
 
-  Widget shop() {
-    return FloatingActionButton(
-      shape: const CircleBorder(),
-      backgroundColor: const Color(0xff074799),
-      onPressed: () {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil("/cart", (route) => false);
-      },
-      child: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
-    );
+class HomeContent extends ConsumerWidget {
+  const HomeContent({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final index = ref.watch(selectIndexProvider);
+    const List pages = [
+     ProductPage(),
+     SearchingPage(),
+     ProfilePage()
+  ];
+    return pages[index];
   }
+}
 
-  Widget bottonNav() {
+class BottomNavigation extends ConsumerWidget {
+  const BottomNavigation({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final index = ref.watch(selectIndexProvider);
+    final labelStyle = GoogleFonts.hanuman(height: 1.8);
+   final unselectedLabelStyle = GoogleFonts.hanuman(color: Colors.black);
     return BottomNavigationBar(
         backgroundColor: Colors.white,
-        currentIndex: _selectedIndex,
+        currentIndex: index,
+      
         selectedItemColor: const Color(0xff091970),
-        onTap: (value) => navigateBottomBar(value),
-        unselectedLabelStyle: GoogleFonts.hanuman(
-
-            color: Colors.black),
-        selectedLabelStyle: GoogleFonts.hanuman(
-            height: 1.8, color: const Color(0xff212121)),
+        onTap: (value) =>
+            ref.read(selectIndexProvider.notifier).changeIndex(value),
+        unselectedLabelStyle:unselectedLabelStyle,
+        selectedLabelStyle:labelStyle,
         items: const [
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.shopping_cart_outlined,color: Color(0xff091970)),
+            activeIcon:
+                Icon(Icons.shopping_cart_outlined, color: Color(0xff091970)),
             icon: Icon(Icons.shopping_cart_outlined, color: Color(0xff212121)),
             label: "អីវ៉ាន់",
           ),
           BottomNavigationBarItem(
-              activeIcon: Icon(Icons.search_outlined,color: Color(0xff091970)),
+              activeIcon: Icon(Icons.search_outlined, color: Color(0xff091970)),
               icon: Icon(Icons.search_outlined, color: Color(0xff212121)),
               label: "ស្វែងរក"),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.person_outline,color: Color(0xff091970)),
+              activeIcon: Icon(Icons.person_outline, color: Color(0xff091970)),
               icon: Icon(Icons.person_outline, color: Color(0xff212121)),
               label: "គណនី"),
         ]);

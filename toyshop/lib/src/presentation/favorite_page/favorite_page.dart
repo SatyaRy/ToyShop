@@ -2,6 +2,7 @@ import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/presentation/modal_widget/dialog.dart';
 import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/provider/favorite.dart';
@@ -43,60 +44,11 @@ class FavoritePage extends ConsumerWidget {
                     ),
                     itemBuilder: (context, index) {
                       final data = value[index];
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  spacing: 15,
-                                  children: [
-                                    CachedNetworkSVGImage(data.productImage),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(data.productName),
-                                        Text("\$ ${data.productPrice}",
-                                            style: const TextStyle(
-                                                color: Color(0xff074799)))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => DialogBox(
-                                              dialogText:
-                                                  "ដកទំនិញដែលអ្នកពេញចិត្ត",
-                                              dialogColor: AppColors.remove));
-                                      ref.read(deleteFavoriteProvider(
-                                          data.productID));
-                                      ref.invalidate(deleteFavoriteProvider);
-                                    },
-                                    child: const Icon(Icons.favorite,
-                                        size: 30, color: Colors.red),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ));
+                      return FavoriteTile(data: data);
                     },
                   ),
               error: (error, stacktrace) => Text("$error"),
-              loading: () => buildLoadingWidget())
+              loading: () => const BuildLoadingWidget())
         ],
       ),
     );
@@ -112,7 +64,8 @@ class FavoritePage extends ConsumerWidget {
             child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(
-                      "/cart",);
+                    "/cart",
+                  );
                 },
                 child: badges.Badge(
                   position: badges.BadgePosition.topEnd(top: -10, end: -20),
@@ -149,5 +102,65 @@ class FavoritePage extends ConsumerWidget {
                 child: const Center(child: Icon(Icons.close)),
               ))),
     );
+  }
+}
+
+class FavoriteTile extends ConsumerWidget {
+  final FavoriteModel data;
+  const FavoriteTile({required this.data, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                spacing: 15,
+                children: [
+                  CachedNetworkSVGImage(data.productImage),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(data.productName,style: const TextStyle(
+                        fontFamily: "sfpro",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      Text("\$ ${data.productPrice}",
+                          style: const TextStyle(
+                            fontFamily: "sfpro",
+                            fontSize: 16,
+                            color: Color(0xff074799)))
+                    ],
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => DialogBox(
+                            dialogText: "ដកទំនិញដែលអ្នកពេញចិត្ត",
+                            dialogColor: AppColors.remove));
+                    ref.read(deleteFavoriteProvider(data.productID));
+                    ref.invalidate(deleteFavoriteProvider);
+                  },
+                  child:
+                      const Icon(Icons.favorite, size: 30, color: Colors.red),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

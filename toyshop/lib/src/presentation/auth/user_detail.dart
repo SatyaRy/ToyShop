@@ -69,7 +69,7 @@ class UserDetailPage extends ConsumerWidget {
                       ],
                     ),
                 error: (error, StackTrace stackTrace) => Text("$error"),
-                loading: () => buildLoadingWidget())));
+                loading: () => const BuildLoadingWidget())));
   }
 
   Widget socialMedia(

@@ -18,7 +18,6 @@ class FilterBox extends StatelessWidget {
       required this.filterWidth});
 
   String productType = "trendingList";
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,15 +26,12 @@ class FilterBox extends StatelessWidget {
         width: filterWidth,
         height: 40,
         decoration: BoxDecoration(
-            color: currentBoxColor, 
-            borderRadius: BorderRadius.circular(5)),
+            color: currentBoxColor, borderRadius: BorderRadius.circular(5)),
         child: Center(
             child: Text(
           filterText,
           style: GoogleFonts.hanuman(
-            color: filterColor,
-            fontSize: 14,
-            fontWeight: FontWeight.bold),
+              color: filterColor, fontSize: 14, fontWeight: FontWeight.bold),
         )),
       ),
     );

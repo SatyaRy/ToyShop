@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toyshop/src/data/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
@@ -20,4 +21,15 @@ final initializeAppProvider = FutureProvider<void>((
   final toyType = productService.getToyType();
   final popular = productService.getPopularProduct();
   await Future.wait([toyType, popular]);
+});
+
+class SelectIndex extends StateNotifier<int> {
+  SelectIndex() : super(0);
+  void changeIndex(int value) {
+    state = value;
+  }
+}
+
+final selectIndexProvider = StateNotifierProvider<SelectIndex, int>((ref) {
+  return SelectIndex();
 });

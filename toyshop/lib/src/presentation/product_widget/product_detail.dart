@@ -46,7 +46,7 @@ class ProductDetail extends ConsumerWidget {
               ),
             ),
         error: (error, stacktrace) => Text("$error"),
-        loading: () => buildLoadingWidget());
+        loading: () => const BuildLoadingWidget());
   }
 
   Widget detail(BuildContext context, String productName, double productPrice,

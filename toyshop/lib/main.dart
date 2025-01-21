@@ -34,7 +34,7 @@ class MyApp extends ConsumerWidget {
             if (user == null) {
               return const IntroPage();
             } else {
-              return const HomePage();
+              return  HomePage();
             }
           },
           error: (error, stacktrace) => Text("$error"),
@@ -42,7 +42,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         "/cart": (context) => CartPage(),
         "/intro": (context) => const IntroPage(),
-        "/home": (context) => const HomePage(),
+        "/home": (context) =>  HomePage(),
         "/showcase": (context) => const ShowcaseProductPage(),
         "/signup": (context) => SignupPage(),
         "/signin": (context) => SigninPage(),

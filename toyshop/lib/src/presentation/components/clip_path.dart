@@ -24,3 +24,25 @@ class CustomizePath extends CustomClipper<Path> {
     return true;
   }
 }
+
+class ClipPathCustom extends StatelessWidget {
+  const ClipPathCustom({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      clipper: CustomizePath(),
+      child: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+              Color(0xff0a33f9),
+              Color(0xff091970),
+            ])),
+        height: 250,
+      ),
+    );;
+  }
+}

@@ -27,9 +27,14 @@ class ErrorHandling {
 
 }
 
-  Widget buildLoadingWidget() {
+class BuildLoadingWidget extends StatelessWidget {
+  const BuildLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: LoadingAnimationWidget.stretchedDots(
           color: const Color(0xff091970), size: 80),
     );
   }
+}

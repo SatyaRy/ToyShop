@@ -18,7 +18,10 @@ class ErrorHandling {
             child: Center(
                 child: Text(
               text,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
+              style: const TextStyle(
+                fontFamily: "sfpro",
+                fontWeight: FontWeight.w600,
+                color: Colors.white, fontSize: 20),
             )))));
   }
 
@@ -27,6 +30,6 @@ class ErrorHandling {
   Widget buildLoadingWidget() {
     return Center(
       child: LoadingAnimationWidget.stretchedDots(
-          color: const Color(0xff074799), size: 80),
+          color: const Color(0xff091970), size: 80),
     );
   }

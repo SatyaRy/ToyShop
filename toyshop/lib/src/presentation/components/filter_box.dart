@@ -32,7 +32,10 @@ class FilterBox extends StatelessWidget {
         child: Center(
             child: Text(
           filterText,
-          style: GoogleFonts.hanuman(color: filterColor,fontWeight: FontWeight.bold),
+          style: GoogleFonts.hanuman(
+            color: filterColor,
+            fontSize: 14,
+            fontWeight: FontWeight.bold),
         )),
       ),
     );

@@ -18,7 +18,14 @@ class ToyTypeList extends StatelessWidget {
       child: Container(
         height: 100,
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 1)
+              )
+            ],
+            color: Theme.of(context).colorScheme.onSecondary,
+            borderRadius: BorderRadius.circular(15)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -42,14 +49,19 @@ class ToyTypeList extends StatelessWidget {
                   width: 10,
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(toyTypeModel.name,
-                              style: const TextStyle(fontSize: 17)),
+                              style: const TextStyle(
+                                fontFamily: "sfpro",
+                                fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                color: Color(0xff212121),
+                              )),
                         ),
                         const SizedBox(
                           height: 5,
@@ -70,7 +82,9 @@ class ToyTypeList extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20),
                 child: Text(
                   "10%",
-                  style: TextStyle(color: Colors.black, fontSize: 15),
+                  style: TextStyle(
+                    fontFamily: "sfpro",
+                    color: Color(0xff212121), fontSize: 15),
                 ))
           ],
         ),

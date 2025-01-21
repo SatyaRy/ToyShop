@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/cart_list.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/components/cart_tile.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/presentation/components/app_bar.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
@@ -16,11 +16,11 @@ class CartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        backgroundColor: const Color(0xffEEEEEE),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
               [MyAppBar(
-                pageDetail: "កន្ត្រកទំនិញ",
+ 
                 routing: "/home",
                 onTap: ()=>Navigator
                   .pop(context))],
@@ -112,12 +112,13 @@ class CheckoutDetail extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(checkoutTopic,
           style:  GoogleFonts.hanuman(
-              fontSize: 20,
+              fontSize: 18,
               color: const Color.fromARGB(255, 106, 106, 106),
               fontWeight: FontWeight.bold)),
       Text(totalCost,
           style:  const TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold)),
+            fontFamily: "sfpro",
+            fontSize: 18, fontWeight: FontWeight.bold)),
     ]);
   }
 }
@@ -129,7 +130,7 @@ class Transaction extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 80,
-      decoration: const BoxDecoration(color: Colors.green),
+      decoration: const BoxDecoration(color: Color(0xff00A800)),
       child:  Center(
           child: Text(
         "ពិនិត្យការទូទាត់ប្រាក់ឡើងវិញ",

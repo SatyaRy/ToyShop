@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 // ignore: must_be_immutable
 class OrderBox extends StatelessWidget {
   final String detail;
@@ -28,7 +26,8 @@ class OrderBox extends StatelessWidget {
                   offset: Offset(0, 1),
                   spreadRadius: 1
                 )],
-            color: Colors.white),
+            color: Theme.of(context).colorScheme.onSecondary
+        ),
         child: Column(
           spacing: 5,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +36,7 @@ class OrderBox extends StatelessWidget {
             icon,
             Text(
               detail,
-              style: GoogleFonts.hanuman(fontSize: 15),
+              style: Theme.of(context).textTheme.bodySmall,
             )
           ],
         ),

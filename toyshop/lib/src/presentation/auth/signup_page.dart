@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/provider/auth.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
@@ -85,13 +85,13 @@ class SignupPage extends ConsumerWidget {
                 signup(
                     width, ref, 
                     password,
-                    const Icon(Icons.lock_outlined), 
+                    const Icon(Icons.lock_outlined,), 
                     "លេខសម្ងាត់",true),
                 const SizedBox(height: 20),
                 signup(
                     width, ref, 
                     confirm,
-                    const Icon(Icons.lock_outlined), 
+                    const Icon(Icons.lock_outlined,color: Color(0xff212121)), 
                     "ផ្ទៀងផ្ទាត់លេខសម្ងាត់",false),
                 const SizedBox(height: 20),
                 Row(
@@ -116,7 +116,15 @@ class SignupPage extends ConsumerWidget {
       child: Container(
         height: 400,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(color: Color(0xff074799)),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xff0a33f9),
+            Color(0xff091970),
+          ]
+        )),
         child: Align(
           alignment: Alignment.topCenter,
           child: Padding(
@@ -146,13 +154,19 @@ class SignupPage extends ConsumerWidget {
         width: 150,
         height: 50,
         decoration: BoxDecoration(
-            color: const Color(0xff074799),
+           boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 1,
+                            offset: Offset(2, 2)
+                          )
+                        ],
+            color: const Color(0xff0a33f9),
             borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: Text(
             authType,
             style:  GoogleFonts.hanuman(
-      
               color: Colors.white, fontSize: 17),
           ),
         ),
@@ -167,11 +181,16 @@ class SignupPage extends ConsumerWidget {
     return SizedBox(
       height: 70,
       child: TextField(
+        
         controller: authType,
         decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            prefixIconColor:  const Color(0xff212121),
+            border: OutlineInputBorder(
+              
+              borderSide: const BorderSide(color: Colors.black),
+              borderRadius: BorderRadius.circular(10)),
             label: Text(inputType,style:  GoogleFonts.hanuman(
-      
+                color: Colors.black
             ),),
             prefixIcon: iconType),
       ),
@@ -193,11 +212,14 @@ class SignupPage extends ConsumerWidget {
         controller: controller,
         obscureText: !isVisible,
         decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            prefixIconColor: const Color(0xff212121),
+            suffixIconColor: const Color(0xff212121),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)),
             label: Text(
               inputType,
               style:  GoogleFonts.hanuman(
-       
+              color: const Color(0xff212121)
             )),
             prefixIcon: iconType,
             suffixIcon: isPassword? GestureDetector(

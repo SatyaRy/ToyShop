@@ -1,7 +1,7 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:toyshop/src/model/product/product.dart';
-import 'package:toyshop/src/presentation/product_detail.dart';
+import 'package:toyshop/src/presentation/product_widget/product_detail.dart';
 
 // ignore: must_be_immutable
 class ProductTile extends StatelessWidget {
@@ -21,7 +21,7 @@ class ProductTile extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10),
           width: 200,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               Center(
@@ -40,10 +40,17 @@ class ProductTile extends StatelessWidget {
                       children: [
                         Text(
                           productModel.productName,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontFamily: "sfpro",
+                            fontSize: 16,
+                            color: Color(0xff212121),
+                            fontWeight: FontWeight.bold),
                         ),
                         Text('\$ ${productModel.productPrice}',
-                            style: const TextStyle(color: Color(0xff074799)))
+                            style: const TextStyle(
+                              fontFamily: "sfpro",
+                              fontSize: 14,
+                              color: Color(0xff091970)))
                       ],
                     ),
                   ),
@@ -52,10 +59,10 @@ class ProductTile extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
                         decoration: const BoxDecoration(
-                            color: Color(0xff074799), shape: BoxShape.circle),
+                            color: Color(0xff091970), shape: BoxShape.circle),
                         child: const Icon(
                           Icons.add,
                           size: 30,

@@ -8,19 +8,17 @@ import 'package:toyshop/src/provider/transaction.dart';
 
 class MyAppBar extends ConsumerWidget {
   String routing;
-  String pageDetail;
   void Function()? onTap;
   MyAppBar({
     super.key,
     required this.onTap,
     required this.routing,
-    required this.pageDetail,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = ref.watch(getQuantityProvider);
     return SliverAppBar(
-      backgroundColor: const Color(0xffEEEEEE),
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       leading: Padding(
         padding: const EdgeInsets.only(left: 20),
         child: Container(
@@ -39,7 +37,7 @@ class MyAppBar extends ConsumerWidget {
                 ]),
             child: GestureDetector(
               onTap: onTap,
-              child: const Center(child: Icon(Icons.chevron_left,size: 30,)),
+              child: const Center(child: Icon(Icons.chevron_left,size: 30,color: Color(0xff212121))),
             ))),
       actions: [
         Padding(
@@ -54,11 +52,14 @@ class MyAppBar extends ConsumerWidget {
                   badgeContent: Center(
                     child: Text("$quantity",
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 15)),
+                            const TextStyle(
+                              fontFamily: "sfpro",
+                              color: Colors.white, fontSize: 15)),
                   ),
                   child: const Icon(
                     Icons.shopping_cart_outlined,
                     size: 30,
+                    color: Color(0xff212121)
                   ),
                 )))
       ],
@@ -69,7 +70,7 @@ class MyAppBar extends ConsumerWidget {
 AppBar mainAppBar(WidgetRef ref, BuildContext context) {
   final quantity = ref.watch(getQuantityProvider);
   return AppBar(
-    backgroundColor: const Color(0xffEEEEEE),
+    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     leading: Builder(
         builder: (context) => Container(
               margin: const EdgeInsets.only(left: 20),
@@ -97,7 +98,9 @@ AppBar mainAppBar(WidgetRef ref, BuildContext context) {
                 badgeContent: Center(
                   child: Text("$quantity",
                       style:
-                          const TextStyle(color: Colors.white, fontSize: 15)),
+                          const TextStyle(
+                            fontFamily: "sfpro",
+                            color: Colors.white, fontSize: 15)),
                 ),
                 child: const Icon(
                   color: Colors.black,
@@ -111,7 +114,7 @@ AppBar mainAppBar(WidgetRef ref, BuildContext context) {
 
 AppBar authAppBar(BuildContext context,String appBarType,onTap) {
   return AppBar(
-    backgroundColor: const Color(0xffEEEEEE),
+    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     actions: [
       Padding(
         padding: const EdgeInsets.only(right: 20),
@@ -138,7 +141,7 @@ AppBar authAppBar(BuildContext context,String appBarType,onTap) {
                 ]),
             child: GestureDetector(
               onTap: onTap,
-              child: const Center(child: Icon(Icons.close)),
+              child: const Center(child: Icon(Icons.close,color: Color(0xff212121),)),
             ))),
   );
 }

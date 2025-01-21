@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:toyshop/src/model/auth/auth.dart';
 
-
 class AuthenticationService {
   final FirebaseAuth firebase = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -25,29 +24,37 @@ class AuthenticationService {
     await firebase.createUserWithEmailAndPassword(
         email: email, password: password);
     final user = firebase.currentUser?.uid;
-    if (user!=null) {
-      await db.collection("users").doc(user).set(
-        UserModel(
-          uid: user, 
-          username: username,
-          email: email, 
-          profile: "https://res.cloudinary.com/dnydodget/image/upload/v1736130486/cabybara_dnplgq.svg",
-          createAt: DateFormat('EEEE, MMMM d, y').format(DateTime.now())
-          ).toJson()
-      );
+    if (user != null) {
+      await db.collection("users").doc(user).set(UserModel(
+              uid: user,
+              username: username,
+              email: email,
+              profile:
+                  "https://res.cloudinary.com/dnydodget/image/upload/v1736130486/cabybara_dnplgq.svg",
+              createAt: DateFormat('EEEE, MMMM d, y').format(DateTime.now()))
+          .toJson());
+    }
+  }
+
+  Future<void> deleteAccount(String uid) async {
+    try {
+      await firebase.currentUser?.delete();
+      await db.collection("users").doc(uid).delete();
+      debugPrint("Account successfully deleted");
+    } catch (e) {
+      debugPrint("$e");
+    } finally {
+      signOut();
     }
   }
 
   Future<void> signOut() async {
-  
-  final user = firebase.currentUser?.uid;
-   try{
+    final user = firebase.currentUser?.uid;
+    try {
       await firebase.signOut();
       debugPrint("Successfully signout $user");
-   }
-   catch(e){
-    debugPrint("failed to signout $e");
-   }
+    } catch (e) {
+      debugPrint("failed to signout $e");
+    }
   }
-  
 }

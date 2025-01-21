@@ -2,20 +2,20 @@ import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/bottom_sheet.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/bottom_sheet.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/presentation/components/app_bar.dart';
+import 'package:toyshop/src/provider/auth.dart';
 import 'package:toyshop/src/provider/profile.dart';
 
 class UserDetailPage extends ConsumerWidget {
   const UserDetailPage({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userInfo = ref.watch(getUserInfoProvider);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: const Color(0xffEEEEEE),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar:
             authAppBar(context, "ប្រវត្តិរូប", () => Navigator.pop(context)),
         body: Padding(
@@ -26,8 +26,14 @@ class UserDetailPage extends ConsumerWidget {
                       spacing: 20,
                       children: [
                         detailBox(
-                          context, "ឈ្មោះ", data.username, false, ref,
-                          "username", data.uid,),
+                          context,
+                          "ឈ្មោះ",
+                          data.username,
+                          false,
+                          ref,
+                          "username",
+                          data.uid,
+                        ),
                         detailBox(context, "អុីម៊ែល", data.email, true, ref,
                             "email", data.uid),
                         detailBox(context, "លេខទូរស័ព្ទ", "", false, ref,
@@ -35,35 +41,45 @@ class UserDetailPage extends ConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text("គណនីដែលបានភ្ជាប់",
-                              style: GoogleFonts.hanuman(
-                                  fontSize: 24, fontWeight: FontWeight.bold)),
+                              style: Theme.of(context).textTheme.titleSmall),
                         ),
                         socialMedia(
                             width,
                             "https://res.cloudinary.com/dnydodget/image/upload/v1737176790/icons8-facebook_n76xlr.svg",
-                            "Facebook"),
+                            "Facebook",
+                            context),
                         socialMedia(
                             width,
                             "https://res.cloudinary.com/dnydodget/image/upload/v1737176608/icons8-google_c2nd1b.svg",
-                            "Google"),
+                            "Google",
+                            context),
                         Center(
+                            child: TextButton(
+                          onPressed: () {
+                            deleteBottomPop(
+                              context,
+                              () => ref.read(deleteAccountProvider(data.uid)),
+                            );
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                "/intro", (Route<dynamic> route) => false);
+                          },
                           child: Text("លុបគណនីរបស់ខ្ញុំ",
-                              style: GoogleFonts.hanuman(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
-                        )
+                              style: Theme.of(context).textTheme.bodyMedium),
+                        ))
                       ],
                     ),
                 error: (error, StackTrace stackTrace) => Text("$error"),
                 loading: () => buildLoadingWidget())));
   }
 
-  Widget socialMedia(double width, String icon, String detail) {
+  Widget socialMedia(
+      double width, String icon, String detail, BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
       width: width,
       height: 80,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onSecondary,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
@@ -85,6 +101,7 @@ class UserDetailPage extends ConsumerWidget {
               Text(
                 detail,
                 style: const TextStyle(
+                  fontFamily: "sfpro",
                   fontSize: 18,
                 ),
               )
@@ -116,12 +133,13 @@ class UserDetailPage extends ConsumerWidget {
       ref.invalidate(getUserInfoProvider);
       Navigator.pop(context);
     }
+
     return Container(
       width: width,
       padding: const EdgeInsets.only(left: 15, right: 15),
       height: 110,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onSecondary,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
@@ -139,11 +157,16 @@ class UserDetailPage extends ConsumerWidget {
             children: [
               Text(detailType,
                   style: GoogleFonts.hanuman(
-                      color: const Color(0xff074799), fontSize: 15)),
+                      color: const Color(0xff091970),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14)),
               Text(
                 detail,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontFamily: "sfpro",
+                    fontSize: 20,
+                    color: Color(0xff212121),
+                    fontWeight: FontWeight.bold),
               ),
               isVerified
                   ? Container(
@@ -154,7 +177,7 @@ class UserDetailPage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(
                         isVerified ? "បានផ្ទៀងផ្ទាត់" : "",
-                        style: GoogleFonts.hanuman(),
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     )
                   : const SizedBox.shrink(),

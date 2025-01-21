@@ -5,9 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/provider/auth.dart';
-import 'package:toyshop/src/provider/initialize.dart';
 import 'package:toyshop/src/theme/colors.dart';
 
 class SigninPage extends ConsumerWidget {
@@ -154,11 +153,12 @@ class SigninPage extends ConsumerWidget {
                     width: MediaQuery.of(context).size.width,
                     height: 70,
                     child: TextField(
-                     controller: email,
+                     controller: email,   
                      decoration: InputDecoration(
+                      prefixIconColor:  const Color(0xff212121),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                       label: Text("អីម៊ែល",style: GoogleFonts.hanuman(
-                      
+                        color: const Color(0xff212121)
                       )),
                       prefixIcon: const Icon(Icons.person),
                       ),
@@ -175,12 +175,14 @@ class SigninPage extends ConsumerWidget {
                     height: 70,
                     child: TextField(
                       controller: password,
+                      
                       obscureText: !isVisible,
                       decoration: InputDecoration(
+                         suffixIconColor:  const Color(0xff212121),
+                         prefixIconColor:  const Color(0xff212121),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10)),
                           label:  Text("ពាក្យសម្ងាត់",style: GoogleFonts.hanuman(
-                           
                           )),
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: GestureDetector(
@@ -202,7 +204,16 @@ class SigninPage extends ConsumerWidget {
       child: Container(
         height: 400,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(color: Color(0xff074799)),
+        decoration: const BoxDecoration(
+          gradient:LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xff0a33f9),
+            Color(0xff091970),
+          ]
+        ),
+        ),
         child: Align(
             alignment: Alignment.topCenter,
             child: Padding(
@@ -233,8 +244,13 @@ class SigninPage extends ConsumerWidget {
         width: 150,
         height: 50,
         decoration: BoxDecoration(
-            color: const Color(0xff074799),
-            borderRadius: BorderRadius.circular(10)),
+        boxShadow: const [
+        BoxShadow(
+          color: Colors.grey,
+          spreadRadius: 1,
+          offset: Offset(2, 2))],
+        color:const Color(0xff0a33f9),
+        borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: Text(
             authType,

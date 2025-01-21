@@ -19,12 +19,18 @@ final signoutProvider = FutureProvider((ref) {
   return service.signOut();
 });
 
+final deleteAccountProvider = FutureProvider.family<void, String>((ref, uid) {
+  final service = ref.watch(authenticationProvider);
+  return service.deleteAccount(uid);
+});
+
 class IsVisible extends StateNotifier<bool> {
   IsVisible() : super(false);
   void isClick() {
     state = !state;
   }
 }
+
 final isVisibleProvider = StateNotifierProvider<IsVisible, bool>((ref) {
   return IsVisible();
 });

@@ -1,17 +1,14 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/modal_widget/dialog.dart';
 import 'package:toyshop/src/presentation/components/filter_box.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/presentation/components/app_bar.dart';
 import 'package:toyshop/src/model/product/product.dart';
-import 'package:toyshop/src/presentation/product_detail.dart';
+import 'package:toyshop/src/presentation/product_widget/product_detail.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
-import 'package:toyshop/src/theme/colors.dart';
-
 class ShowcaseProductPage extends ConsumerWidget {
   const ShowcaseProductPage({super.key});
   @override
@@ -21,16 +18,14 @@ class ShowcaseProductPage extends ConsumerWidget {
     final filteredProduct = ref.watch(getProductsProvider(productType));
     Color getButtonColor(String changeProductType) {
       return productType == changeProductType
-          ? const Color(0xff074799)
+          ? const Color(0xff091970)
           : Colors.white;
     }
-
     return Scaffold(
-        backgroundColor: const Color(0xffEEEEEE),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   MyAppBar(
-                    pageDetail: "",
                     routing: "/home",
                     onTap: ()=> Navigator
                     .of(context)
@@ -43,10 +38,7 @@ class ShowcaseProductPage extends ConsumerWidget {
                   shrinkWrap: true,
                   children: [
                      Text("ស្វែងរកទំនិញដែលអ្នកពេញចិត្តខាងក្រោម",
-                        style: GoogleFonts.hanuman(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold)),
+                        style:Theme.of(context).textTheme.titleMedium),
                     filterMethods(meidaQuery, getButtonColor, productType, ref),
                     const SizedBox(
                       height: 10,
@@ -84,7 +76,7 @@ class ShowcaseProductPage extends ConsumerWidget {
                                       context: context,
                                       builder: (context) => DialogBox(
                                           dialogText: "ទំនិញត្រូវបានដាក់ចូលកន្ត្រក",
-                                          dialogColor: AppColors.add));
+                                          dialogColor: const Color(0xff00A800)));
                                 },
                               );
                             },
@@ -114,7 +106,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               currentBoxColor: getButtonColor("Trending"),
               filterText: "ពេញនិយម",
               filterColor:
-                  productType == "Trending" ? Colors.white : Colors.black,
+                  productType == "Trending" ? const Color(0xffF4F4F4) : const Color(0xff212121),
               onTap: () {
                 ref.read(filterProvider.notifier).changeFilter("Trending");
               },
@@ -123,7 +115,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               currentBoxColor: getButtonColor("Best Selling"),
               filterText: "លក់ដាច់",
               filterColor:
-                  productType == "Best Selling" ? Colors.white : Colors.black,
+                  productType == "Best Selling" ? const Color(0xffF4F4F4) : const Color(0xff212121),
               onTap: () {
                 ref.read(filterProvider.notifier).changeFilter("Best Selling");
               },
@@ -132,7 +124,7 @@ class ShowcaseProductPage extends ConsumerWidget {
               currentBoxColor: getButtonColor("Newest"),
               filterText: "ថ្មីៗ",
               filterColor:
-                  productType == "Newest" ? Colors.white : Colors.black,
+                  productType == "Newest" ? const Color(0xffF4F4F4) : const Color(0xff212121),
               onTap: () {
                 ref.read(filterProvider.notifier).changeFilter("Newest");
               },
@@ -217,6 +209,7 @@ class ShowcaseList extends ConsumerWidget {
                       child: Text(
                         "5.0",
                         style: TextStyle(
+                            fontFamily: "sfpro",
                             color: Color.fromARGB(255, 3, 3, 3), fontSize: 12),
                       ),
                     ),
@@ -237,11 +230,16 @@ class ShowcaseList extends ConsumerWidget {
                   children: [
                     Text(productName,
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15)),
+                                fontFamily: "sfpro",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff212121),
+                              ) ),
                     Text("\$ $price",
                         style: const TextStyle(
+                          fontFamily: "sfpro",
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff074799),
+                            color: Color(0xff091970),
                             fontSize: 13)),
                   ],
                 ),
@@ -255,7 +253,7 @@ class ShowcaseList extends ConsumerWidget {
                       width: 40,
                       height: 40,
                       decoration: const BoxDecoration(
-                          color: Color(0xff074799), shape: BoxShape.circle),
+                          color: Color(0xff091970), shape: BoxShape.circle),
                       child: const Icon(
                         Icons.add,
                         color: Colors.white,

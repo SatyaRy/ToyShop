@@ -1,7 +1,7 @@
 import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/modal_widget/dialog.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/transaction.dart';
@@ -100,7 +100,11 @@ class CartList extends ConsumerWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(cartDetail.productQuantity.toString()),
+                Text(cartDetail.productQuantity.toString(),style: 
+                const TextStyle(
+                  fontSize: 16,
+                  fontFamily: "sfpro"
+                ),),
                 const SizedBox(
                   width: 10,
                 ),
@@ -117,7 +121,7 @@ class CartList extends ConsumerWidget {
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
-                        color: const Color(0xff074799),
+                        color: const Color(0xff0a33f9),
                         borderRadius: BorderRadius.circular(5)),
                     child: const Icon(
                       Icons.add,
@@ -136,22 +140,29 @@ class CartList extends ConsumerWidget {
 
   Widget detail() {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(cartDetail.productName,
               style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  const TextStyle(
+                    fontFamily: "sfpro",
+                    fontWeight: FontWeight.bold, fontSize: 16)),
           const Text("soft-toy",
-              style: TextStyle(color: Color.fromARGB(255, 86, 86, 86))),
+              style: TextStyle(
+                fontFamily: "sfpro",
+                fontSize: 14,
+                color: Color.fromARGB(255, 86, 86, 86))),
           const SizedBox(
             height: 5,
           ),
           Text(
             "\$${cartDetail.productPrice}",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: const TextStyle(
+              fontFamily: "sfpro",
+              fontWeight: FontWeight.bold, fontSize: 15),
           )
         ],
       ),

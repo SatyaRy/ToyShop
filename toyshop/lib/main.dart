@@ -6,13 +6,14 @@ import "package:toyshop/src/presentation/auth/account_page.dart";
 import "package:toyshop/src/presentation/auth/setting_page.dart";
 import "package:toyshop/src/presentation/auth/signin_page.dart";
 import "package:toyshop/src/presentation/auth/signup_page.dart";
-import "package:toyshop/src/presentation/cart_page.dart";
-import "package:toyshop/src/presentation/favorite_page.dart";
-import "package:toyshop/src/presentation/home_page.dart";
-import "package:toyshop/src/presentation/intro_page.dart";
-import "package:toyshop/src/presentation/filter_product_page.dart";
+import "package:toyshop/src/presentation/product_widget/cart_page.dart";
+import "package:toyshop/src/presentation/favorite_page/favorite_page.dart";
+import "package:toyshop/src/presentation/home_page/home_page.dart";
+import "package:toyshop/src/presentation/intro/intro_page.dart";
+import "package:toyshop/src/presentation/product_widget/filter_product_page.dart";
 import "package:toyshop/src/presentation/auth/user_detail.dart";
 import "package:toyshop/src/provider/auth.dart";
+import "package:toyshop/src/theme/theme.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(isUserProvider);
     return MaterialApp(
-      theme: ThemeData(fontFamily: "sfpro"),
+      theme: lightTheme,
       debugShowCheckedModeBanner: false,
       home: authState.when(
           data: (user) {

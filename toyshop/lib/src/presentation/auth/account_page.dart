@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toyshop/src/presentation/components/clip_path.dart';
 import 'package:toyshop/src/presentation/components/order_box.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/bottom_sheet.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/provider/auth.dart';
 import 'package:toyshop/src/provider/profile.dart';
 
@@ -16,160 +17,165 @@ class ProfilePage extends ConsumerWidget {
     final height = MediaQuery.of(context).size.height;
     final userInfo = ref.watch(getUserInfoProvider);
     return Scaffold(
-        backgroundColor: const Color(0xffEEEEEE),
-        body:userInfo.when(
-          data: (data)=> SizedBox(
-          width: width,
-          height: height,
-          child: Stack(children: [
-            clipPath(),
-            userProfile(),
-            userDetail(ref, context,data.username),
-            information(context, height, width, ref)
-          ]),
-        ), 
-          error: (error,StackTrace stacktrace)=>Text("$error"), 
-          loading: ()=>buildLoadingWidget()
-        ));
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: userInfo.when(
+            data: (data) => SizedBox(
+                  width: width,
+                  height: height,
+                  child: Stack(children: [
+                    clipPath(),
+                    userProfile(),
+                    userDetail(ref, context, data.username),
+                    information(context, height, width, ref)
+                  ]),
+                ),
+            error: (error, StackTrace stacktrace) => Text("$error"),
+            loading: () => buildLoadingWidget()));
   }
 
-  Widget userDetail(WidgetRef ref, BuildContext context,String username) {
+  Widget userDetail(WidgetRef ref, BuildContext context, String username) {
     return Positioned(
-        top: 200,
-        left: 20,
-        child: Column(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      username,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/userDetail");
-                      },
-                      child: Text("មើលគណនី",
-                          style: GoogleFonts.hanuman(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                    )
-                  ],
-                ),
-      );
+      top: 200,
+      left: 20,
+      child: Column(
+        spacing: 5,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            username,
+            style: const TextStyle(
+                fontFamily: "sfpro",
+                color: Color(0xff212121),
+                fontWeight: FontWeight.bold,
+                fontSize: 20),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed("/userDetail");
+            },
+            child:
+                Text("មើលគណនី", style: Theme.of(context).textTheme.titleSmall),
+          )
+        ],
+      ),
+    );
   }
 
   Widget information(
       BuildContext context, double height, double width, WidgetRef ref) {
     final appInfo = ref.watch(getAppInfoProvider);
     return Positioned(
-      top: 250,
-      left: 20,
-      right: 20,
-      child: appInfo.when(
-        data: (data)=>SizedBox(
-        height: height,
-        width: width,
-        child: ListView(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OrderBox(
-                    onTap: () {},
-                    detail: "កម្មង់",
-                    icon: const Icon(Icons.list_alt_outlined)),
-                OrderBox(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/favorite");
-                    },
-                    detail: "ចូលចិត្ត",
-                    icon: const Icon(Icons.favorite_outline))
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OrderBox(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/cart");
-                    },
-                    detail: "ការទូទាត់",
-                    icon: const Icon(Icons.shopping_cart_outlined)),
-                OrderBox(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/setting");
-                    },
-                    detail: "ការកំណត់",
-                    icon: const Icon(Icons.settings_outlined))
-              ],
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("ជាទូទៅ",
-                    style: GoogleFonts.hanuman(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(
-                  height: 10,
-                ),
-                helper(
-                    width, const Icon(Icons.help_outline), "ជំនួយការអតិថិជន"),
-                helper(
-                    width, const Icon(Icons.help_outline), "ជំនួយការអតិថិជន"),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    ref.read(signoutProvider);
-                    ref.invalidate(signoutProvider);
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        "/intro", (Route<dynamic> route) => false);
-                  },
-                  child: Container(
-                    width: width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "ចាកចេញ",
-                        style: GoogleFonts.hanuman(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+        top: 250,
+        left: 20,
+        right: 20,
+        child: appInfo.when(
+            data: (data) => SizedBox(
+                  height: height,
+                  width: width,
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OrderBox(
+                              onTap: () {},
+                              detail: "កម្មង់",
+                              icon: const Icon(Icons.list_alt_outlined)),
+                          OrderBox(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/favorite");
+                              },
+                              detail: "ចូលចិត្ត",
+                              icon: const Icon(Icons.favorite_outline))
+                        ],
                       ),
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OrderBox(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/cart");
+                              },
+                              detail: "ការទូទាត់",
+                              icon: const Icon(Icons.shopping_cart_outlined)),
+                          OrderBox(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/setting");
+                              },
+                              detail: "ការកំណត់",
+                              icon: const Icon(Icons.settings_outlined))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("ជាទូទៅ",
+                              style: Theme.of(context).textTheme.titleSmall),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          helper(width, const Icon(Icons.help_outline),
+                              "ជំនួយការអតិថិជន", context),
+                          helper(width, const Icon(Icons.description_outlined),
+                              "លក្ខខណ្ឌនិងគោលការណ៍", context),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              deleteBottomPop(context, () {
+                                ref.read(signoutProvider);
+                                ref.invalidate(signoutProvider);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    "/intro", (Route<dynamic> route) => false);
+                                          });
+                            },
+                            child: Container(
+                              width: width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                  "ចាកចេញ",
+                                  style: GoogleFonts.hanuman(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Version ${data.version}",
+                            style: const TextStyle(fontFamily: "sfpro"),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                 Text("Version ${data.version}")
-              ],
-            )
-          ],
-        ),
-      ),
-         error: (error,StackTrace stacktrace)=>Text("$error"), 
-         loading: ()=>buildLoadingWidget())
-    );
+            error: (error, StackTrace stacktrace) => Text("$error"),
+            loading: () => buildLoadingWidget()));
   }
 
-  Widget helper(double width, Icon icon, String detail) {
+  Widget helper(double width, Icon icon, String detail, context) {
     return Container(
       width: width,
       height: 70,
@@ -185,7 +191,7 @@ class ProfilePage extends ConsumerWidget {
               icon,
               Text(
                 detail,
-                style: GoogleFonts.hanuman(fontSize: 17),
+                style: Theme.of(context).textTheme.bodyMedium,
               )
             ],
           ),
@@ -253,7 +259,13 @@ class ProfilePage extends ConsumerWidget {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: const Color(0xff074799),
+                gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xff0a33f9),
+                      Color(0xff091970),
+                    ]),
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white),
               ),
@@ -271,7 +283,14 @@ class ProfilePage extends ConsumerWidget {
     return ClipPath(
       clipper: CustomizePath(),
       child: Container(
-        decoration: const BoxDecoration(color: Color(0xff074799)),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+              Color(0xff0a33f9),
+              Color(0xff091970),
+            ])),
         height: 250,
       ),
     );

@@ -9,7 +9,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: const Color(0xffEEEEEE),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: authAppBar(context, "ការកំណត់",()=>Navigator.pop(context)),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
@@ -83,7 +83,7 @@ class SettingPage extends StatelessWidget {
                       Text("កែសម្រួល",style: GoogleFonts.hanuman(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color:const Color(0xff074799),
+                        color:const Color(0xff091970),
                       ))
                     ],
                   ),

@@ -2,11 +2,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:toyshop/src/presentation/components/handle_message.dart";
-import "package:toyshop/src/presentation/favorite_page.dart";
-import "package:toyshop/src/presentation/product_page.dart";
+import "package:toyshop/src/presentation/modal_widget/handle_message.dart";
+import "package:toyshop/src/presentation/home_page/product_page.dart";
 import "package:toyshop/src/presentation/auth/account_page.dart";
-import "package:toyshop/src/presentation/searching_page.dart";
+import "package:toyshop/src/presentation/searching_page/searching_page.dart";
 import "package:toyshop/src/provider/initialize.dart";
 
 class HomePage extends ConsumerStatefulWidget {
@@ -31,7 +30,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     final initApp = ref.watch(initializeAppProvider);
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: const Color(0xffEEEEEE),
       bottomNavigationBar: bottonNav(),
       body: initApp.when(
           data: (_) => pages[_selectedIndex],
@@ -56,27 +54,26 @@ class _HomePageState extends ConsumerState<HomePage> {
     return BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xff074799),
+        selectedItemColor: const Color(0xff091970),
         onTap: (value) => navigateBottomBar(value),
         unselectedLabelStyle: GoogleFonts.hanuman(
 
             color: Colors.black),
         selectedLabelStyle: GoogleFonts.hanuman(
-         
-            height: 1.8, color: Colors.black),
+            height: 1.8, color: const Color(0xff212121)),
         items: const [
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.shopping_cart_outlined,color: Color(0xff074799)),
-            icon: Icon(Icons.dashboard_customize, color: Color(0xff686D76)),
+            activeIcon: Icon(Icons.shopping_cart_outlined,color: Color(0xff091970)),
+            icon: Icon(Icons.shopping_cart_outlined, color: Color(0xff212121)),
             label: "អីវ៉ាន់",
           ),
           BottomNavigationBarItem(
-              activeIcon: Icon(Icons.search_outlined,color: Color(0xff074799)),
-              icon: Icon(Icons.search_outlined, color: Color(0xff686D76)),
+              activeIcon: Icon(Icons.search_outlined,color: Color(0xff091970)),
+              icon: Icon(Icons.search_outlined, color: Color(0xff212121)),
               label: "ស្វែងរក"),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.person_outline,color: Color(0xff074799)),
-              icon: Icon(Icons.person_outline, color: Color(0xff686D76)),
+            activeIcon: Icon(Icons.person_outline,color: Color(0xff091970)),
+              icon: Icon(Icons.person_outline, color: Color(0xff212121)),
               label: "គណនី"),
         ]);
   }

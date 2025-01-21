@@ -36,7 +36,8 @@ class DialogBox extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text(dialogText,
+                  child: Text(
+                      dialogText,
                       style:  GoogleFonts.hanuman(color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
                 )
               ],

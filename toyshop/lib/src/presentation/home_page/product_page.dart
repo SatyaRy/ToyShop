@@ -1,47 +1,43 @@
-import 'package:cached_network_svg_image/cached_network_svg_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/dialog.dart';
+import 'package:toyshop/src/presentation/modal_widget/dialog.dart';
 import 'package:toyshop/src/presentation/components/app_bar.dart';
-import 'package:toyshop/src/presentation/components/toytype_list.dart';
-import 'package:toyshop/src/presentation/components/product_list.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
+import 'package:toyshop/src/presentation/components/toytype_tile.dart';
+import 'package:toyshop/src/presentation/components/popular.tile.dart';
 import 'package:toyshop/src/model/product/product.dart';
+import 'package:toyshop/src/presentation/components/product_slider.dart';
 import 'package:toyshop/src/provider/cart/cart.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
-import 'package:toyshop/src/theme/colors.dart';
+
 class ProductPage extends ConsumerWidget {
   const ProductPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final product = ref.watch(getProductProvider);
-    final toyTypeList = ref.watch(getToyTypeProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: mainAppBar(ref, context),
-      backgroundColor:const Color(0xffEEEEEE),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: ListView(
         children: [
           const SizedBox(
-            height: 50,
+            height: 25,
           ),
           demoWidget(screenWidth, context),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
-          searchBarWidget(screenWidth),
+          toyTypeWidget(ref, context),
           const SizedBox(
-            height: 10,
+            height: 30,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          toyTypeWidget(toyTypeList),
-          titleWidget(),
+          titleWidget(context),
           const SizedBox(
             height: 15,
           ),
-          popularProductWidget(screenWidth, product, ref),
+          popularProductWidget(screenWidth, ref),
           const SizedBox(
             height: 50,
           )
@@ -50,39 +46,13 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget searchBarWidget(double screenWidth) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Container(
-          width: screenWidth,
-          height: 60,
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          child: Center(
-            child: TextField(
-              decoration: InputDecoration(
-                  hintStyle: GoogleFonts.hanuman(),
-                  border: InputBorder.none,
-                  hintText: "ស្វែងរកតាមប្រភេទទំនិញ",
-                  contentPadding: const EdgeInsets.only(top: 10),
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        debugPrint('searching ...');
-                      },
-                      icon: const Icon(Icons.search))),
-            ),
-          )),
-    );
-  }
-  
-  Widget popularProductWidget(double screenWidth,
-      AsyncValue<List<ProductModel>> product, WidgetRef ref) {
+  Widget popularProductWidget(double screenWidth, WidgetRef ref) {
+    final productProvider = ref.watch(getProductProvider);
     return SizedBox(
       height: 250,
       child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
-          child: product.when(
+          child: productProvider.when(
               data: (data) {
                 return ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -116,8 +86,8 @@ class ProductPage extends ConsumerWidget {
                                 context: context,
                                 builder: (context) {
                                   return DialogBox(
-                                      dialogText: "Item added to cart",
-                                      dialogColor: AppColors.add);
+                                      dialogText: "ទំនិញបានដាក់ចូលកន្ត្រក",
+                                      dialogColor: const Color(0xff00A800));
                                 });
                           });
                     });
@@ -128,35 +98,38 @@ class ProductPage extends ConsumerWidget {
   }
 
   Widget demoWidget(double screenWidth, BuildContext context) {
+    final List<String> demo = [
+      "https://res.cloudinary.com/dnydodget/image/upload/v1736231999/freedie_pwcpug.svg",
+      "https://res.cloudinary.com/dnydodget/image/upload/v1736232029/kitty_nmubay.svg",
+      "https://res.cloudinary.com/dnydodget/image/upload/v1736130511/pigy_p0fsms.svg",
+      "https://res.cloudinary.com/dnydodget/image/upload/v1736130510/penguine_hleef3.svg",
+      "https://res.cloudinary.com/dnydodget/image/upload/v1736130486/bluepoke_o6u6ti.svg",
+    ];
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Container(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: SizedBox(
           height: 200,
-          width: screenWidth,
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          decoration: BoxDecoration(
-              color: const Color(0xffEB5B00),
-              borderRadius: BorderRadius.circular(15)),
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: CachedNetworkSVGImage(
-                "https://res.cloudinary.com/dnydodget/image/upload/v1735102417/ninja_mfugk0.svg",
-                width: MediaQuery.of(context).size.width,
-              ))),
-    );
+          child: CarouselSlider.builder(
+            itemCount: demo.length,
+            options: CarouselOptions(
+              enlargeCenterPage: true,
+              autoPlay: true,
+            ),
+            itemBuilder: (BuildContext context, index, value) {
+              final data = demo[index];
+              return ProductSlider(data: data);
+            }),
+        )
+        );
   }
 
-  Widget titleWidget() {
+  Widget titleWidget(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("កំពុងពេញនិយម",
-              style: GoogleFonts.hanuman(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              )),
+          Text("កំពុងពេញនិយម", style: Theme.of(context).textTheme.titleMedium),
           TextButton(
               onPressed: () {
                 debugPrint("show more...");
@@ -168,11 +141,11 @@ class ProductPage extends ConsumerWidget {
     );
   }
 
-  Widget toyTypeWidget(AsyncValue<List<ProductModel>> toyTypeProvider) {
+  Widget toyTypeWidget(WidgetRef ref, BuildContext context) {
+    final toyTypeProvider = ref.watch(getToyTypeProvider);
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SizedBox(
-          height: 500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -180,24 +153,21 @@ class ProductPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("ប្រភេទនៃទំនិញ",
-                      style: GoogleFonts.hanuman(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24)),
+                      style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 20,
               ),
               SizedBox(
+                  height: 450,
                   child: toyTypeProvider.when(
                       data: (value) {
                         return ListView.separated(
-                            shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             separatorBuilder: (context, index) =>
                                 const SizedBox(
-                                  height: 10,
+                                  height: 15,
                                 ),
                             itemCount: value.length,
                             itemBuilder: (context, index) {
@@ -211,7 +181,7 @@ class ProductPage extends ConsumerWidget {
                             });
                       },
                       error: (error, stackTrace) => Text("$error"),
-                      loading: () => null))
+                      loading: () => buildLoadingWidget()))
             ],
           ),
         ));

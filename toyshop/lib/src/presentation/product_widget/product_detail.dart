@@ -4,8 +4,8 @@ import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toyshop/src/presentation/components/dialog.dart';
-import 'package:toyshop/src/presentation/components/handle_message.dart';
+import 'package:toyshop/src/presentation/modal_widget/dialog.dart';
+import 'package:toyshop/src/presentation/modal_widget/handle_message.dart';
 import 'package:toyshop/src/model/product/product.dart';
 import 'package:toyshop/src/provider/favorite.dart';
 import 'package:toyshop/src/provider/product_provider.dart';
@@ -64,14 +64,18 @@ class ProductDetail extends ConsumerWidget {
         children: [
           Text(
             productName,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+            style: const TextStyle(
+              fontFamily: "sfpro",
+              fontSize: 30, fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 5,
           ),
           Text("\$ ${productPrice.toString()}",
               style:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const TextStyle(
+                    fontFamily: "sfpro",
+                    fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(
             height: 10,
           ),
@@ -79,7 +83,7 @@ class ProductDetail extends ConsumerWidget {
               width: 70,
               height: 30,
               decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: const Color(0xff091970),
                   borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +96,7 @@ class ProductDetail extends ConsumerWidget {
                   const SizedBox(width: 7),
                   Text(
                     productRate.toString(),
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(fontFamily: "sfpro",color: Colors.white),
                   )
                 ],
               )),
@@ -114,11 +118,13 @@ class ProductDetail extends ConsumerWidget {
                   width: 150,
                   height: 40,
                   decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: const Color(0xff091970),
                       borderRadius: BorderRadius.circular(10)),
                   child:  Center(
                     child: Text("ដាក់ចូលកន្ត្រក",
-                        style: GoogleFonts.hanuman(color: Colors.white, fontSize: 17)),
+                        style: GoogleFonts.hanuman(
+                          color: Colors.white, 
+                          fontSize: 16)),
                   ),
                 ),
               ))
@@ -170,7 +176,7 @@ class ProductDetail extends ConsumerWidget {
                   Navigator.of(context).pushNamed(
                       "/showcase");
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: const Icon(Icons.arrow_back_ios,color: Color(0xff212121))),
           ),
         ),
       ),
@@ -179,15 +185,11 @@ class ProductDetail extends ConsumerWidget {
             padding: const EdgeInsets.only(right: 35),
             child: Row(
               children: [
-                DetailHead(
-                  detailIcon: const Icon(Icons.share),
-                  isClick: () {},
-                ),
                 const SizedBox(
                   width: 20,
                 ),
                 DetailHead(
-                    detailIcon: const Icon(Icons.favorite_outline),
+                    detailIcon: const Icon(Icons.favorite_outline,color:Color(0xff212121)),
                     isClick: () {
                       ref.read(addToFavoriteProvider((
                         productID: productID,
